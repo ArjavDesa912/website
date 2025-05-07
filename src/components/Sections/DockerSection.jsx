@@ -12,7 +12,7 @@ const DockerSection = () => {
         <div className="flex flex-col md:flex-row items-center gap-12">
           <div className="md:w-1/2">
             <img 
-              src="/api/placeholder/600/400" 
+              src="/images/docker.png" 
               alt="Docker Integration" 
               className="rounded-lg shadow-xl"
             />

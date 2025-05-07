@@ -6,8 +6,6 @@ import {
   HowItWorksSection,
   DeploymentSection,
   DockerSection,
-  TeamSection,
-  TestimonialsSection,
   CTASection 
 } from './components/Sections';
 import { Footer } from './components/Footer';
@@ -66,14 +64,12 @@ function App() {
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header {...headerProps} />
       <main>
-        <HeroSection />
+        <HeroSection onShowTeam={handleTeamClick} />
         <FeaturesSection />
         <HowItWorksSection />
         <DeploymentSection />
         <DockerSection />
-        <TeamSection onShowTeam={handleTeamClick} />
-        <TestimonialsSection />
-        <CTASection />
+        <CTASection onContactClick={handleContactClick} />
       </main>
       <Footer />
 

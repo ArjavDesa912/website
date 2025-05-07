@@ -23,18 +23,18 @@ const HowItWorksSection = () => {
       description: "Generate comprehensive reports for stakeholders and use insights to improve model performance and compliance over time."
     }
   ];
-
+  
   const providers = [
-    { name: "OpenAI", logo: "/images/placeholder-100x40.png" },
-    { name: "Anthropic", logo: "/images/placeholder-100x40.png" },
-    { name: "Google", logo: "/images/placeholder-100x40.png" },
-    { name: "AWS", logo: "/images/placeholder-100x40.png" },
-    { name: "Azure", logo: "/images/placeholder-100x40.png" }
+    { name: "OpenAI", logo: "/images/openai.svg" },
+    { name: "Anthropic", logo: "/images/anthropic.svg" },
+    { name: "Google", logo: "/images/google.svg" },
+    { name: "AWS", logo: "/images/aws.svg" },
+    { name: "Azure", logo: "/images/azure.svg" }
   ];
-
+  
   return (
-    <section 
-      id="how-it-works" 
+    <section
+      id="how-it-works"
       className="py-20 bg-blue-50 section-hidden transition-opacity duration-1000"
     >
       <div className="container mx-auto px-4">
@@ -44,7 +44,7 @@ const HowItWorksSection = () => {
             Our platform integrates seamlessly with your AI workflow in four simple steps
           </p>
         </div>
-        
+       
         <div className="max-w-4xl mx-auto space-y-12">
           {steps.map((step) => (
             <div key={step.number} className="flex flex-col md:flex-row gap-6 items-start">
@@ -60,14 +60,19 @@ const HowItWorksSection = () => {
             </div>
           ))}
         </div>
-        
+       
         {/* Integrations */}
         <div className="mt-20">
           <h3 className="text-xl font-bold text-gray-900 text-center mb-8">Works with all major AI providers</h3>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             {providers.map((provider, index) => (
               <div key={index} className="text-center opacity-70 hover:opacity-100 transition-opacity">
-                <img src={provider.logo} alt={provider.name} className="mx-auto" />
+                <img 
+                  src={provider.logo} 
+                  alt={provider.name} 
+                  className="mx-auto h-10 w-24 object-contain" 
+                  style={{ width: "100px", height: "40px" }}
+                />
                 <span className="text-sm text-gray-600 mt-2 block">{provider.name}</span>
               </div>
             ))}

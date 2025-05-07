@@ -8,13 +8,13 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
       name: "Arjav Desai",
       role: "Co-Founder & CEO",
       email: "arjav.desai@praesidiumsystems.ai",
-      photo: "/api/placeholder/200/200"
+      photo: "/images/arjav.png"
     },
     {
       name: "Samuel Heidler",
       role: "Co-Founder & CTO",
       email: "sam.heidler@praesidiumsystems.ai",
-      photo: "/api/placeholder/200/200"
+      photo: "/images/sam.png"
     }
   ];
 

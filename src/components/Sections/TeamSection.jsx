@@ -10,7 +10,7 @@ const TeamSection = ({ onShowTeam }) => {
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Backed by Industry Experts</h2>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-          Our team brings decades of experience in AI, compliance, and regulatory frameworks
+          Our team brings a lot of experience in AI, compliance, and regulatory frameworks
         </p>
         <button 
           onClick={onShowTeam}

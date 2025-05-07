@@ -1,57 +1,67 @@
-# Praesidium Systems - AI Compliance Simplified
+# Praesidium Systems - AI Compliance Web Application
 
-A React application for Praesidium Systems, showcasing their AI compliance platform.
+This is the web application for Praesidium Systems, a platform that helps organizations monitor, audit, and ensure regulatory compliance for AI models.
 
-## Getting Started
+## Docker Setup
 
-Follow these instructions to set up and run the project on your local machine.
+The application is containerized using Docker for easy deployment. Follow these steps to get started:
 
 ### Prerequisites
 
-Make sure you have Node.js and npm installed on your machine.
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-### Installation
+### Running the Application
 
-1. Clone the repository
-2. Navigate to the project directory
-3. Install dependencies:
+1. Clone this repository to your local machine
+
+2. Navigate to the project directory:
+   ```bash
+   cd praesidium-systems-web
+   ```
+
+3. Build and start the Docker container:
+   ```bash
+   docker-compose up -d
+   ```
+
+4. Access the web application at [http://localhost](http://localhost)
+
+### Development
+
+For development purposes, you can run the application without Docker:
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start the development server:
+   ```bash
+   npm start
+   ```
+
+3. The app will be available at [http://localhost:3000](http://localhost:3000)
+
+### Building for Production
+
+To build the application for production:
 
 ```bash
-npm install
+npm run build
 ```
 
-4. Start the development server:
-
-```bash
-npm start
-```
-
-5. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This will create a `build` folder with optimized production files.
 
 ## Project Structure
 
-The project is organized into the following components:
+- `src/components/` - React components
+- `src/utils/` - Utility functions
+- `public/` - Static assets
 
-- **Header**: Navigation and mobile menu
-- **Sections**:
-  - Hero Section
-  - Features Section
-  - How It Works Section
-  - Deployment Section
-  - Testimonials Section
-  - Call to Action (CTA) Section
-- **Footer**: Site links and copyright information
+## Docker Configuration
 
-## Placeholder Images
-
-The application uses placeholder images stored in the `public/images` directory. In a production environment, these should be replaced with actual images.
-
-## Built With
-
-- React.js
-- Tailwind CSS (via CDN)
-- Lucide React Icons
-
-## License
-
-This project is licensed under the MIT License."# praesidium-systems-website" 
+- `Dockerfile` - Multi-stage build for optimized production image
+- `docker-compose.yml` - Docker Compose configuration
+- `nginx.conf` - Nginx server configuration for serving the app
+- `.dockerignore` - Files to exclude from Docker build context

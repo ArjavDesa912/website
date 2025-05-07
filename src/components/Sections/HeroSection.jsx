@@ -1,8 +1,8 @@
 import React from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Users } from 'lucide-react';
 import { scrollToSection } from '../../utils/scrollUtils';
 
-const HeroSection = () => {
+const HeroSection = ({ onShowTeam }) => {
   return (
     <section className="pt-32 pb-20 bg-gradient-to-br from-blue-50 to-indigo-50">
       <div className="container mx-auto px-4">
@@ -37,6 +37,21 @@ const HeroSection = () => {
               className="rounded-lg shadow-xl border border-gray-200"
             />
           </div>
+        </div>
+        
+        {/* Team Section integrated into Hero */}
+        <div className="mt-16 text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Backed by Industry Experts</h2>
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-8">
+            Our team brings decades of experience in AI, compliance, and regulatory frameworks
+          </p>
+          <button 
+            onClick={onShowTeam}
+            className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center gap-2 mx-auto"
+          >
+            <Users className="h-5 w-5" />
+            Meet Our Leadership Team
+          </button>
         </div>
       </div>
     </section>
