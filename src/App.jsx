@@ -1,16 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { 
   HeroSection,
   FeaturesSection,
   HowItWorksSection,
   DeploymentSection,
+  DockerSection,
+  TeamSection,
   TestimonialsSection,
   CTASection 
 } from './components/Sections';
 import { Footer } from './components/Footer';
+import ContactPopup from './components/ContactPopup';
 
 function App() {
+  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+  const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
+
+  // Handle opening the contact popup
+  const handleContactClick = () => {
+    setIsContactPopupOpen(true);
+  };
+
+  // Handle opening the team popup
+  const handleTeamClick = () => {
+    setIsTeamPopupOpen(true);
+  };
+
   useEffect(() => {
     // Intersection Observer for animations
     const observerOptions = {
@@ -41,18 +57,39 @@ function App() {
     };
   }, []);
 
+  // Pass contact handler to Header component
+  const headerProps = {
+    onContactClick: handleContactClick
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      <Header />
+      <Header {...headerProps} />
       <main>
         <HeroSection />
         <FeaturesSection />
         <HowItWorksSection />
         <DeploymentSection />
+        <DockerSection />
+        <TeamSection onShowTeam={handleTeamClick} />
         <TestimonialsSection />
         <CTASection />
       </main>
       <Footer />
+
+      {/* Contact Popup - Single CEO */}
+      <ContactPopup 
+        isOpen={isContactPopupOpen} 
+        onClose={() => setIsContactPopupOpen(false)} 
+        showTeam={false}
+      />
+      
+      {/* Team Popup - Both Founders */}
+      <ContactPopup 
+        isOpen={isTeamPopupOpen} 
+        onClose={() => setIsTeamPopupOpen(false)} 
+        showTeam={true}
+      />
     </div>
   );
 }

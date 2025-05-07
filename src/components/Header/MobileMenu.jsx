@@ -1,10 +1,21 @@
 import React from 'react';
 import { X } from 'lucide-react';
 
-const MobileMenu = ({ isOpen, onClose, onNavClick }) => {
+const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
   const handleNavClick = (id) => {
     onNavClick(id);
     onClose();
+  };
+
+  // Handle contact button click
+  const handleContactButtonClick = (e) => {
+    e.preventDefault();
+    onClose();
+    if (onContactClick) {
+      onContactClick();
+    } else {
+      onNavClick('contact');
+    }
   };
 
   return (
@@ -45,7 +56,13 @@ const MobileMenu = ({ isOpen, onClose, onNavClick }) => {
             Deployment
           </button>
           <button 
-            onClick={() => handleNavClick('contact')} 
+            onClick={() => handleNavClick('docker')} 
+            className="text-gray-700 hover:text-blue-600 transition-colors text-left py-2 border-b border-gray-100"
+          >
+            Docker
+          </button>
+          <button 
+            onClick={handleContactButtonClick} 
             className="mt-4 px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
           >
             Contact Us

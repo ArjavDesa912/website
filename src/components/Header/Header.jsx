@@ -3,7 +3,7 @@ import { Menu } from 'lucide-react';
 import MobileMenu from './MobileMenu';
 import { scrollToSection } from '../../utils/scrollUtils';
 
-const Header = () => {
+const Header = ({ onContactClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = (isOpen) => {
@@ -14,9 +14,19 @@ const Header = () => {
     scrollToSection(id);
   };
 
+  // Handle contact button click
+  const handleContactButtonClick = (e) => {
+    e.preventDefault();
+    if (onContactClick) {
+      onContactClick();
+    } else {
+      handleNavClick('contact');
+    }
+  };
+
   return (
     <>
-      <header className="fixed w-full bg-gray-900 shadow-md z-50">
+      <header className="fixed w-full bg-white shadow-md z-50">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <img 
@@ -24,7 +34,7 @@ const Header = () => {
               alt="Praesidium Systems Logo" 
               className="h-8"
             />
-            <span className="text-xl font-bold text-white">Praesidium Systems</span>
+            <span className="text-xl font-bold text-gray-900">Praesidium Systems</span>
           </div>
           
           {/* Desktop Navigation */}
@@ -48,7 +58,13 @@ const Header = () => {
               Deployment
             </button>
             <button 
-              onClick={() => handleNavClick('contact')} 
+              onClick={() => handleNavClick('docker')} 
+              className="text-gray-700 hover:text-blue-600 transition-colors"
+            >
+              Docker
+            </button>
+            <button 
+              onClick={handleContactButtonClick} 
               className="px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
             >
               Contact Us
@@ -70,6 +86,7 @@ const Header = () => {
         isOpen={isMobileMenuOpen} 
         onClose={() => toggleMobileMenu(false)} 
         onNavClick={handleNavClick}
+        onContactClick={onContactClick}
       />
     </>
   );

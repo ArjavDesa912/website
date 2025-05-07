@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CTASection = () => {
+const CTASection = ({ onContactClick }) => {
   return (
     <section 
       id="contact" 
@@ -12,10 +12,16 @@ const CTASection = () => {
           Get in touch with our team for a personalized demo and discover how our platform can help your organization maintain regulatory integrity.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-medium">
+          <button 
+            onClick={onContactClick}
+            className="px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-medium"
+          >
             Request Demo
           </button>
-          <button className="px-8 py-3 bg-transparent border border-white text-white rounded-full hover:bg-white/10 transition-colors font-medium">
+          <button 
+            onClick={onContactClick}
+            className="px-8 py-3 bg-transparent border border-white text-white rounded-full hover:bg-white/10 transition-colors font-medium"
+          >
             Contact Sales
           </button>
         </div>
