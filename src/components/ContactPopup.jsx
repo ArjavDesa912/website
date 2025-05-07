@@ -85,7 +85,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
             <h4 className="font-bold mb-3">Get in Touch</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <a 
-                href="mailto:info@praesidium-systems.com" 
+                href="mailto:arjav.desai@praesidiumsystems.ai" 
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
               >
                 <Mail className="h-4 w-4" />
