@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Shield } from 'lucide-react';
+// Remove the unused Shield import
 import { scrollToSection } from '../../utils/scrollUtils';
 
 const Footer = () => {
@@ -55,7 +55,8 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path or making it a button */}
+                <a href="/pricing" className="text-gray-400 hover:text-white transition-colors">
                   Pricing
                 </a>
               </li>
@@ -66,22 +67,26 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/docs" className="text-gray-400 hover:text-white transition-colors">
                   Documentation
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/api" className="text-gray-400 hover:text-white transition-colors">
                   API Reference
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/blog" className="text-gray-400 hover:text-white transition-colors">
                   Blog
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/support" className="text-gray-400 hover:text-white transition-colors">
                   Support
                 </a>
               </li>
@@ -92,12 +97,14 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/about" className="text-gray-400 hover:text-white transition-colors">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/careers" className="text-gray-400 hover:text-white transition-colors">
                   Careers
                 </a>
               </li>
@@ -110,7 +117,8 @@ const Footer = () => {
                 </button>
               </li>
               <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                {/* Fix invalid href by using a real path */}
+                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
                 </a>
               </li>
