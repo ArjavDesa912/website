@@ -1,6 +1,6 @@
 import React from 'react';
-import { Code, FileText, TestTube, Shield, LineChart, RefreshCw, Settings, Bot, Plug } from 'lucide-react';
-import { FeatureCard } from '../UI';
+import { Code, FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug } from 'lucide-react';
+// import { FeatureCard } from '../UI';
 
 const ProductsSection = () => {
   const products = [
