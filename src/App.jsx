@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Header } from './components/Header';
 import { 
   HeroSection,
+  ProductsSection,
   FeaturesSection,
   HowItWorksSection,
+  IntegrationBenefitsSection,
   DeploymentSection,
   DockerSection,
   CTASection 
@@ -65,8 +67,10 @@ function App() {
       <Header {...headerProps} />
       <main>
         <HeroSection onShowTeam={handleTeamClick} />
+        <ProductsSection />
         <FeaturesSection />
         <HowItWorksSection />
+        <IntegrationBenefitsSection />
         <DeploymentSection />
         <DockerSection />
         <CTASection onContactClick={handleContactClick} />

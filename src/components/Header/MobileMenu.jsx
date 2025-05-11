@@ -38,6 +38,12 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
         </div>
         <nav className="flex flex-col gap-4">
           <button 
+            onClick={() => handleNavClick('products')} 
+            className="text-gray-700 hover:text-blue-600 transition-colors text-left py-2 border-b border-gray-100"
+          >
+            Products
+          </button>
+          <button 
             onClick={() => handleNavClick('features')} 
             className="text-gray-700 hover:text-blue-600 transition-colors text-left py-2 border-b border-gray-100"
           >
