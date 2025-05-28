@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, ChevronDown } from 'lucide-react';
+import { Menu, ChevronDown, Construction } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MobileMenu from './MobileMenu';
 import { scrollToSection } from '../../utils/scrollUtils';
@@ -34,7 +34,15 @@ const Header = ({ onContactClick }) => {
 
   return (
     <>
-      <header className="fixed w-full bg-white shadow-md z-50">
+      {/* Construction Banner */}
+      <div className="bg-yellow-400 text-gray-900 py-2 px-4 text-center text-sm font-medium">
+        <div className="flex items-center justify-center gap-2">
+          <Construction className="h-4 w-4" />
+          <span>Website Under Construction - Some features may not be fully functional</span>
+        </div>
+      </div>
+
+      <header className="fixed w-full bg-white shadow-md z-50" style={{ top: '36px' }}>
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
             <img 

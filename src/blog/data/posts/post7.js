@@ -1,4 +1,4 @@
-// src/blog/data/posts/model-cards-guide.js
+// src/blog/data/posts/post7.js
 
 const post = {
   id: 7,
@@ -165,114 +165,6 @@ const post = {
       </tbody>
     </table>
     
-    <h2>Advanced Model Card Techniques</h2>
-    
-    <h3>Interactive Model Cards</h3>
-    <p>Modern model cards can include interactive elements:</p>
-    <ul>
-      <li><strong>Dynamic Visualizations</strong>: Interactive charts showing performance across subgroups</li>
-      <li><strong>What-If Analysis</strong>: Tools to explore model behavior with different inputs</li>
-      <li><strong>Bias Detection Tools</strong>: Interactive fairness assessments</li>
-      <li><strong>Performance Exploration</strong>: Drill-down capabilities for detailed analysis</li>
-    </ul>
-    
-    <h3>Multi-Language Support</h3>
-    <p>For global deployments, consider:</p>
-    <ul>
-      <li>Translating key sections for local stakeholders</li>
-      <li>Cultural adaptation of ethical considerations</li>
-      <li>Local regulatory requirement mapping</li>
-      <li>Region-specific performance metrics</li>
-    </ul>
-    
-    <h3>Model Card Versioning</h3>
-    <p>Implement systematic versioning:</p>
-    <ul>
-      <li>Semantic versioning aligned with model versions</li>
-      <li>Change logs documenting updates</li>
-      <li>Git-based version control for traceability</li>
-      <li>Automated notification of stakeholders for updates</li>
-    </ul>
-    
-    <h2>Case Study: Healthcare AI Model Card</h2>
-    <p>A medical imaging company implemented comprehensive model cards for their diagnostic AI system:</p>
-    
-    <h3>Challenge</h3>
-    <ul>
-      <li>FDA submission requirements for medical device approval</li>
-      <li>Need for radiologist acceptance and trust</li>
-      <li>Complex multi-site deployment with varying populations</li>
-    </ul>
-    
-    <h3>Solution</h3>
-    <ul>
-      <li>Created detailed model cards with clinical validation data</li>
-      <li>Included subgroup analysis for different demographics and imaging equipment</li>
-      <li>Implemented interactive tools for exploring model limitations</li>
-      <li>Provided clear guidance on appropriate use cases</li>
-    </ul>
-    
-    <h3>Results</h3>
-    <ul>
-      <li>Successful FDA approval in 18 months (vs. 24-month average)</li>
-      <li>95% radiologist satisfaction with model transparency</li>
-      <li>Deployment across 50+ healthcare systems with consistent outcomes</li>
-      <li>Recognition as industry best practice by medical AI consortium</li>
-    </ul>
-    
-    <h2>Common Pitfalls and How to Avoid Them</h2>
-    
-    <h3>1. Generic Templates</h3>
-    <p><strong>Problem</strong>: Using one-size-fits-all templates without customization</p>
-    <p><strong>Solution</strong>: Adapt templates to specific model types and use cases</p>
-    
-    <h3>2. Technical Jargon</h3>
-    <p><strong>Problem</strong>: Making cards inaccessible to non-technical stakeholders</p>
-    <p><strong>Solution</strong>: Include executive summaries and plain-language explanations</p>
-    
-    <h3>3. Static Documentation</h3>
-    <p><strong>Problem</strong>: Creating documents that become obsolete quickly</p>
-    <p><strong>Solution</strong>: Implement automated updates and version control</p>
-    
-    <h3>4. Incomplete Bias Analysis</h3>
-    <p><strong>Problem</strong>: Superficial assessment of fairness and bias issues</p>
-    <p><strong>Solution</strong>: Conduct thorough intersectional analysis with appropriate metrics</p>
-    
-    <h2>Tools and Frameworks</h2>
-    <p>Several tools can assist with model card creation:</p>
-    
-    <table>
-      <thead>
-        <tr>
-          <th>Tool</th>
-          <th>Strengths</th>
-          <th>Best For</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Model Card Toolkit (Google)</td>
-          <td>Standard format, automated generation</td>
-          <td>TensorFlow/Keras models</td>
-        </tr>
-        <tr>
-          <td>Fairlearn Model Cards</td>
-          <td>Fairness-focused, interactive</td>
-          <td>Bias assessment and mitigation</td>
-        </tr>
-        <tr>
-          <td>Hugging Face Model Hub</td>
-          <td>Community standards, easy sharing</td>
-          <td>NLP and transformer models</td>
-        </tr>
-        <tr>
-          <td>MLflow Model Registry</td>
-          <td>Lifecycle management, metadata tracking</td>
-          <td>Production ML systems</td>
-        </tr>
-      </tbody>
-    </table>
-    
     <h2>How Praesidium Systems Can Help</h2>
     <p>Our ML/LLM Documentation Generator automates model card creation with:</p>
     <ul>
@@ -285,3 +177,7 @@ const post = {
     </ul>
     
     <p>Model cards are no longer optional documentation—they're essential tools for responsible AI development. By implementing comprehensive model cards early and maintaining them throughout the AI lifecycle, organizations can build trust, ensure compliance, and demonstrate their commitment to transparent and accountable AI systems.</p>
+  `
+};
+
+export default post;
