@@ -16,16 +16,67 @@ import {
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
-// New Page components
+// Page components
 import ComplianceFrameworkPage from './pages/ComplianceFrameworkPage';
 import DocumentationGeneratorPage from './pages/DocumentationGeneratorPage';
 import ComplianceTestingPage from './pages/ComplianceTestingPage';
 import BlogPage from './pages/BlogPage';
+import BlogPostPage from './pages/BlogPostPage';
+
+// SEO helpers
+import { 
+  updateMetaTags, 
+  generateOrganizationSchema, 
+  addStructuredData,
+  removeStructuredData
+} from './utils/seoHelpers';
 
 // Home page component
 const HomePage = ({ onContactClick, onTeamClick }) => {
+  // Set SEO for homepage
   useEffect(() => {
-    // Intersection Observer for animations
+    // Base URL
+    const baseUrl = window.location.origin;
+    
+    // Update meta tags
+    updateMetaTags({
+      title: 'AI Governance Suite',
+      description: 'Praesidium Systems provides comprehensive governance for ML and LLM models. Our platform helps organizations monitor, audit, and ensure regulatory compliance for AI models.',
+      keywords: 'AI governance, compliance platform, ML monitoring, LLM compliance, AI risk management, AI documentation, regulatory compliance',
+      canonical: baseUrl,
+      type: 'website'
+    });
+    
+    // Add organization schema
+    const organizationSchema = generateOrganizationSchema();
+    addStructuredData(organizationSchema, 'organization-schema');
+    
+    // Add website schema
+    const websiteSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Praesidium Systems",
+      "url": baseUrl,
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${baseUrl}/blog?search={search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
+    };
+    addStructuredData(JSON.stringify(websiteSchema), 'website-schema');
+    
+    // Clean up
+    return () => {
+      removeStructuredData('organization-schema');
+      removeStructuredData('website-schema');
+    };
+  }, []);
+
+  // Intersection Observer for animations
+  useEffect(() => {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
@@ -109,6 +160,10 @@ function App() {
           <Route 
             path="/blog" 
             element={<BlogPage />} 
+          />
+          <Route 
+            path="/blog/:id" 
+            element={<BlogPostPage />} 
           />
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />

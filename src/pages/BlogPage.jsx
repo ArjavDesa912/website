@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { Search, Calendar, User, Tag, ArrowRight } from 'lucide-react';
+import { 
+  updateMetaTags, 
+  generateOrganizationSchema, 
+  addStructuredData, 
+  removeStructuredData 
+} from '../utils/seoHelpers';
 
 // Mock blog data
 const blogPosts = [
@@ -72,6 +79,73 @@ const BlogPage = () => {
     console.log("Contact button clicked");
   };
   
+  // SEO optimization
+  useEffect(() => {
+    // Define meta tags
+    const baseUrl = window.location.origin;
+    const canonicalUrl = `${baseUrl}/blog`;
+    
+    // Generate title based on selected category
+    let title = "AI Governance Insights";
+    if (selectedCategory !== "All") {
+      title = `${selectedCategory} Articles - AI Governance Insights`;
+    }
+    
+    // Generate description based on selected category
+    let description = "Expert perspectives on AI compliance, regulation, and governance best practices from Praesidium Systems.";
+    if (selectedCategory !== "All") {
+      description = `Explore our ${selectedCategory} articles on AI governance, compliance, and best practices for enterprise AI systems.`;
+    }
+    
+    // Generate keywords based on selected category
+    const baseKeywords = "AI governance, compliance, regulatory frameworks, AI ethics, AI documentation";
+    let keywords = baseKeywords;
+    if (selectedCategory !== "All") {
+      keywords = `${selectedCategory.toLowerCase()}, ${baseKeywords}`;
+    }
+    
+    // Update meta tags
+    updateMetaTags({
+      title,
+      description,
+      keywords,
+      canonical: canonicalUrl,
+      type: 'website'
+    });
+    
+    // Add structured data for website
+    const organizationSchema = generateOrganizationSchema();
+    addStructuredData(organizationSchema, 'organization-schema');
+    
+    // Add blog list structured data
+    const blogListingSchema = {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "headline": "Praesidium Systems AI Governance Blog",
+      "description": "Expert perspectives on AI compliance, regulation, and governance best practices",
+      "url": canonicalUrl,
+      "blogPost": filteredPosts.map(post => ({
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": post.excerpt,
+        "datePublished": post.date,
+        "author": {
+          "@type": "Person",
+          "name": post.author
+        },
+        "url": `${baseUrl}/blog/${post.id}`
+      }))
+    };
+    
+    addStructuredData(JSON.stringify(blogListingSchema), 'blog-listing-schema');
+    
+    // Clean up when component unmounts
+    return () => {
+      removeStructuredData('organization-schema');
+      removeStructuredData('blog-listing-schema');
+    };
+  }, [selectedCategory, filteredPosts]);
+  
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header onContactClick={handleContactClick} />
@@ -95,10 +169,11 @@ const BlogPage = () => {
                 className="w-full py-3 pl-12 pr-4 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                aria-label="Search articles"
               />
               <Search className="absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="group" aria-label="Category filters">
               {categories.map(category => (
                 <button
                   key={category}
@@ -108,6 +183,7 @@ const BlogPage = () => {
                       ? "bg-blue-600 text-white"
                       : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
                   }`}
+                  aria-pressed={selectedCategory === category}
                 >
                   {category}
                 </button>
@@ -118,19 +194,23 @@ const BlogPage = () => {
           {/* Blog Posts */}
           <div className="max-w-5xl mx-auto">
             {filteredPosts.length > 0 ? (
-              <div className="space-y-10">
+              <div className="space-y-10" role="feed" aria-label="Blog posts">
                 {filteredPosts.map(post => (
                   <article key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
                     <div className="md:w-1/3">
-                      <img 
-                        src={post.image} 
-                        alt={post.title}
-                        className="h-full w-full object-cover" 
-                        // Placeholder for missing images in development
-                        onError={(e) => {
-                          e.target.src = "https://via.placeholder.com/400x300?text=Praesidium+Blog";
-                        }}
-                      />
+                      <Link to={`/blog/${post.id}`}>
+                        <img 
+                          src={post.image} 
+                          alt={`${post.title} - Praesidium Systems Blog`}
+                          className="h-full w-full object-cover transition-transform duration-300 hover:scale-105" 
+                          width="400"
+                          height="300"
+                          // Placeholder for missing images in development
+                          onError={(e) => {
+                            e.target.src = "https://via.placeholder.com/400x300?text=Praesidium+Blog";
+                          }}
+                        />
+                      </Link>
                     </div>
                     <div className="md:w-2/3 p-6">
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -139,7 +219,14 @@ const BlogPage = () => {
                           {post.category}
                         </span>
                       </div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">{post.title}</h2>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        <Link 
+                          to={`/blog/${post.id}`}
+                          className="hover:text-blue-600 transition-colors"
+                        >
+                          {post.title}
+                        </Link>
+                      </h2>
                       <p className="text-gray-600 mb-4">{post.excerpt}</p>
                       <div className="flex items-center text-gray-500 text-sm mb-4">
                         <span className="flex items-center mr-4">
@@ -148,13 +235,17 @@ const BlogPage = () => {
                         </span>
                         <span className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />
-                          {post.date}
+                          <time dateTime={post.date}>{post.date}</time>
                         </span>
                       </div>
-                      <button className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors">
+                      <Link 
+                        to={`/blog/${post.id}`}
+                        className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
+                        aria-label={`Read full article: ${post.title}`}
+                      >
                         Read Article
                         <ArrowRight className="ml-1 h-4 w-4" />
-                      </button>
+                      </Link>
                     </div>
                   </article>
                 ))}
@@ -173,16 +264,24 @@ const BlogPage = () => {
             <p className="text-gray-700 mb-6">
               Subscribe to our newsletter for the latest insights on AI governance and compliance
             </p>
-            <div className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
+            <form className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto">
               <input
                 type="email"
                 placeholder="Your email address"
                 className="flex-grow px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                aria-label="Email address"
+                required
               />
-              <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap">
+              <button 
+                type="submit"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
                 Subscribe
               </button>
-            </div>
+            </form>
+            <p className="text-xs text-gray-500 mt-4">
+              By subscribing, you agree to our privacy policy and consent to receive marketing emails.
+            </p>
           </div>
         </div>
       </main>
