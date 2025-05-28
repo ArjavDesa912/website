@@ -1,64 +1,76 @@
 import React, { useEffect, useState } from 'react';
-// Remove the unused Shield import
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { scrollToSection } from '../../utils/scrollUtils';
 
 const Footer = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
+
+  const handleNavClick = (id) => {
+    if (location.pathname !== '/') {
+      navigate('/#' + id);
+    } else {
+      scrollToSection(id);
+    }
+  };
 
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <Link to="/" className="flex items-center gap-2 mb-4">
               <img 
                 src="/images/praesidium-logo.png" 
                 alt="Praesidium Systems Logo" 
                 className="h-6"
               />
               <span className="text-lg font-bold text-white">Praesidium Systems</span>
-            </div>
+            </Link>
             <p className="text-gray-400">
               AI Governance, simplified.
             </p>
           </div>
           
           <div>
-            <h3 className="font-bold mb-4">Product</h3>
+            <h3 className="font-bold mb-4">Products</h3>
             <ul className="space-y-2">
               <li>
+                <Link 
+                  to="/products/compliance-framework" 
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  AI Compliance Framework
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/products/documentation-generator" 
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Documentation Generator
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="/products/compliance-testing" 
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Compliance Testing
+                </Link>
+              </li>
+              <li>
                 <button 
-                  onClick={() => scrollToSection('features')} 
+                  onClick={() => handleNavClick('features')} 
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Features
                 </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('how-it-works')} 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  How It Works
-                </button>
-              </li>
-              <li>
-                <button 
-                  onClick={() => scrollToSection('deployment')} 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Deployment
-                </button>
-              </li>
-              <li>
-                {/* Fix invalid href by using a real path or making it a button */}
-                <a href="/pricing" className="text-gray-400 hover:text-white transition-colors">
-                  Pricing
-                </a>
               </li>
             </ul>
           </div>
@@ -67,28 +79,24 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/docs" className="text-gray-400 hover:text-white transition-colors">
-                  Documentation
-                </a>
-              </li>
-              <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/api" className="text-gray-400 hover:text-white transition-colors">
-                  API Reference
-                </a>
-              </li>
-              <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/blog" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/blog" className="text-gray-400 hover:text-white transition-colors">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/support" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/docs" className="text-gray-400 hover:text-white transition-colors">
+                  Documentation
+                </Link>
+              </li>
+              <li>
+                <Link to="/api" className="text-gray-400 hover:text-white transition-colors">
+                  API Reference
+                </Link>
+              </li>
+              <li>
+                <Link to="/support" className="text-gray-400 hover:text-white transition-colors">
                   Support
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -97,30 +105,27 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/about" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/careers" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/careers" className="text-gray-400 hover:text-white transition-colors">
                   Careers
-                </a>
+                </Link>
               </li>
               <li>
                 <button 
-                  onClick={() => scrollToSection('contact')} 
+                  onClick={() => handleNavClick('contact')} 
                   className="text-gray-400 hover:text-white transition-colors"
                 >
                   Contact
                 </button>
               </li>
               <li>
-                {/* Fix invalid href by using a real path */}
-                <a href="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
