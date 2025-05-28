@@ -31,8 +31,14 @@ import {
   removeStructuredData
 } from './utils/seoHelpers';
 
-// Home page component
+// Analytics utilities
+import * as analytics from './utils/analyticsUtils';
+import { useAnalytics } from './utils/useAnalytics';
+
+// Home page component with analytics integration
 const HomePage = ({ onContactClick, onTeamClick }) => {
+  const { trackFeatureInteraction, trackDeploymentInterest, trackIntegrationInterest } = useAnalytics();
+
   // Set SEO for homepage
   useEffect(() => {
     // Base URL
@@ -75,7 +81,7 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
     };
   }, []);
 
-  // Intersection Observer for animations
+  // Intersection Observer for animations with analytics
   useEffect(() => {
     const observerOptions = {
       root: null,
@@ -88,6 +94,12 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
         if (entry.isIntersecting) {
           entry.target.classList.remove('section-hidden');
           entry.target.classList.add('section-visible');
+          
+          // Track section views
+          const sectionId = entry.target.id;
+          if (sectionId) {
+            trackFeatureInteraction('section_view', 'scroll_into_view', sectionId);
+          }
         }
       });
     };
@@ -103,20 +115,35 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [trackFeatureInteraction]);
+
+  // Enhanced contact click handler with analytics
+  const handleContactClick = (source = 'unknown') => {
+    analytics.trackContactRequest(source, 'demo_request');
+    onContactClick();
+  };
+
+  // Enhanced team click handler with analytics
+  const handleTeamClick = (source = 'hero') => {
+    trackFeatureInteraction('team_view', 'click', source);
+    onTeamClick();
+  };
 
   return (
     <>
-      <Header onContactClick={onContactClick} />
+      <Header onContactClick={(source) => handleContactClick(source || 'header')} />
       <main>
-        <HeroSection onShowTeam={onTeamClick} />
-        <ProductsSection />
-        <FeaturesSection />
-        <HowItWorksSection />
+        <HeroSection 
+          onShowTeam={() => handleTeamClick('hero')}
+          onContactClick={() => handleContactClick('hero')}
+        />
+        <ProductsSection onProductClick={(product) => analytics.trackProductView(product, 'homepage')} />
+        <FeaturesSection onFeatureClick={(feature) => trackFeatureInteraction('feature_click', 'click', feature)} />
+        <HowItWorksSection onProviderClick={(provider) => trackIntegrationInterest(provider)} />
         <IntegrationBenefitsSection />
-        <DeploymentSection />
-        <DockerSection />
-        <CTASection onContactClick={onContactClick} />
+        <DeploymentSection onDeploymentClick={(type) => trackDeploymentInterest(type)} />
+        <DockerSection onDockerClick={() => trackFeatureInteraction('docker_interest', 'click', 'docker_section')} />
+        <CTASection onContactClick={() => handleContactClick('cta')} />
       </main>
       <Footer />
     </>
@@ -127,6 +154,24 @@ function App() {
   const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
   const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
 
+  // Initialize Google Analytics on app start
+  useEffect(() => {
+    analytics.initGA4();
+    
+    // Set initial user properties based on URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userProperties = {
+      utmSource: urlParams.get('utm_source'),
+      utmMedium: urlParams.get('utm_medium'),
+      utmCampaign: urlParams.get('utm_campaign')
+    };
+    
+    // Only set properties if they exist
+    if (Object.values(userProperties).some(value => value !== null)) {
+      analytics.setUserProperties(userProperties);
+    }
+  }, []);
+
   // Handle opening the contact popup
   const handleContactClick = () => {
     setIsContactPopupOpen(true);
@@ -136,6 +181,42 @@ function App() {
   const handleTeamClick = () => {
     setIsTeamPopupOpen(true);
   };
+
+  // Handle popup close with analytics
+  const handleContactPopupClose = () => {
+    setIsContactPopupOpen(false);
+    analytics.trackEvent('popup_close', {
+      category: 'user_interaction',
+      popup_type: 'contact'
+    });
+  };
+
+  const handleTeamPopupClose = () => {
+    setIsTeamPopupOpen(false);
+    analytics.trackEvent('popup_close', {
+      category: 'user_interaction',
+      popup_type: 'team'
+    });
+  };
+
+  // Global error boundary for analytics
+  useEffect(() => {
+    const handleError = (event) => {
+      analytics.trackError(event.error, window.location.pathname);
+    };
+
+    const handleUnhandledRejection = (event) => {
+      analytics.trackError(new Error(event.reason), window.location.pathname);
+    };
+
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
+
+    return () => {
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+    };
+  }, []);
 
   return (
     <Router>
@@ -172,14 +253,14 @@ function App() {
         {/* Contact Popup - Single CEO */}
         <ContactPopup 
           isOpen={isContactPopupOpen} 
-          onClose={() => setIsContactPopupOpen(false)} 
+          onClose={handleContactPopupClose}
           showTeam={false}
         />
         
         {/* Team Popup - Both Founders */}
         <ContactPopup 
           isOpen={isTeamPopupOpen} 
-          onClose={() => setIsTeamPopupOpen(false)} 
+          onClose={handleTeamPopupClose}
           showTeam={true}
         />
       </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X, Mail, Calendar, Sparkles } from 'lucide-react';
 
 const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
@@ -18,6 +18,85 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
     }
   ];
 
+  // Track popup view when opened
+  useEffect(() => {
+    if (isOpen && typeof window !== 'undefined' && window.gtag) {
+      const popupType = showTeam ? 'team' : 'contact';
+      
+      // Track popup view
+      window.gtag('event', 'popup_view', {
+        event_category: 'user_interaction',
+        popup_type: popupType,
+        value: 1
+      });
+    }
+  }, [isOpen, showTeam]);
+
+  // Handle email click with analytics
+  const handleEmailClick = (email, source = 'popup') => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      // Track contact request
+      window.gtag('event', 'generate_lead', {
+        event_category: 'conversion',
+        lead_type: 'email_click',
+        source: source,
+        value: 1
+      });
+
+      // Track specific email interaction
+      window.gtag('event', 'email_click', {
+        event_category: 'contact',
+        email: email,
+        source: source
+      });
+    }
+  };
+
+  // Handle schedule demo click with analytics
+  const handleScheduleDemoClick = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      // Track demo request
+      window.gtag('event', 'generate_lead', {
+        event_category: 'conversion',
+        lead_type: 'schedule_demo',
+        source: 'popup',
+        value: 1
+      });
+
+      // Track schedule demo interaction
+      window.gtag('event', 'schedule_demo_click', {
+        event_category: 'conversion',
+        source: 'popup'
+      });
+    }
+    
+    // Close popup after tracking
+    onClose();
+  };
+
+  // Handle profile image click
+  const handleProfileClick = (personName, role) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'profile_click', {
+        event_category: showTeam ? 'team_engagement' : 'contact_engagement',
+        person: personName,
+        role: role
+      });
+    }
+  };
+
+  // Handle popup close with analytics
+  const handleClose = (method = 'x_button') => {
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'popup_close', {
+        event_category: 'user_interaction',
+        popup_type: showTeam ? 'team' : 'contact',
+        close_method: method
+      });
+    }
+    onClose();
+  };
+
   // If popup is not open, don't render anything
   if (!isOpen) return null;
 
@@ -32,7 +111,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
             </h3>
           </div>
           <button 
-            onClick={onClose}
+            onClick={() => handleClose('x_button')}
             className="text-gray-400 hover:text-accent-gold transition-colors duration-300 p-2 rounded-full hover:bg-gray-800"
           >
             <X className="h-6 w-6" />
@@ -49,14 +128,19 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
                     <img 
                       src={person.photo} 
                       alt={person.name} 
-                      className="relative w-48 h-48 object-cover rounded-full border-2 border-gray-700 group-hover:border-accent-gold transition-all duration-500"
+                      className="relative w-48 h-48 object-cover rounded-full border-2 border-gray-700 group-hover:border-accent-gold transition-all duration-500 cursor-pointer"
+                      onClick={() => handleProfileClick(person.name, person.role)}
                     />
                   </div>
                   <h4 className="text-xl font-bold text-white mb-1">{person.name}</h4>
                   <p className="text-accent-gold mb-4 font-medium">{person.role}</p>
                   <div className="flex items-center text-gray-300 hover:text-accent-gold transition-colors duration-300 cursor-pointer">
                     <Mail className="h-4 w-4 mr-2" />
-                    <a href={`mailto:${person.email}`} className="hover:text-accent-gold transition-colors">
+                    <a 
+                      href={`mailto:${person.email}`} 
+                      className="hover:text-accent-gold transition-colors"
+                      onClick={() => handleEmailClick(person.email, `team_${person.name.toLowerCase().replace(' ', '_')}`)}
+                    >
                       {person.email}
                     </a>
                   </div>
@@ -71,7 +155,8 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
                 <img 
                   src={founders[0].photo} 
                   alt={founders[0].name} 
-                  className="relative w-40 h-40 object-cover rounded-full border-2 border-gray-700 group-hover:border-accent-gold transition-all duration-500"
+                  className="relative w-40 h-40 object-cover rounded-full border-2 border-gray-700 group-hover:border-accent-gold transition-all duration-500 cursor-pointer"
+                  onClick={() => handleProfileClick(founders[0].name, founders[0].role)}
                 />
               </div>
               <div className="flex-1 text-center lg:text-left">
@@ -79,7 +164,11 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
                 <p className="text-accent-gold mb-6 text-lg font-medium">{founders[0].role}</p>
                 <div className="flex items-center justify-center lg:justify-start text-gray-300 hover:text-accent-gold transition-colors duration-300 mb-6">
                   <Mail className="h-5 w-5 mr-3" />
-                  <a href={`mailto:${founders[0].email}`} className="hover:text-accent-gold transition-colors text-lg">
+                  <a 
+                    href={`mailto:${founders[0].email}`} 
+                    className="hover:text-accent-gold transition-colors text-lg"
+                    onClick={() => handleEmailClick(founders[0].email, 'ceo_profile')}
+                  >
                     {founders[0].email}
                   </a>
                 </div>
@@ -98,12 +187,13 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
               <a 
                 href="mailto:arjav.desai@praesidiumsystems.ai" 
                 className="btn-primary px-6 py-3 rounded-full flex items-center justify-center gap-3 group"
+                onClick={() => handleEmailClick('arjav.desai@praesidiumsystems.ai', 'cta_button')}
               >
                 <Mail className="h-5 w-5" />
                 <span className="font-semibold">Send Email</span>
               </a>
               <button 
-                onClick={onClose}
+                onClick={handleScheduleDemoClick}
                 className="btn-secondary px-6 py-3 rounded-full flex items-center justify-center gap-3 group"
               >
                 <Calendar className="h-5 w-5" />

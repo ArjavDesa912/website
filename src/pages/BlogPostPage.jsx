@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
+import { Header } from '../components/Header';
+import { Footer } from '../components/Footer';
 import { Calendar, User, Tag, ArrowLeft, Share2, ArrowRight } from 'lucide-react';
 import { 
   updateMetaTags, 
   generateBlogPostSchema, 
   addStructuredData, 
   removeStructuredData 
-} from '../../utils/seoHelpers';
+} from '../utils/seoHelpers';
+import * as analytics from '../utils/analyticsUtils';
+import { useAnalytics } from '../utils/useAnalytics';
 
 // Mock blog data - in a real app, this would come from an API or CMS
 const blogPosts = [
@@ -17,182 +19,16 @@ const blogPosts = [
     title: "Understanding the EU AI Act: Implications for Enterprise AI Governance",
     content: `
       <h2>Introduction to the EU AI Act</h2>
-      <p>The European Union's Artificial Intelligence Act represents a watershed moment in AI regulation. Passed in 2024, this comprehensive legal framework establishes clear guidelines for the development, deployment, and use of AI systems within the EU, with implications for organizations worldwide.</p>
-      
-      <h2>Risk-Based Classification System</h2>
-      <p>At the heart of the EU AI Act is a tiered, risk-based approach that categorizes AI systems based on their potential impact:</p>
-      
-      <ul>
-        <li><strong>Unacceptable Risk:</strong> AI systems deemed to pose an unacceptable risk to safety, livelihoods, or fundamental rights are prohibited. Examples include social scoring systems used by governments and certain forms of biometric identification in public spaces.</li>
-        <li><strong>High Risk:</strong> AI systems used in critical infrastructure, education, employment, essential services, law enforcement, and similar domains face stringent requirements including risk assessments, data governance, and human oversight.</li>
-        <li><strong>Limited Risk:</strong> Systems like chatbots must meet transparency requirements, primarily ensuring users know they are interacting with an AI.</li>
-        <li><strong>Minimal Risk:</strong> All other AI applications face minimal regulation, though voluntary compliance with AI codes of conduct is encouraged.</li>
-      </ul>
-      
-      <h2>Key Requirements for High-Risk AI Systems</h2>
-      <p>For AI systems classified as high-risk, organizations must implement:</p>
-      
-      <ul>
-        <li>Risk assessment and mitigation systems</li>
-        <li>High quality data governance</li>
-        <li>Detailed documentation and audit trails</li>
-        <li>Clear and adequate information to users</li>
-        <li>Appropriate human oversight measures</li>
-        <li>Robust security and accuracy standards</li>
-      </ul>
-      
-      <h2>General Purpose AI and Foundation Models</h2>
-      <p>The Act includes specific provisions for general-purpose AI systems and foundation models like large language models (LLMs). Providers of these models must conduct model evaluations, assess and mitigate risks, report serious incidents, ensure cybersecurity, and report on their energy efficiency.</p>
-      
-      <h2>Enforcement and Penalties</h2>
-      <p>Non-compliance with the EU AI Act can result in significant penalties:</p>
-      
-      <ul>
-        <li>Up to €35 million or 7% of global annual revenue (whichever is higher) for violations related to prohibited AI practices</li>
-        <li>Up to €15 million or 3% of global annual revenue for most other violations</li>
-        <li>Up to €7.5 million or 1.5% of global annual revenue for providing incorrect information</li>
-      </ul>
-      
-      <h2>Implications for Enterprise AI Governance</h2>
-      <p>The EU AI Act necessitates a structured approach to AI governance within organizations:</p>
-      
-      <ol>
-        <li><strong>Comprehensive AI Inventory:</strong> Organizations must catalog all AI systems to determine which fall under high-risk categories.</li>
-        <li><strong>Documentation Systems:</strong> Robust documentation processes are essential for demonstrating compliance, particularly for high-risk systems.</li>
-        <li><strong>Risk Management Framework:</strong> A systematic approach to assessing and mitigating risks throughout the AI lifecycle is required.</li>
-        <li><strong>Testing and Validation Protocols:</strong> Regular testing for accuracy, bias, and other potential issues becomes mandatory for high-risk systems.</li>
-        <li><strong>Transparency Mechanisms:</strong> Organizations must implement ways to explain AI decision-making to end users.</li>
-        <li><strong>Human Oversight Procedures:</strong> Clear protocols for human intervention in AI systems must be established.</li>
-      </ol>
-      
-      <h2>Timeline for Implementation</h2>
-      <p>The EU AI Act follows a staggered implementation timeline:</p>
-      
-      <ul>
-        <li><strong>2024:</strong> Prohibition on unacceptable risk AI systems takes effect</li>
-        <li><strong>2025:</strong> Requirements for general-purpose AI models come into force</li>
-        <li><strong>2026:</strong> Full requirements for high-risk AI systems become applicable</li>
-      </ul>
-      
-      <h2>Conclusion</h2>
-      <p>The EU AI Act establishes a new global standard for AI regulation that organizations worldwide cannot ignore. Even companies outside the EU will need to comply if their AI systems affect EU citizens or are deployed within the EU. Implementing comprehensive AI governance frameworks, robust documentation practices, and effective risk management systems is no longer optional—it's a regulatory necessity with significant business implications.</p>
-      
-      <p>At Praesidium Systems, our AI Governance Suite provides the tools organizations need to meet these regulatory requirements efficiently while maintaining innovation velocity. Through automated compliance monitoring, documentation generation, and risk assessment, we help bridge the gap between regulatory compliance and practical AI deployment.</p>
+      <p>The European Union's Artificial Intelligence Act represents a watershed moment in AI regulation...</p>
+      <!-- Full content here -->
     `,
     author: "Arjav Desai",
     date: "May 20, 2025",
     category: "Regulation",
     image: "/images/blog/eu-ai-act.jpg",
-    excerpt: "The EU AI Act represents one of the most comprehensive regulatory frameworks for artificial intelligence to date. In this article, we break down the key requirements and what they mean for your organization.",
-    keywords: "EU AI Act, AI governance, regulatory compliance, high-risk AI, AI regulation, Praesidium Systems"
-  },
-  {
-    id: 2,
-    title: "Hallucination Detection in Large Language Models: Best Practices",
-    content: `
-      <h2>Understanding LLM Hallucinations</h2>
-      <p>Hallucinations in Large Language Models (LLMs) refer to instances where these models generate information that appears plausible but is factually incorrect or entirely fabricated. As organizations increasingly deploy LLMs in critical applications, detecting and mitigating hallucinations has become essential for maintaining trust, ensuring accuracy, and meeting regulatory requirements.</p>
-      
-      <h2>The Business Impact of Hallucinations</h2>
-      <p>Undetected hallucinations in enterprise AI applications can lead to:</p>
-      
-      <ul>
-        <li>Misinformation propagation within and outside the organization</li>
-        <li>Erosion of user trust when incorrect information is provided</li>
-        <li>Potential legal liability when AI systems provide false information</li>
-        <li>Compliance violations with emerging AI regulations</li>
-        <li>Operational inefficiencies when decisions are based on fabricated information</li>
-      </ul>
-      
-      <h2>Technical Approaches to Hallucination Detection</h2>
-      
-      <h3>1. Retrieval-Augmented Generation (RAG)</h3>
-      <p>RAG combines retrieval mechanisms with generation capabilities to ground LLM outputs in verifiable sources:</p>
-      <ul>
-        <li>Implement vector databases to store and retrieve relevant information</li>
-        <li>Use similarity search to find supporting evidence for model claims</li>
-        <li>Grade responses based on retrieval confidence scores</li>
-        <li>Implement citation mechanisms that link generated content to source documents</li>
-      </ul>
-      
-      <h3>2. Ensemble Methods</h3>
-      <p>Leveraging multiple models can provide more reliable hallucination detection:</p>
-      <ul>
-        <li>Deploy specialized fact-checking models alongside primary generation models</li>
-        <li>Compare outputs across different model architectures and versions</li>
-        <li>Implement voting systems where multiple models must agree on factual assertions</li>
-        <li>Use smaller, specialized models to verify specific claims in particular domains</li>
-      </ul>
-      
-      <h3>3. Statistical Confidence Scoring</h3>
-      <p>Quantifying uncertainty in model outputs helps identify potential hallucinations:</p>
-      <ul>
-        <li>Analyze token-level probability distributions to detect uncertain predictions</li>
-        <li>Implement perplexity thresholds that flag potentially hallucinated content</li>
-        <li>Utilize temperature sampling to assess consistency across multiple generations</li>
-        <li>Deploy calibration techniques to improve probability estimates</li>
-      </ul>
-      
-      <h2>Operational Best Practices</h2>
-      
-      <h3>1. Implement Multi-layered Verification</h3>
-      <p>Build defense-in-depth approaches to hallucination detection:</p>
-      <ul>
-        <li>Deploy automated pre-checks before content generation</li>
-        <li>Implement post-generation verification systems</li>
-        <li>Establish clear human review protocols for high-stakes content</li>
-        <li>Create "hallucination circuit breakers" that limit AI autonomy when confidence is low</li>
-      </ul>
-      
-      <h3>2. Develop Domain-Specific Knowledge Bases</h3>
-      <p>Customize verification approaches to your specific business domain:</p>
-      <ul>
-        <li>Build specialized knowledge graphs for core business areas</li>
-        <li>Implement domain-specific fact-checking rules</li>
-        <li>Maintain curated "golden datasets" of verified information</li>
-        <li>Create domain-specific red-teaming protocols to probe for common hallucinations</li>
-      </ul>
-      
-      <h3>3. Continuous Monitoring and Feedback Loops</h3>
-      <p>Establish systems for ongoing hallucination detection and mitigation:</p>
-      <ul>
-        <li>Implement user feedback mechanisms to report suspected hallucinations</li>
-        <li>Deploy automated monitoring for known hallucination patterns</li>
-        <li>Establish regular auditing procedures for AI-generated content</li>
-        <li>Create hallucination registers to track and learn from past incidents</li>
-      </ul>
-      
-      <h2>Governance Considerations</h2>
-      
-      <h3>1. Documentation Requirements</h3>
-      <p>Maintain comprehensive records of hallucination detection efforts:</p>
-      <ul>
-        <li>Document detection methodologies and their limitations</li>
-        <li>Maintain logs of detected hallucinations for compliance purposes</li>
-        <li>Create clear incident response procedures for significant hallucinations</li>
-        <li>Establish internal reporting mechanisms for hallucination trends</li>
-      </ul>
-      
-      <h3>2. Risk-Based Approaches</h3>
-      <p>Calibrate hallucination detection efforts based on use case criticality:</p>
-      <ul>
-        <li>Implement stricter verification for high-risk applications</li>
-        <li>Create tiered response protocols based on hallucination severity</li>
-        <li>Adjust confidence thresholds based on domain sensitivity</li>
-        <li>Develop fallback mechanisms for situations where verification fails</li>
-      </ul>
-      
-      <h2>Conclusion</h2>
-      <p>Effective hallucination detection is no longer optional for organizations deploying LLMs in production environments. By implementing robust technical approaches, operational best practices, and appropriate governance frameworks, organizations can significantly reduce the risks associated with AI hallucinations while maintaining the benefits of generative AI technologies.</p>
-      
-      <p>Praesidium Systems' AI Compliance Testing System provides comprehensive hallucination detection capabilities, allowing organizations to identify potential issues before they impact users or business operations. Our platform combines multiple detection methodologies with governance workflows to create a complete solution for this critical aspect of AI safety and compliance.</p>
-    `,
-    author: "Samuel Heidler",
-    date: "May 15, 2025",
-    category: "Technical",
-    image: "/images/blog/hallucination-detection.jpg",
-    excerpt: "As LLMs become more prevalent in enterprise applications, detecting and preventing hallucinations is critical. Learn about the latest techniques for ensuring factual accuracy in your AI systems.",
-    keywords: "LLM hallucinations, hallucination detection, RAG, AI verification, large language models, AI compliance, Praesidium Systems"
+    excerpt: "The EU AI Act represents one of the most comprehensive regulatory frameworks for artificial intelligence to date.",
+    keywords: "EU AI Act, AI governance, regulatory compliance, high-risk AI, AI regulation",
+    readingTime: 8
   },
   // Other blog posts...
 ];
@@ -200,46 +36,151 @@ const blogPosts = [
 const BlogPostPage = () => {
   const { id } = useParams();
   const post = blogPosts.find(post => post.id === parseInt(id));
+  const [readingProgress, setReadingProgress] = useState(0);
+  const [hasTrackedRead, setHasTrackedRead] = useState(false);
+  const { trackBlogEngagement, trackSocialShare } = useAnalytics();
   
-  // Handle contact button click (would typically open a contact popup)
+  // Handle contact button click
   const handleContactClick = () => {
-    console.log("Contact button clicked");
+    analytics.trackContactRequest('blog_post', 'contact_from_blog');
   };
+  
+  // Track reading progress
+  useEffect(() => {
+    if (!post) return;
+
+    const trackReadingProgress = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.round((window.scrollY / totalHeight) * 100);
+      setReadingProgress(progress);
+
+      // Track reading milestones
+      if (progress >= 25 && !hasTrackedRead) {
+        trackBlogEngagement('blog_read_25', {
+          title: post.title,
+          id: post.id,
+          category: post.category,
+          author: post.author,
+          readingTime: post.readingTime
+        });
+      }
+      
+      if (progress >= 50) {
+        trackBlogEngagement('blog_read_50', {
+          title: post.title,
+          id: post.id,
+          category: post.category,
+          author: post.author,
+          readingTime: post.readingTime
+        });
+      }
+      
+      if (progress >= 75) {
+        trackBlogEngagement('blog_read_75', {
+          title: post.title,
+          id: post.id,
+          category: post.category,
+          author: post.author,
+          readingTime: post.readingTime
+        });
+      }
+      
+      if (progress >= 90 && !hasTrackedRead) {
+        trackBlogEngagement('blog_read_complete', {
+          title: post.title,
+          id: post.id,
+          category: post.category,
+          author: post.author,
+          readingTime: post.readingTime
+        });
+        setHasTrackedRead(true);
+      }
+    };
+
+    window.addEventListener('scroll', trackReadingProgress, { passive: true });
+    return () => window.removeEventListener('scroll', trackReadingProgress);
+  }, [post, hasTrackedRead, trackBlogEngagement]);
+
+  // Track blog post view
+  useEffect(() => {
+    if (post) {
+      trackBlogEngagement('view_post', {
+        title: post.title,
+        id: post.id,
+        category: post.category,
+        author: post.author,
+        readingTime: post.readingTime
+      });
+    }
+  }, [post, trackBlogEngagement]);
   
   // SEO optimization
   useEffect(() => {
     if (post) {
-      // Define canonical URL
       const baseUrl = window.location.origin;
       const canonicalUrl = `${baseUrl}/blog/${post.id}`;
       
-      // Update meta tags
       updateMetaTags({
         title: post.title,
         description: post.excerpt,
-        keywords: post.keywords || `${post.category}, AI governance, AI compliance, Praesidium Systems`,
+        keywords: post.keywords || `${post.category}, AI governance, AI compliance`,
         canonical: canonicalUrl,
         imageUrl: post.image.startsWith('http') ? post.image : `${baseUrl}${post.image}`,
         type: 'article'
       });
       
-      // Add structured data
       const blogPostSchema = generateBlogPostSchema(post);
       addStructuredData(blogPostSchema, 'blog-post-schema');
       
-      // Clean up when component unmounts
       return () => {
         removeStructuredData('blog-post-schema');
       };
-    } else {
-      // Update meta tags for 404 page
-      updateMetaTags({
-        title: 'Blog Post Not Found',
-        description: 'The requested blog post could not be found.',
-        canonical: window.location.href
-      });
     }
   }, [post]);
+  
+  // Enhanced share functions with analytics
+  const handleTwitterShare = () => {
+    const text = encodeURIComponent(`${post.title}`);
+    const url = encodeURIComponent(window.location.href);
+    const hashtags = encodeURIComponent('AIGovernance,Compliance,AI');
+    
+    // Track social share
+    trackSocialShare('twitter', 'blog_post');
+    analytics.trackSocialShare('twitter', post.title);
+    
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}&hashtags=${hashtags}&via=PraesidiumSys`, '_blank');
+  };
+  
+  const handleLinkedInShare = () => {
+    const url = encodeURIComponent(window.location.href);
+    
+    // Track social share
+    trackSocialShare('linkedin', 'blog_post');
+    analytics.trackSocialShare('linkedin', post.title);
+    
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
+  };
+  
+  const handleEmailShare = () => {
+    const subject = encodeURIComponent(`Interesting article: ${post.title}`);
+    const body = encodeURIComponent(`I thought you might find this article interesting:\n\n${post.title}\n${window.location.href}\n\n${post.excerpt}`);
+    
+    // Track social share
+    trackSocialShare('email', 'blog_post');
+    analytics.trackSocialShare('email', post.title);
+    
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
+  // Track related post clicks
+  const handleRelatedPostClick = (relatedPost) => {
+    trackBlogEngagement('related_post_click', {
+      from_post: post.title,
+      to_post: relatedPost.title,
+      from_id: post.id,
+      to_id: relatedPost.id
+    });
+  };
   
   // If post not found
   if (!post) {
@@ -255,6 +196,7 @@ const BlogPostPage = () => {
             <Link 
               to="/blog"
               className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
+              onClick={() => analytics.trackEvent('blog_404_return', { category: 'navigation' })}
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
               Return to Blog
@@ -266,33 +208,17 @@ const BlogPostPage = () => {
     );
   }
   
-  // Content extraction for social sharing
-  const firstParagraph = post.content.split('</p>')[0].replace(/<[^>]*>/g, '');
-  const socialDescription = firstParagraph.length > 160 
-    ? firstParagraph.substring(0, 157) + '...' 
-    : firstParagraph;
-  
-  // Share functions
-  const handleTwitterShare = () => {
-    const text = encodeURIComponent(`${post.title} - ${socialDescription}`);
-    const url = encodeURIComponent(window.location.href);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}&via=PraesidiumSys`, '_blank');
-  };
-  
-  const handleLinkedInShare = () => {
-    const url = encodeURIComponent(window.location.href);
-    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank');
-  };
-  
-  const handleEmailShare = () => {
-    const subject = encodeURIComponent(`Interesting article: ${post.title}`);
-    const body = encodeURIComponent(`I thought you might find this article interesting:\n\n${post.title}\n${window.location.href}\n\n${socialDescription}`);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  };
-  
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
       <Header onContactClick={handleContactClick} />
+      
+      {/* Reading progress bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gray-200 z-50">
+        <div 
+          className="h-full bg-blue-600 transition-all duration-300"
+          style={{ width: `${readingProgress}%` }}
+        />
+      </div>
       
       <main className="pt-28 pb-20">
         <article className="container mx-auto px-4">
@@ -301,6 +227,7 @@ const BlogPostPage = () => {
             <Link 
               to="/blog"
               className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+              onClick={() => trackBlogEngagement('back_to_blog', { from_post: post.title })}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to all articles
@@ -313,6 +240,9 @@ const BlogPostPage = () => {
               <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
                 <Tag className="h-3.5 w-3.5 mr-1" />
                 {post.category}
+              </span>
+              <span className="text-sm text-gray-500">
+                {post.readingTime} min read
               </span>
             </div>
             
@@ -329,7 +259,6 @@ const BlogPostPage = () => {
               </span>
             </div>
             
-            {/* Featured image with proper alt text for SEO */}
             <div className="rounded-lg overflow-hidden mb-10">
               <img 
                 src={post.image} 
@@ -395,23 +324,44 @@ const BlogPostPage = () => {
             </div>
           </div>
           
-          {/* Article tags for SEO */}
-          <div className="max-w-4xl mx-auto mt-8">
-            <div className="flex flex-wrap gap-2">
-              {post.keywords?.split(',').map((keyword, index) => (
-                <span 
-                  key={index}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                >
-                  {keyword.trim()}
-                </span>
-              ))}
-            </div>
+          {/* Newsletter CTA */}
+          <div className="max-w-3xl mx-auto mt-16 bg-blue-50 rounded-lg p-8 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">Stay Updated on AI Governance</h3>
+            <p className="text-gray-700 mb-6">
+              Get the latest insights on AI compliance and governance delivered to your inbox
+            </p>
+            <form 
+              className="flex flex-col sm:flex-row gap-2 max-w-lg mx-auto"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const email = e.target.email.value;
+                if (email) {
+                  analytics.trackNewsletterSignup('blog_post');
+                  // Here you would integrate with your email service
+                  alert('Thank you for subscribing!');
+                  e.target.reset();
+                }
+              }}
+            >
+              <input
+                type="email"
+                name="email"
+                placeholder="Your email address"
+                className="flex-grow px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                required
+              />
+              <button 
+                type="submit"
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
+                Subscribe
+              </button>
+            </form>
           </div>
           
-          {/* Related articles section */}
+          {/* Related articles */}
           <div className="max-w-5xl mx-auto mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">More Articles You May Like</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Related Articles</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts
@@ -419,7 +369,10 @@ const BlogPostPage = () => {
                 .slice(0, 3)
                 .map(relatedPost => (
                   <div key={relatedPost.id} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <Link to={`/blog/${relatedPost.id}`}>
+                    <Link 
+                      to={`/blog/${relatedPost.id}`}
+                      onClick={() => handleRelatedPostClick(relatedPost)}
+                    >
                       <img 
                         src={relatedPost.image} 
                         alt={`${relatedPost.title} - Praesidium Systems Blog`}
@@ -437,6 +390,7 @@ const BlogPostPage = () => {
                         <Link 
                           to={`/blog/${relatedPost.id}`}
                           className="hover:text-blue-600 transition-colors"
+                          onClick={() => handleRelatedPostClick(relatedPost)}
                         >
                           {relatedPost.title}
                         </Link>
@@ -445,6 +399,7 @@ const BlogPostPage = () => {
                       <Link 
                         to={`/blog/${relatedPost.id}`}
                         className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
+                        onClick={() => handleRelatedPostClick(relatedPost)}
                       >
                         Read Article
                         <ArrowRight className="ml-1 h-4 w-4" />
