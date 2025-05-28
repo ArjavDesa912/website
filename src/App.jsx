@@ -16,12 +16,12 @@ import {
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
-// Page components
+// Page components - Fixed import paths
 import ComplianceFrameworkPage from './pages/ComplianceFrameworkPage';
 import DocumentationGeneratorPage from './pages/DocumentationGeneratorPage';
 import ComplianceTestingPage from './pages/ComplianceTestingPage';
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from './pages/BlogPostPage';
+import BlogPage from './blog/pages/BlogPage';
+import BlogPostPage from './blog/pages/BlogPostPage';
 
 // SEO helpers
 import { 
@@ -243,7 +243,7 @@ function App() {
             element={<BlogPage />} 
           />
           <Route 
-            path="/blog/:id" 
+            path="/blog/:slug" 
             element={<BlogPostPage />} 
           />
           {/* Redirect unknown routes to home */}
