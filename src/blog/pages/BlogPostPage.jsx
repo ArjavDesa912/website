@@ -296,7 +296,7 @@ const BlogPostPage = () => {
         {/* Article Content */}
         <article className="mb-16">
           <div 
-            className="max-w-none prose prose-lg prose-blue"
+            className="blog-content"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </article>
