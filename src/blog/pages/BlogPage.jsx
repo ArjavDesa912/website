@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 import { Search, Calendar, User, Tag, ArrowRight } from 'lucide-react';
 import { 
   updateMetaTags, 
   generateOrganizationSchema, 
   addStructuredData, 
   removeStructuredData 
-} from '../utils/seoHelpers';
+} from '../../utils/seoHelpers';
 
 // Mock blog data
 const blogPosts = [

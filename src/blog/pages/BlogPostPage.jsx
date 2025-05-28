@@ -1,8 +1,7 @@
 // src/blog/pages/BlogPostPage.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, CalendarIcon, Clock, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { 
@@ -12,7 +11,6 @@ import {
   BlogNewsletter
 } from '../components';
 import blogPosts from '../data/blogData';
-import { trackPageView, trackBlogEngagement } from '../../utils/analyticsUtils';
 
 /**
  * BlogPostPage component displays an individual blog post
@@ -33,18 +31,13 @@ const BlogPostPage = () => {
     if (foundPost) {
       setPost(foundPost);
       
-      // Track page view
-      trackPageView('blog_post_view', {
-        post_id: foundPost.id,
-        post_title: foundPost.title,
-        post_category: foundPost.category,
-        post_author: foundPost.author
-      });
-      
-      // Track engagement start
-      trackBlogEngagement('post_reading_started', {
-        post_id: foundPost.id
-      });
+      // Track page view if analytics are available
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'page_view', {
+          page_title: foundPost.title,
+          page_location: window.location.href
+        });
+      }
     } else {
       // Redirect to blog listing if post not found
       navigate('/blog', { replace: true });
@@ -69,59 +62,14 @@ const BlogPostPage = () => {
       );
       
       setReadingProgress(progress);
-      
-      // Track reading progress at specific milestones
-      const milestones = [25, 50, 75, 100];
-      const currentMilestone = milestones.find(
-        milestone => progress >= milestone && progress < milestone + 5
-      );
-      
-      if (currentMilestone) {
-        trackBlogEngagement('post_scroll_depth', {
-          post_id: post.id,
-          depth_percentage: currentMilestone
-        });
-      }
     };
     
     window.addEventListener('scroll', handleScroll);
     
-    // Track time spent reading
-    const startTime = Date.now();
-    let timeSpentTracked = false;
-    
-    const trackTimeSpent = () => {
-      if (timeSpentTracked) return;
-      
-      const timeSpentMs = Date.now() - startTime;
-      const timeSpentMinutes = Math.round(timeSpentMs / 1000 / 60);
-      
-      if (timeSpentMinutes >= 1) {
-        trackBlogEngagement('post_time_spent', {
-          post_id: post.id,
-          time_minutes: timeSpentMinutes
-        });
-        
-        timeSpentTracked = true;
-      }
-    };
-    
-    // Track time when leaving the page
-    window.addEventListener('beforeunload', trackTimeSpent);
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('beforeunload', trackTimeSpent);
-      trackTimeSpent(); // Track time when component unmounts
     };
   }, [post]);
-  
-  // Handle back to blog click
-  const handleBackClick = () => {
-    trackBlogEngagement('back_to_blog_click', {
-      post_id: post?.id
-    });
-  };
 
   if (isLoading) {
     return (
@@ -148,29 +96,6 @@ const BlogPostPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{post.title} | Praesidium Systems Blog</title>
-        <meta name="description" content={post.excerpt} />
-        <meta name="keywords" content={post.keywords} />
-        <link rel="canonical" href={`https://praesidiumsystems.ai/blog/${post.slug}`} />
-        
-        {/* Open Graph / Social Media Meta Tags */}
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={post.title} />
-        <meta property="og:description" content={post.excerpt} />
-        <meta property="og:url" content={`https://praesidiumsystems.ai/blog/${post.slug}`} />
-        <meta property="og:image" content={post.image.startsWith('http') ? post.image : `https://praesidiumsystems.ai${post.image}`} />
-        <meta property="article:published_time" content={new Date(post.date).toISOString()} />
-        <meta property="article:author" content={post.author} />
-        <meta property="article:section" content={post.category} />
-        
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.excerpt} />
-        <meta name="twitter:image" content={post.image.startsWith('http') ? post.image : `https://praesidiumsystems.ai${post.image}`} />
-      </Helmet>
-      
       <Header />
       
       {/* Reading Progress Bar */}
@@ -190,7 +115,6 @@ const BlogPostPage = () => {
           <Link 
             to="/blog"
             className="inline-flex items-center text-gray-600 hover:text-blue-600 transition-colors mb-8"
-            onClick={handleBackClick}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Blog
@@ -216,7 +140,7 @@ const BlogPostPage = () => {
           {/* Post Meta */}
           <div className="flex flex-wrap items-center gap-4 text-gray-600 mb-8">
             <div className="flex items-center">
-              <CalendarIcon className="h-4 w-4 mr-2" />
+              <Calendar className="h-4 w-4 mr-2" />
               <time dateTime={post.date}>{post.date}</time>
             </div>
             <div className="flex items-center">
@@ -262,7 +186,7 @@ const BlogPostPage = () => {
           <div className="mb-10">
             <h3 className="text-lg font-bold text-gray-900 mb-3">Tags</h3>
             <div className="flex flex-wrap gap-2">
-              {post.keywords.split(',').map((keyword, index) => (
+              {post.keywords && post.keywords.split(',').map((keyword, index) => (
                 <Link 
                   key={index}
                   to={`/blog?q=${encodeURIComponent(keyword.trim())}`}

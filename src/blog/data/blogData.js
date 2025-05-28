@@ -1,4 +1,5 @@
 // src/blog/data/blogData.js
+// Import all blog posts
 import post1 from './posts/eu-ai-act-compliance';
 import post2 from './posts/hallucination-detection';
 import post3 from './posts/ai-governance-framework';
@@ -44,22 +45,12 @@ export const authors = {
   "Arjav Desai": {
     role: "Co-Founder & CEO",
     bio: "AI governance expert with 10+ years of experience in regulatory compliance and risk management.",
-    photo: "/images/arjav.png"
+    photo: "/images/team/arjav.png"
   },
   "Samuel Heidler": {
     role: "Co-Founder & CTO",
     bio: "Machine learning engineer specializing in AI safety and testing methodologies for enterprise systems.",
-    photo: "/images/sam.png"
-  },
-  "Emily Rodriguez": {
-    role: "Head of Compliance",
-    bio: "Former regulatory advisor with expertise in global AI policy and financial compliance frameworks.",
-    photo: "/images/team/emily.png"
-  },
-  "Michael Chen": {
-    role: "Lead ML Engineer",
-    bio: "Specialized in building evaluation frameworks for LLMs with focus on hallucination detection and bias mitigation.",
-    photo: "/images/team/michael.png"
+    photo: "/images/team/sam.png"
   }
 };
 
