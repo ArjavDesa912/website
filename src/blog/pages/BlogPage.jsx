@@ -10,61 +10,16 @@ import {
   removeStructuredData 
 } from '../../utils/seoHelpers';
 
-// Mock blog data
-const blogPosts = [
-  {
-    id: 1,
-    title: "Understanding the EU AI Act: Implications for Enterprise AI Governance",
-    excerpt: "The EU AI Act represents one of the most comprehensive regulatory frameworks for artificial intelligence to date. In this article, we break down the key requirements and what they mean for your organization.",
-    author: "Arjav Desai",
-    date: "May 20, 2025",
-    category: "Regulation",
-    image: "/images/blog/eu-ai-act.jpg"
-  },
-  {
-    id: 2,
-    title: "Hallucination Detection in Large Language Models: Best Practices",
-    excerpt: "As LLMs become more prevalent in enterprise applications, detecting and preventing hallucinations is critical. Learn about the latest techniques for ensuring factual accuracy in your AI systems.",
-    author: "Samuel Heidler",
-    date: "May 15, 2025",
-    category: "Technical",
-    image: "/images/blog/hallucination-detection.jpg"
-  },
-  {
-    id: 3,
-    title: "Building a Robust AI Governance Framework for Financial Services",
-    excerpt: "Financial institutions face unique challenges when implementing AI systems. This guide outlines a step-by-step approach to establishing governance controls that satisfy regulatory requirements.",
-    author: "Arjav Desai",
-    date: "May 10, 2025",
-    category: "Industry",
-    image: "/images/blog/financial-governance.jpg"
-  },
-  {
-    id: 4,
-    title: "The Role of Documentation in Responsible AI Development",
-    excerpt: "Comprehensive documentation is a cornerstone of responsible AI. Discover how automated documentation can streamline compliance while improving transparency and accountability.",
-    author: "Samuel Heidler",
-    date: "May 5, 2025",
-    category: "Best Practices",
-    image: "/images/blog/ai-documentation.jpg"
-  },
-  {
-    id: 5,
-    title: "AI Compliance Testing: Moving Beyond Accuracy Metrics",
-    excerpt: "Traditional ML evaluation focuses heavily on accuracy, but compliance requires a broader approach. Learn how to implement testing protocols that address fairness, transparency, and explainability.",
-    author: "Arjav Desai",
-    date: "April 30, 2025",
-    category: "Technical",
-    image: "/images/blog/testing-metrics.jpg"
-  }
-];
-
-// Categories for filtering
-const categories = ["All", "Regulation", "Technical", "Industry", "Best Practices"];
+// Import blog data from the central data file
+import blogPosts from '../data/blogData';
+// Import categories from the central data file
+import { categories } from '../data/blogData';
 
 const BlogPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6; // Display 6 posts per page
   
   // Filter posts based on search term and category
   const filteredPosts = blogPosts.filter(post => {
@@ -73,6 +28,24 @@ const BlogPage = () => {
     const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+  
+  // Calculate pagination
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+  
+  // Handle page change
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedCategory]);
   
   // Handle contact button click (would typically open a contact popup)
   const handleContactClick = () => {
@@ -83,12 +56,15 @@ const BlogPage = () => {
   useEffect(() => {
     // Define meta tags
     const baseUrl = window.location.origin;
-    const canonicalUrl = `${baseUrl}/blog`;
+    const canonicalUrl = `${baseUrl}/blog${currentPage > 1 ? `?page=${currentPage}` : ''}`;
     
-    // Generate title based on selected category
+    // Generate title based on selected category and pagination
     let title = "AI Governance Insights";
     if (selectedCategory !== "All") {
       title = `${selectedCategory} Articles - AI Governance Insights`;
+    }
+    if (currentPage > 1) {
+      title = `${title} - Page ${currentPage}`;
     }
     
     // Generate description based on selected category
@@ -124,7 +100,7 @@ const BlogPage = () => {
       "headline": "Praesidium Systems AI Governance Blog",
       "description": "Expert perspectives on AI compliance, regulation, and governance best practices",
       "url": canonicalUrl,
-      "blogPost": filteredPosts.map(post => ({
+      "blogPost": currentPosts.map(post => ({
         "@type": "BlogPosting",
         "headline": post.title,
         "description": post.excerpt,
@@ -133,7 +109,7 @@ const BlogPage = () => {
           "@type": "Person",
           "name": post.author
         },
-        "url": `${baseUrl}/blog/${post.id}`
+        "url": `${baseUrl}/blog/${post.slug}`
       }))
     };
     
@@ -144,7 +120,7 @@ const BlogPage = () => {
       removeStructuredData('organization-schema');
       removeStructuredData('blog-listing-schema');
     };
-  }, [selectedCategory, filteredPosts]);
+  }, [selectedCategory, currentPosts, currentPage]);
   
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -195,10 +171,10 @@ const BlogPage = () => {
           <div className="max-w-5xl mx-auto">
             {filteredPosts.length > 0 ? (
               <div className="space-y-10" role="feed" aria-label="Blog posts">
-                {filteredPosts.map(post => (
+                {currentPosts.map(post => (
                   <article key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row">
                     <div className="md:w-1/3">
-                      <Link to={`/blog/${post.id}`}>
+                      <Link to={`/blog/${post.slug}`}>
                         <img 
                           src={post.image} 
                           alt={`${post.title} - Praesidium Systems Blog`}
@@ -221,7 +197,7 @@ const BlogPage = () => {
                       </div>
                       <h2 className="text-2xl font-bold text-gray-900 mb-2">
                         <Link 
-                          to={`/blog/${post.id}`}
+                          to={`/blog/${post.slug}`}
                           className="hover:text-blue-600 transition-colors"
                         >
                           {post.title}
@@ -239,7 +215,7 @@ const BlogPage = () => {
                         </span>
                       </div>
                       <Link 
-                        to={`/blog/${post.id}`}
+                        to={`/blog/${post.slug}`}
                         className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors"
                         aria-label={`Read full article: ${post.title}`}
                       >
@@ -254,6 +230,55 @@ const BlogPage = () => {
               <div className="text-center py-12">
                 <h3 className="text-xl font-medium text-gray-700 mb-2">No articles found</h3>
                 <p className="text-gray-500">Try adjusting your search or filter criteria</p>
+              </div>
+            )}
+            
+            {/* Pagination Controls */}
+            {filteredPosts.length > postsPerPage && (
+              <div className="mt-12 flex justify-center">
+                <nav className="flex items-center -space-x-px" aria-label="Pagination">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`px-3 py-2 rounded-l-lg border border-gray-300 ${
+                      currentPage === 1
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    }`}
+                    aria-label="Previous page"
+                  >
+                    &laquo; Previous
+                  </button>
+                  
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
+                    <button
+                      key={pageNumber}
+                      onClick={() => handlePageChange(pageNumber)}
+                      className={`px-4 py-2 border border-gray-300 ${
+                        currentPage === pageNumber
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-white text-gray-700 hover:bg-gray-50'
+                      }`}
+                      aria-current={currentPage === pageNumber ? 'page' : undefined}
+                      aria-label={`Page ${pageNumber}`}
+                    >
+                      {pageNumber}
+                    </button>
+                  ))}
+                  
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`px-3 py-2 rounded-r-lg border border-gray-300 ${
+                      currentPage === totalPages
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                    }`}
+                    aria-label="Next page"
+                  >
+                    Next &raquo;
+                  </button>
+                </nav>
               </div>
             )}
           </div>
