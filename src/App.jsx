@@ -1,3 +1,4 @@
+// src/App.jsx - Updated routing section
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -16,7 +17,7 @@ import {
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
-// Page components - Fixed import paths
+// Page components - Updated imports
 import ComplianceFrameworkPage from './pages/ComplianceFrameworkPage';
 import DocumentationGeneratorPage from './pages/DocumentationGeneratorPage';
 import ComplianceTestingPage from './pages/ComplianceTestingPage';
@@ -226,6 +227,7 @@ function App() {
             path="/" 
             element={<HomePage onContactClick={handleContactClick} onTeamClick={handleTeamClick} />} 
           />
+          {/* Product Pages - Updated routes */}
           <Route 
             path="/products/compliance-framework" 
             element={<ComplianceFrameworkPage />} 
@@ -238,6 +240,7 @@ function App() {
             path="/products/compliance-testing" 
             element={<ComplianceTestingPage />} 
           />
+          {/* Blog Pages */}
           <Route 
             path="/blog" 
             element={<BlogPage />} 
