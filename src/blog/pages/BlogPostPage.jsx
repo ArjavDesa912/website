@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, Tag, BookOpen, User, Mail, Twitter, Linkedin, Facebook, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Tag, User, } from 'lucide-react';
 // Removed unused 'Share2' import from line 3
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
