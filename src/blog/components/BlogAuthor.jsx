@@ -1,6 +1,6 @@
 // src/blog/components/BlogAuthor.jsx
 import React from 'react';
-import { Mail, User } from 'lucide-react';
+import { Mail } from 'lucide-react'; // Removed unused 'User' import
 import { authors } from '../data/blogData';
 
 /**

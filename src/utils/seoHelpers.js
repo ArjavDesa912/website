@@ -272,7 +272,7 @@ export const removeStructuredData = (id) => {
   }
 };
 
-export default {
+const seoHelpers = {
   updateMetaTags,
   updateOpenGraphTags,
   updateTwitterCardTags,
@@ -282,3 +282,5 @@ export default {
   addStructuredData,
   removeStructuredData
 };
+
+export default seoHelpers;

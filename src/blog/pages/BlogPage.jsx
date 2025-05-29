@@ -42,7 +42,7 @@ const BlogPage = () => {
   const featuredPost = blogPosts[0];
   
   // Get recent posts (excluding featured)
-  const recentPosts = blogPosts.slice(1, 4);
+  // const recentPosts = blogPosts.slice(1, 4);
   
   // Handle page change
   const handlePageChange = (pageNumber) => {

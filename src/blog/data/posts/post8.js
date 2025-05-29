@@ -5,7 +5,7 @@ const post = {
   title: "AI Governance in Financial Services: Navigating Regulatory Complexity",
   slug: "financial-ai-governance-regulatory-compliance",
   excerpt: "Financial institutions face unique AI governance challenges with multiple overlapping regulations. Learn how to build compliance frameworks that address fair lending, model risk management, and emerging AI requirements.",
-  author: "Sarah Johnson",
+  author: "Sam Heidler",
   date: "April 15, 2025",
   category: "Industry",
   image: "/images/blog/financial-ai-governance.jpg",

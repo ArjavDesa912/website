@@ -15,7 +15,6 @@ import {
   Layers,
   Star,
   Users,
-  Clock,
   Zap
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';

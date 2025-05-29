@@ -5,7 +5,7 @@ const post = {
   title: "AI Compliance Testing: Moving Beyond Accuracy Metrics",
   slug: "ai-testing-beyond-accuracy",
   excerpt: "Traditional ML evaluation focuses heavily on accuracy, but compliance requires a broader approach. Learn how to implement testing protocols that address fairness, transparency, and explainability.",
-  author: "Emily Rodriguez",
+  author: "Arjav Desai",
   date: "April 30, 2025",
   category: "Technical",
   image: "/images/blog/testing-metrics.jpg",

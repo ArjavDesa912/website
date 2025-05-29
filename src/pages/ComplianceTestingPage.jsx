@@ -15,7 +15,6 @@ import {
   BarChart2,
   Star,
   Users,
-  Clock,
   Target
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';

@@ -295,7 +295,7 @@ export const trackError = (error, location) => {
 };
 
 // Export all functions
-export default {
+const analyticsUtils = {
   initGA4,
   trackPageView,
   trackEvent,
@@ -316,3 +316,4 @@ export default {
   trackConversion,
   trackError
 };
+export default analyticsUtils;

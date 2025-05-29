@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, Tag, Share2, BookOpen, User, Mail, Twitter, Linkedin, Facebook, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Tag, BookOpen, User, Mail, Twitter, Linkedin, Facebook, Copy, Check } from 'lucide-react';
+// Removed unused 'Share2' import from line 3
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
@@ -24,7 +25,7 @@ const BlogPostPage = () => {
   const navigate = useNavigate();
   const [readingProgress, setReadingProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [copiedToClipboard, setCopiedToClipboard] = useState(false);
+  // Removed unused 'copiedToClipboard' and 'setCopiedToClipboard' state
   const [post, setPost] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
 
@@ -117,33 +118,7 @@ const BlogPostPage = () => {
     navigate('/blog');
   };
 
-  const handleShare = async (platform) => {
-    if (!post) return;
-    
-    const url = window.location.href;
-    const text = `${post.title} - ${post.excerpt}`;
-    
-    if (platform === 'copy') {
-      try {
-        await navigator.clipboard.writeText(url);
-        setCopiedToClipboard(true);
-        setTimeout(() => setCopiedToClipboard(false), 2000);
-      } catch (err) {
-        console.error('Failed to copy URL');
-      }
-      return;
-    }
-    
-    const shareUrls = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
-    };
-    
-    if (shareUrls[platform]) {
-      window.open(shareUrls[platform], '_blank', 'width=600,height=400');
-    }
-  };
+  // Removed the unused 'handleShare' function that was causing ESLint error
 
   // Show loading state or 404 if post not found
   if (!post) {

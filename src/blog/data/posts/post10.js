@@ -5,7 +5,7 @@ const post = {
   title: "Implementing Ethical AI Principles: From Theory to Practice",
   slug: "ethical-ai-principles-implementation",
   excerpt: "Ethical AI is more than a buzzword—it's a business imperative. Learn how to translate ethical principles into practical frameworks that guide AI development and deployment decisions.",
-  author: "David Park",
+  author: "Arjav Desai",
   date: "April 5, 2025",
   category: "Ethics",
   image: "/images/blog/ethical-ai-principles.jpg",

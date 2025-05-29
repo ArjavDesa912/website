@@ -5,7 +5,7 @@ const post = {
   title: "Global LLM Regulations: A Comparative Analysis of US, EU, and APAC Approaches",
   slug: "llm-regulations-comparison-global",
   excerpt: "Large Language Models face different regulatory landscapes across regions. This comprehensive analysis compares regulatory approaches in the US, EU, and Asia-Pacific, helping organizations navigate compliance requirements.",
-  author: "Emily Rodriguez",
+  author: "Sam Heidler",
   date: "April 25, 2025",
   category: "Regulation",
   image: "/images/blog/global-llm-regulations.jpg",

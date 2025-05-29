@@ -5,7 +5,7 @@ const post = {
   title: "Model Cards for AI Systems: A Complete Implementation Guide",
   slug: "model-cards-implementation-guide",
   excerpt: "Model cards have become essential for AI transparency and compliance. Learn how to create comprehensive model documentation that meets regulatory requirements while improving stakeholder trust.",
-  author: "Michael Chen",
+  author: "Arjav Desai",
   date: "April 20, 2025",
   category: "Documentation",
   image: "/images/blog/model-cards-guide.jpg",
