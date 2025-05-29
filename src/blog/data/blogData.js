@@ -44,7 +44,7 @@ export const categories = [
 export const authors = {
   "Arjav Desai": {
     role: "Co-Founder & CEO",
-    bio: "AI governance expert with 10+ years of experience in regulatory compliance and risk management.",
+    bio: "AI governance expert with experience in regulatory compliance and risk management.",
     photo: "/images/arjav.png"
   },
   "Samuel Heidler": {
