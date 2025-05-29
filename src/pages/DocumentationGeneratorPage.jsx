@@ -176,7 +176,7 @@ const DocumentationGeneratorPage = () => {
               <div className="lg:w-1/2">
                 <div className="relative">
                   <img 
-                    src="/images/products/documentation-generator-demo.png" 
+                    src="/images/documentation-demo.png" 
                     alt="ML/LLM Documentation Generator Dashboard Demo" 
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}

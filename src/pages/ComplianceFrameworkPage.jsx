@@ -153,7 +153,7 @@ const ComplianceFrameworkPage = () => {
               <div className="lg:w-1/2">
                 <div className="relative">
                   <img 
-                    src="/images/products/compliance-framework-demo.png" 
+                    src="/images/dashboard-demo.png" 
                     alt="AI Compliance Framework Dashboard Demo" 
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}

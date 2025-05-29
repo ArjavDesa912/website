@@ -45,12 +45,12 @@ export const authors = {
   "Arjav Desai": {
     role: "Co-Founder & CEO",
     bio: "AI governance expert with 10+ years of experience in regulatory compliance and risk management.",
-    photo: "/images/team/arjav.png"
+    photo: "/images/arjav.png"
   },
   "Samuel Heidler": {
     role: "Co-Founder & CTO",
     bio: "Machine learning engineer specializing in AI safety and testing methodologies for enterprise systems.",
-    photo: "/images/team/sam.png"
+    photo: "/images/sam.png"
   }
 };
 

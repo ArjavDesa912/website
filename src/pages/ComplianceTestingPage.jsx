@@ -180,7 +180,7 @@ const ComplianceTestingPage = () => {
               <div className="lg:w-1/2">
                 <div className="relative">
                   <img 
-                    src="/images/products/compliance-testing-demo.png" 
+                    src="/images/prompt-generator.png" 
                     alt="AI Compliance Testing System Dashboard Demo" 
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}
