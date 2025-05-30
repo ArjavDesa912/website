@@ -1,388 +1,465 @@
-// src/components/Header/Header.jsx
 import React, { useState, useEffect } from 'react';
-import { Menu, ChevronDown, Construction, X, ArrowRight } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { scrollToSection } from '../../utils/scrollUtils';
+import { Link, useLocation } from 'react-router-dom';
+import { 
+  Menu, 
+  X, 
+  ChevronDown, 
+  ArrowRight,
+  Shield,
+  Brain,
+  FileText,
+  MessageCircle,
+  TestTube,
+  BookOpen,
+  Users,
+  Phone
+} from 'lucide-react';
 
-// Animated logo component
-const AnimatedLogo = () => {
-  return (
-    <Link to="/" className="flex items-center gap-3 group">
-      <div className="relative">
-        {/* Glowing background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur-lg opacity-20 group-hover:opacity-40 transition-opacity duration-300" />
-        
-        {/* Logo container */}
-        <div className="relative bg-white/10 backdrop-blur-sm rounded-lg p-2 border border-white/20">
-          <img 
-            src="/images/praesidium-logo.png" 
-            alt="Praesidium Systems Logo" 
-            className="h-8 transition-transform duration-300 group-hover:scale-110"
-          />
-        </div>
-      </div>
+// Floating Navigation Component (Aceternity UI style)
+const FloatingNav = ({ navItems, onContactClick }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
       
-      <span className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-300">
-        Praesidium Systems
-      </span>
-    </Link>
-  );
-};
+      setIsScrolled(currentScrollY > 50);
+      
+      // Hide navbar when scrolling down, show when scrolling up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
 
-// Enhanced dropdown menu component
-const EnhancedDropdown = ({ isOpen, onMouseEnter, onMouseLeave }) => {
-  const products = [
-    {
-      title: "AI Compliance Testing & Framework",
-      description: "Complete testing and governance solution",
-      link: "/products/compliance-testing-framework",
-      gradient: "from-blue-500 to-blue-600"
-    },
-    {
-      title: "LLM Documentation Generator", 
-      description: "Automated AI documentation with LLM power",
-      link: "/products/llm-documentation-generator",
-      gradient: "from-green-500 to-green-600"
-    },
-    {
-      title: "AI Testing Prompt Generator",
-      description: "J1 reinforcement learning powered testing", 
-      link: "/products/ai-testing-prompt-generator",
-      gradient: "from-purple-500 to-purple-600"
-    },
-    {
-      title: "Enterprise AI Chatbot",
-      description: "Advanced chatbots for Law, Healthcare & Fintech",
-      link: "/products/enterprise-ai-chatbot", 
-      gradient: "from-indigo-500 to-indigo-600"
-    }
-  ];
-
-  if (!isOpen) return null;
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   return (
-    <div 
-      className="absolute top-full left-0 mt-2 w-96 opacity-0 animate-fadeIn"
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      style={{
-        animation: 'fadeIn 0.3s ease-out forwards'
-      }}
-    >
-      <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-2 overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 rounded-2xl" />
-        
-        <div className="relative z-10">
-          {products.map((product, index) => (
+    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+      <nav className={`px-6 py-3 backdrop-blur-lg border border-white/20 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/10 shadow-xl rounded-full' 
+          : 'bg-white/5 shadow-lg rounded-2xl'
+      }`}>
+        <div className="flex items-center space-x-6">
+          {navItems.map((item, index) => (
             <Link
               key={index}
-              to={product.link}
-              className="group block p-4 rounded-xl hover:bg-white/60 transition-all duration-300 transform hover:scale-[1.02]"
+              to={item.link}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                location.pathname === item.link
+                  ? 'bg-white/20 text-white shadow-lg'
+                  : 'text-white/80 hover:text-white hover:bg-white/10'
+              }`}
             >
-              <div className="flex items-start gap-3">
-                {/* Icon */}
-                <div className={`w-10 h-10 bg-gradient-to-r ${product.gradient} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-shadow`}>
-                  <div className="w-6 h-6 bg-white/20 rounded-sm" />
-                </div>
-                
-                {/* Content */}
-                <div className="flex-1">
-                  <div className="font-semibold text-slate-900 group-hover:text-blue-600 transition-colors text-sm">
-                    {product.title}
-                  </div>
-                  <div className="text-xs text-slate-600 mt-1">
-                    {product.description}
-                  </div>
-                </div>
-                
-                {/* Arrow */}
-                <ArrowRight className="h-4 w-4 text-slate-400 group-hover:text-blue-600 transition-all transform group-hover:translate-x-1 opacity-0 group-hover:opacity-100" />
-              </div>
+              {item.icon}
+              <span className="hidden md:inline">{item.name}</span>
             </Link>
           ))}
-          
-          <div className="border-t border-slate-200/50 mt-2 pt-2">
-            <button 
-              onClick={() => scrollToSection('products')}
-              className="w-full text-left p-3 rounded-lg hover:bg-blue-50/50 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
-            >
-              View All Products →
-            </button>
-          </div>
+          <button
+            onClick={onContactClick}
+            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-1"
+          >
+            <span>Contact</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
-      </div>
-      
-      <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      </nav>
     </div>
   );
 };
 
-// Enhanced mobile menu
-const EnhancedMobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
-  const [isProductsExpanded, setIsProductsExpanded] = useState(false);
+// Enhanced Desktop Navigation
+const DesktopNavigation = ({ isScrolled, onContactClick }) => {
+  const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
 
-  const handleNavClick = (id) => {
-    if (location.pathname !== '/') {
-      navigate('/#' + id);
-    } else {
-      onNavClick(id);
-    }
-    onClose();
+  const navigation = {
+    products: [
+      {
+        name: 'AI Compliance Testing',
+        description: 'Comprehensive testing framework for AI systems',
+        href: '/compliance-testing',
+        icon: TestTube,
+        color: 'from-blue-500 to-cyan-500'
+      },
+      {
+        name: 'LLM Documentation Generator',
+        description: 'Automated documentation for ML models',
+        href: '/documentation-generator',
+        icon: FileText,
+        color: 'from-purple-500 to-pink-500'
+      },
+      {
+        name: 'Enterprise AI Chatbot',
+        description: 'Industry-specific AI solutions',
+        href: '/enterprise-chatbot',
+        icon: MessageCircle,
+        color: 'from-green-500 to-emerald-500'
+      },
+      {
+        name: 'AI Testing Prompt Generator',
+        description: 'J1-powered testing automation',
+        href: '/prompt-generator',
+        icon: Brain,
+        color: 'from-orange-500 to-red-500'
+      }
+    ],
+    company: [
+      {
+        name: 'About Us',
+        description: 'Learn about our mission and team',
+        href: '/about',
+        icon: Users
+      },
+      {
+        name: 'Blog',
+        description: 'Latest insights on AI governance',
+        href: '/blog',
+        icon: BookOpen
+      },
+      {
+        name: 'Contact',
+        description: 'Get in touch with our team',
+        href: '/contact',
+        icon: Phone
+      }
+    ]
   };
-
-  const handleContactButtonClick = (e) => {
-    e.preventDefault();
-    onClose();
-    if (onContactClick) {
-      onContactClick();
-    } else {
-      onNavClick('contact');
-    }
-  };
-
-  const products = [
-    {
-      title: "AI Compliance Testing & Framework",
-      description: "Complete testing and governance solution", 
-      link: "/products/compliance-testing-framework"
-    },
-    {
-      title: "LLM Documentation Generator",
-      description: "Automated AI documentation with LLM power",
-      link: "/products/llm-documentation-generator"
-    },
-    {
-      title: "AI Testing Prompt Generator", 
-      description: "J1 reinforcement learning powered testing",
-      link: "/products/ai-testing-prompt-generator"
-    },
-    {
-      title: "Enterprise AI Chatbot",
-      description: "Advanced chatbots for Law, Healthcare & Fintech",
-      link: "/products/enterprise-ai-chatbot"
-    }
-  ];
-
-  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 md:hidden">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      
-      {/* Menu panel */}
-      <div className="relative h-full w-80 bg-white/90 backdrop-blur-xl shadow-2xl border-r border-white/20 transform transition-transform duration-300 ease-out">
-        {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-slate-200/50">
-          <AnimatedLogo />
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-lg transition-colors">
-            <X className="h-6 w-6 text-slate-600" />
-          </button>
-        </div>
+    <div className="hidden md:flex items-center space-x-8">
+      {/* Products Dropdown */}
+      <div
+        className="relative"
+        onMouseEnter={() => setActiveDropdown('products')}
+        onMouseLeave={() => setActiveDropdown(null)}
+      >
+        <button className="flex items-center space-x-1 text-white/90 hover:text-white transition-colors">
+          <span>Products</span>
+          <ChevronDown className="h-4 w-4" />
+        </button>
         
-        {/* Navigation */}
-        <nav className="flex flex-col p-6 space-y-2">
-          {/* Products section */}
-          <div className="border-b border-slate-200/50 pb-4 mb-4">
-            <button 
-              onClick={() => setIsProductsExpanded(!isProductsExpanded)}
-              className="flex items-center justify-between w-full text-left py-3 text-slate-700 hover:text-blue-600 transition-colors font-medium"
-            >
-              <span>Products</span>
-              <ChevronDown className={`h-5 w-5 transition-transform ${isProductsExpanded ? 'rotate-180' : ''}`} />
-            </button>
-            
-            {isProductsExpanded && (
-              <div className="pl-4 space-y-2 mt-2">
-                {products.map((product, index) => (
-                  <Link 
-                    key={index}
-                    to={product.link}
-                    className="block py-2 text-sm hover:text-blue-600 transition-colors"
-                    onClick={onClose}
-                  >
-                    <div className="font-medium">{product.title}</div>
-                    <div className="text-xs text-slate-500">{product.description}</div>
-                  </Link>
-                ))}
-              </div>
-            )}
+        {activeDropdown === 'products' && (
+          <div className="absolute top-full left-0 mt-2 w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 animate-in slide-in-from-top-2 duration-200">
+            <div className="grid grid-cols-1 gap-4">
+              {navigation.products.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="flex items-start space-x-4 p-3 rounded-xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group"
+                >
+                  <div className={`p-2 rounded-lg bg-gradient-to-r ${item.color} text-white group-hover:scale-110 transition-transform`}>
+                    <item.icon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <div className="font-semibold text-gray-900">{item.name}</div>
+                    <div className="text-sm text-gray-600">{item.description}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-6 pt-4 border-t border-gray-200">
+              <Link
+                to="/products"
+                className="flex items-center justify-between text-blue-600 hover:text-blue-700 font-medium"
+              >
+                View All Products
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
           </div>
-          
-          {/* Other nav items */}
-          {[
-            { label: 'Features', id: 'features' },
-            { label: 'How It Works', id: 'how-it-works' },
-            { label: 'Deployment', id: 'deployment' }
-          ].map((item) => (
-            <button 
-              key={item.id}
-              onClick={() => handleNavClick(item.id)} 
-              className="text-left py-3 text-slate-700 hover:text-blue-600 transition-colors font-medium border-b border-slate-200/30"
-            >
-              {item.label}
-            </button>
-          ))}
-          
-          <Link 
-            to="/blog"
-            className="text-slate-700 hover:text-blue-600 transition-colors py-3 font-medium border-b border-slate-200/30"
-            onClick={onClose}
-          >
-            Blog
-          </Link>
-          
-          {/* Contact button */}
-          <button 
-            onClick={handleContactButtonClick} 
-            className="mt-6 w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            Contact Us
-          </button>
-        </nav>
+        )}
       </div>
+
+      {/* Company Dropdown */}
+      <div
+        className="relative"
+        onMouseEnter={() => setActiveDropdown('company')}
+        onMouseLeave={() => setActiveDropdown(null)}
+      >
+        <button className="flex items-center space-x-1 text-white/90 hover:text-white transition-colors">
+          <span>Company</span>
+          <ChevronDown className="h-4 w-4" />
+        </button>
+        
+        {activeDropdown === 'company' && (
+          <div className="absolute top-full left-0 mt-2 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 animate-in slide-in-from-top-2 duration-200">
+            <div className="space-y-2">
+              {navigation.company.map((item) => (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group"
+                >
+                  <item.icon className="h-5 w-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{item.name}</div>
+                    <div className="text-sm text-gray-600">{item.description}</div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Direct Links */}
+      <Link
+        to="/blog"
+        className={`text-white/90 hover:text-white transition-colors ${
+          location.pathname === '/blog' ? 'text-white' : ''
+        }`}
+      >
+        Blog
+      </Link>
+
+      {/* Contact Button */}
+      <button
+        onClick={onContactClick}
+        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+      >
+        <span>Contact</span>
+        <ArrowRight className="h-4 w-4" />
+      </button>
     </div>
   );
 };
 
-// Main enhanced header component
-const Header = ({ onContactClick }) => {
-  const [isProductsDropdownOpen, setIsProductsDropdownOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+// Enhanced Mobile Navigation
+const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
+  const [expandedSection, setExpandedSection] = useState(null);
   const location = useLocation();
-  const navigate = useNavigate();
 
-  // Handle scroll effect
+  const navigation = {
+    products: [
+      { name: 'AI Compliance Testing', href: '/compliance-testing', icon: TestTube },
+      { name: 'LLM Documentation Generator', href: '/documentation-generator', icon: FileText },
+      { name: 'Enterprise AI Chatbot', href: '/enterprise-chatbot', icon: MessageCircle },
+      { name: 'AI Testing Prompt Generator', href: '/prompt-generator', icon: Brain }
+    ],
+    company: [
+      { name: 'About Us', href: '/about', icon: Users },
+      { name: 'Blog', href: '/blog', icon: BookOpen },
+      { name: 'Contact', href: '/contact', icon: Phone }
+    ]
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden p-2 text-white hover:text-blue-300 transition-colors"
+      >
+        {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 md:hidden">
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsOpen(false)}
+          />
+          
+          {/* Menu Panel */}
+          <div className="fixed top-0 right-0 h-full w-80 bg-white/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 overflow-y-auto">
+            <div className="p-6">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center space-x-2">
+                  <Shield className="h-8 w-8 text-blue-600" />
+                  <span className="text-xl font-bold text-gray-900">Praesidium</span>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 text-gray-600 hover:text-gray-900"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              {/* Navigation Items */}
+              <div className="space-y-6">
+                {/* Products Section */}
+                <div>
+                  <button
+                    onClick={() => setExpandedSection(expandedSection === 'products' ? null : 'products')}
+                    className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    <span>Products</span>
+                    <ChevronDown className={`h-5 w-5 transition-transform ${expandedSection === 'products' ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {expandedSection === 'products' && (
+                    <div className="mt-2 space-y-2 pl-4">
+                      {navigation.products.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                        >
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Company Section */}
+                <div>
+                  <button
+                    onClick={() => setExpandedSection(expandedSection === 'company' ? null : 'company')}
+                    className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  >
+                    <span>Company</span>
+                    <ChevronDown className={`h-5 w-5 transition-transform ${expandedSection === 'company' ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {expandedSection === 'company' && (
+                    <div className="mt-2 space-y-2 pl-4">
+                      {navigation.company.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                        >
+                          <item.icon className="h-5 w-5" />
+                          <span>{item.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Direct Links */}
+                <Link
+                  to="/blog"
+                  onClick={() => setIsOpen(false)}
+                  className={`block p-3 font-semibold transition-colors rounded-lg ${
+                    location.pathname === '/blog'
+                      ? 'text-blue-600 bg-blue-50'
+                      : 'text-gray-900 hover:bg-gray-50'
+                  }`}
+                >
+                  Blog
+                </Link>
+              </div>
+
+              {/* Contact Button */}
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <button
+                  onClick={() => {
+                    onContactClick();
+                    setIsOpen(false);
+                  }}
+                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300"
+                >
+                  <span>Contact Us</span>
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+// Main Enhanced Header Component
+const Header = ({ onContactClick, useFloatingNav = false }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (id) => {
-    if (location.pathname !== '/') {
-      navigate('/#' + id);
-    } else {
-      scrollToSection(id);
-    }
-  };
+  const navItems = [
+    {
+      name: "Home",
+      link: "/",
+      icon: <Shield className="h-4 w-4" />,
+    },
+    {
+      name: "Products",
+      link: "/products",
+      icon: <Brain className="h-4 w-4" />,
+    },
+    {
+      name: "Blog",
+      link: "/blog",
+      icon: <BookOpen className="h-4 w-4" />,
+    },
+  ];
 
-  const handleContactButtonClick = (e) => {
-    e.preventDefault();
-    if (onContactClick) {
-      onContactClick();
-    } else {
-      handleNavClick('contact');
-    }
-  };
+  // Use floating navigation for specific pages or when requested
+  if (useFloatingNav) {
+    return <FloatingNav navItems={navItems} onContactClick={onContactClick} />;
+  }
 
   return (
-    <>
-      {/* Construction Banner */}
-      <div className="bg-gradient-to-r from-yellow-400 to-orange-400 text-slate-900 py-2 px-4 text-center text-sm font-medium relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/10"></div>
-        <div className="relative flex items-center justify-center gap-2">
-          <Construction className="h-4 w-4" />
-          <span>Website Under Construction - Some features may not be fully functional</span>
-        </div>
-      </div>
-
-      {/* Main Header */}
-      <header 
-        className={`fixed w-full z-40 transition-all duration-300 ${
-          isScrolled 
-            ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-white/20' 
-            : 'bg-white/60 backdrop-blur-sm'
-        }`}
-        style={{ top: '36px' }}
-      >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <AnimatedLogo />
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {/* Products Dropdown */}
-            <div className="relative">
-              <button 
-                onMouseEnter={() => setIsProductsDropdownOpen(true)}
-                onMouseLeave={() => setIsProductsDropdownOpen(false)}
-                className="flex items-center text-slate-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                Products
-                <ChevronDown className={`h-4 w-4 ml-1 transition-transform ${isProductsDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
-              
-              <EnhancedDropdown 
-                isOpen={isProductsDropdownOpen}
-                onMouseEnter={() => setIsProductsDropdownOpen(true)}
-                onMouseLeave={() => setIsProductsDropdownOpen(false)}
-              />
+    <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/10 backdrop-blur-xl shadow-2xl' 
+        : 'bg-transparent'
+    }`}>
+      <nav className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 group">
+            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
+              <Shield className="h-6 w-6 text-white" />
             </div>
-            
-            {/* Other nav items */}
-            {[
-              { label: 'Features', id: 'features' },
-              { label: 'How It Works', id: 'how-it-works' },
-              { label: 'Deployment', id: 'deployment' }
-            ].map((item) => (
-              <button 
-                key={item.id}
-                onClick={() => handleNavClick(item.id)} 
-                className="text-slate-700 hover:text-blue-600 transition-colors font-medium"
-              >
-                {item.label}
-              </button>
-            ))}
-            
-            <Link 
-              to="/blog"
-              className="text-slate-700 hover:text-blue-600 transition-colors font-medium"
-            >
-              Blog
-            </Link>
-            
-            {/* Contact button */}
-            <button 
-              onClick={handleContactButtonClick} 
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              Contact Us
-            </button>
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setIsMobileMenuOpen(true)} 
-            className="md:hidden p-2 text-slate-700 hover:text-blue-600 transition-colors"
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-        </div>
-      </header>
+            <span className="text-xl font-bold text-white">Praesidium Systems</span>
+          </Link>
 
-      {/* Mobile Menu */}
-      <EnhancedMobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onClose={() => setIsMobileMenuOpen(false)} 
-        onNavClick={handleNavClick}
-        onContactClick={onContactClick}
-      />
-    </>
+          {/* Desktop Navigation */}
+          <DesktopNavigation 
+            isScrolled={isScrolled} 
+            onContactClick={onContactClick} 
+          />
+
+          {/* Mobile Navigation */}
+          <MobileNavigation 
+            isOpen={mobileMenuOpen}
+            setIsOpen={setMobileMenuOpen}
+            onContactClick={onContactClick}
+          />
+        </div>
+      </nav>
+    </header>
   );
 };
 
