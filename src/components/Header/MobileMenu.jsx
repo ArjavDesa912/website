@@ -46,7 +46,7 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
           </button>
         </div>
         <nav className="flex flex-col gap-4">
-          {/* Products Expandable Section */}
+          {/* Products Expandable Section - UPDATED WITH NEW ROUTES */}
           <div className="border-b border-gray-100">
             <button 
               onClick={() => setIsProductsExpanded(!isProductsExpanded)}
@@ -61,34 +61,39 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
             </button>
             
             {isProductsExpanded && (
-              <div className="pl-4 pb-2">
+              <div className="pl-4 pb-2 space-y-1">
                 <Link 
-                  to="/products/compliance-framework"
-                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  to="/products/compliance-testing-framework"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
                   onClick={onClose}
                 >
-                  AI Compliance Framework
+                  <div className="font-medium text-sm">AI Compliance Testing & Framework</div>
+                  <div className="text-xs text-gray-500">Complete testing and governance solution</div>
                 </Link>
                 <Link 
-                  to="/products/documentation-generator"
-                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  to="/products/llm-documentation-generator"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
                   onClick={onClose}
                 >
-                  ML/LLM Documentation Generator
+                  <div className="font-medium text-sm">LLM Documentation Generator</div>
+                  <div className="text-xs text-gray-500">Automated AI documentation with LLM power</div>
                 </Link>
                 <Link 
-                  to="/products/compliance-testing"
-                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  to="/products/ai-testing-prompt-generator"
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
                   onClick={onClose}
                 >
-                  AI Compliance Testing System
+                  <div className="font-medium text-sm">AI Testing Prompt Generator</div>
+                  <div className="text-xs text-gray-500">J1 reinforcement learning powered testing</div>
                 </Link>
-                <button 
-                  onClick={() => handleNavClick('products')}
-                  className="block py-2 text-gray-700 hover:text-blue-600"
-                >
-                  View All Products
-                </button>
+                <div className="border-t border-gray-100 mt-2 pt-2">
+                  <button 
+                    onClick={() => handleNavClick('products')}
+                    className="block py-2 text-gray-700 hover:text-blue-600 text-sm"
+                  >
+                    View All Products
+                  </button>
+                </div>
               </div>
             )}
           </div>

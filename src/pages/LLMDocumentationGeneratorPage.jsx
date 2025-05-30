@@ -252,7 +252,7 @@ const LLMDocumentationGeneratorPage = () => {
               <div className="lg:w-1/2">
                 <div className="relative">
                   <img 
-                    src="/images/documentation-generator-demo.png" 
+                    src="/images/documentation-demo.png" 
                     alt="LLM Documentation Generator Dashboard Demo" 
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}

@@ -1,4 +1,4 @@
-// src/App.jsx - Updated routing section
+// src/App.jsx - Updated with new product pages
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -17,10 +17,12 @@ import {
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
-// Page components - Updated imports
-import ComplianceFrameworkPage from './pages/ComplianceFrameworkPage';
-import DocumentationGeneratorPage from './pages/DocumentationGeneratorPage';
-import ComplianceTestingPage from './pages/ComplianceTestingPage';
+// Updated page components - NEW PRODUCT PAGES
+import ComplianceTestingFrameworkPage from './pages/ComplianceTestingFrameworkPage';
+import LLMDocumentationGeneratorPage from './pages/LLMDocumentationGeneratorPage';
+import AITestingPromptGeneratorPage from './pages/AITestingPromptGeneratorPage';
+
+// Blog components
 import BlogPage from './blog/pages/BlogPage';
 import BlogPostPage from './blog/pages/BlogPostPage';
 
@@ -48,8 +50,8 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
     // Update meta tags
     updateMetaTags({
       title: 'AI Governance Suite',
-      description: 'Praesidium Systems provides comprehensive governance for ML and LLM models. Our platform helps organizations monitor, audit, and ensure regulatory compliance for AI models.',
-      keywords: 'AI governance, compliance platform, ML monitoring, LLM compliance, AI risk management, AI documentation, regulatory compliance',
+      description: 'Praesidium Systems provides comprehensive AI governance, compliance testing, and documentation generation for ML and LLM models. Ensure regulatory compliance with automated monitoring and testing.',
+      keywords: 'AI governance, compliance platform, ML monitoring, LLM compliance, AI risk management, AI documentation, regulatory compliance, AI testing',
       canonical: baseUrl,
       type: 'website'
     });
@@ -227,19 +229,35 @@ function App() {
             path="/" 
             element={<HomePage onContactClick={handleContactClick} onTeamClick={handleTeamClick} />} 
           />
-          {/* Product Pages - Updated routes */}
+          
+          {/* Updated Product Pages - NEW ROUTES */}
+          <Route 
+            path="/products/compliance-testing-framework" 
+            element={<ComplianceTestingFrameworkPage />} 
+          />
+          <Route 
+            path="/products/llm-documentation-generator" 
+            element={<LLMDocumentationGeneratorPage />} 
+          />
+          <Route 
+            path="/products/ai-testing-prompt-generator" 
+            element={<AITestingPromptGeneratorPage />} 
+          />
+          
+          {/* Legacy redirects for old product routes */}
           <Route 
             path="/products/compliance-framework" 
-            element={<ComplianceFrameworkPage />} 
+            element={<Navigate to="/products/compliance-testing-framework" replace />} 
           />
           <Route 
             path="/products/documentation-generator" 
-            element={<DocumentationGeneratorPage />} 
+            element={<Navigate to="/products/llm-documentation-generator" replace />} 
           />
           <Route 
             path="/products/compliance-testing" 
-            element={<ComplianceTestingPage />} 
+            element={<Navigate to="/products/compliance-testing-framework" replace />} 
           />
+          
           {/* Blog Pages */}
           <Route 
             path="/blog" 
@@ -249,6 +267,7 @@ function App() {
             path="/blog/:slug" 
             element={<BlogPostPage />} 
           />
+          
           {/* Redirect unknown routes to home */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

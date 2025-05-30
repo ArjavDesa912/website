@@ -67,30 +67,33 @@ const Header = ({ onContactClick }) => {
                 <ChevronDown className="h-4 w-4 ml-1" />
               </button>
               
-              {/* Products Dropdown Menu */}
+              {/* Products Dropdown Menu - UPDATED WITH NEW ROUTES */}
               {isProductsDropdownOpen && (
                 <div 
-                  className="absolute top-full left-0 mt-1 w-72 bg-white rounded-lg shadow-lg py-2 z-50"
+                  className="absolute top-full left-0 mt-1 w-80 bg-white rounded-lg shadow-lg py-2 z-50"
                   onMouseEnter={() => setIsProductsDropdownOpen(true)}
                   onMouseLeave={() => setIsProductsDropdownOpen(false)}
                 >
                   <Link 
-                    to="/products/compliance-framework"
-                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    to="/products/compliance-testing-framework"
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                   >
-                    AI Compliance Framework
+                    <div className="font-medium">AI Compliance Testing & Framework</div>
+                    <div className="text-sm text-gray-500">Complete testing and governance solution</div>
                   </Link>
                   <Link 
-                    to="/products/documentation-generator"
-                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    to="/products/llm-documentation-generator"
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                   >
-                    ML/LLM Documentation Generator
+                    <div className="font-medium">LLM Documentation Generator</div>
+                    <div className="text-sm text-gray-500">Automated AI documentation with LLM power</div>
                   </Link>
                   <Link 
-                    to="/products/compliance-testing"
-                    className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    to="/products/ai-testing-prompt-generator"
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                   >
-                    AI Compliance Testing System
+                    <div className="font-medium">AI Testing Prompt Generator</div>
+                    <div className="text-sm text-gray-500">J1 reinforcement learning powered testing</div>
                   </Link>
                   <div className="border-t border-gray-100 my-1"></div>
                   <button 

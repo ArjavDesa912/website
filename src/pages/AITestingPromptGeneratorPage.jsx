@@ -284,7 +284,7 @@ const AITestingPromptGeneratorPage = () => {
               <div className="lg:w-1/2">
                 <div className="relative">
                   <img 
-                    src="/images/j1-prompt-generator.png" 
+                    src="/images/prompt-generator.png" 
                     alt="AI Testing Prompt Generator - J1 Powered Dashboard" 
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}

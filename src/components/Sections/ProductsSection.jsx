@@ -1,30 +1,31 @@
-// src/components/Sections/ProductsSection.jsx
+// src/components/Sections/ProductsSection.jsx - Updated with new product routes
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Code, FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug, ArrowRight } from 'lucide-react';
 import * as analytics from '../../utils/analyticsUtils';
 
 const ProductsSection = ({ onProductClick }) => {
+  // UPDATED PRODUCTS ARRAY WITH NEW ROUTES AND DESCRIPTIONS
   const products = [
     {
-      icon: Code,
-      title: "AI Compliance Framework",
-      description: "Codifies regulatory requirements (GDPR, EU AI Act, etc.) into automated policy controls. Features customizable compliance templates, real-time monitoring of model outputs, audit trails, risk scoring, and automated alerts for policy violations.",
-      link: "/products/compliance-framework",
+      icon: Shield,
+      title: "AI Compliance Testing & Framework",
+      description: "Complete platform combining advanced compliance testing with automated governance framework. Ensure your AI systems meet regulatory requirements while maintaining the highest standards of fairness, security, and reliability.",
+      link: "/products/compliance-testing-framework",
       color: "blue"
     },
     {
       icon: FileText,
-      title: "ML/LLM Documentation Generator",
-      description: "Automatically generates detailed documentation (e.g. model cards, audit reports) for AI/ML projects using LLMs. Includes template-driven document synthesis from code and metadata, version control integration, and multi-format export (PDF, HTML).",
-      link: "/products/documentation-generator",
+      title: "LLM Documentation Generator",
+      description: "Transform hours of manual documentation work into minutes of automated generation. Our LLM-powered system creates comprehensive AI documentation that meets regulatory standards while keeping pace with your development cycle.",
+      link: "/products/llm-documentation-generator",
       color: "green"
     },
     {
       icon: TestTube,
-      title: "AI Compliance Testing System",
-      description: "Automates comprehensive testing of AI models to ensure accuracy, fairness, and security. Features functional testing, bias and fairness assessment, security vulnerability scans, and CI/CD integration for continuous validation.",
-      link: "/products/compliance-testing",
+      title: "AI Testing Prompt Generator",
+      description: "Revolutionary AI compliance testing platform powered by cutting-edge J1 'Thinking-LLM-as-a-Judge' model with Group Relative Policy Optimization (GRPO). Generate intelligent test prompts and validate compliance automatically.",
+      link: "/products/ai-testing-prompt-generator",
       color: "purple"
     }
   ];

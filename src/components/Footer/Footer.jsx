@@ -40,28 +40,29 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Products</h3>
             <ul className="space-y-2">
+              {/* UPDATED PRODUCT LINKS */}
               <li>
                 <Link 
-                  to="/products/compliance-framework" 
+                  to="/products/compliance-testing-framework" 
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  AI Compliance Framework
+                  AI Compliance Testing & Framework
                 </Link>
               </li>
               <li>
                 <Link 
-                  to="/products/documentation-generator" 
+                  to="/products/llm-documentation-generator" 
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Documentation Generator
+                  LLM Documentation Generator
                 </Link>
               </li>
               <li>
                 <Link 
-                  to="/products/compliance-testing" 
+                  to="/products/ai-testing-prompt-generator" 
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Compliance Testing
+                  AI Testing Prompt Generator
                 </Link>
               </li>
               <li>
