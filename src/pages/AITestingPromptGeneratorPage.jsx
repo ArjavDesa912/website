@@ -7,23 +7,18 @@ import {
   ArrowRight, 
   CheckCircle, 
   ChevronRight,
-  Bot, 
   Brain, 
   Zap, 
   FileText, 
   TestTube, 
   Target,
   Star,
-  Users,
   Clock,
   Code,
   Download,
   GitMerge,
   BarChart3,
-  Shield,
-  AlertTriangle,
   Repeat,
-  Layers,
   Settings
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';

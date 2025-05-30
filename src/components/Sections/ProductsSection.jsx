@@ -1,7 +1,7 @@
 // src/components/Sections/ProductsSection.jsx - Updated with new product routes
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Code, FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug, ArrowRight } from 'lucide-react';
+import {FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug, ArrowRight } from 'lucide-react';
 import * as analytics from '../../utils/analyticsUtils';
 
 const ProductsSection = ({ onProductClick }) => {

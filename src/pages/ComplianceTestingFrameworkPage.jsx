@@ -15,7 +15,6 @@ import {
   AlertTriangle, 
   FileCheck, 
   Gauge, 
-  Workflow,
   Repeat,
   GitMerge,
   BarChart2,

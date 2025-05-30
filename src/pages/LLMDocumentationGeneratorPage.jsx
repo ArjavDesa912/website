@@ -16,7 +16,6 @@ import {
   Star,
   Users,
   Zap,
-  Clock,
   Code,
   Settings,
   Target,
