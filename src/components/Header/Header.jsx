@@ -95,6 +95,13 @@ const Header = ({ onContactClick }) => {
                     <div className="font-medium">AI Testing Prompt Generator</div>
                     <div className="text-sm text-gray-500">J1 reinforcement learning powered testing</div>
                   </Link>
+                  <Link 
+                    to="/products/enterprise-ai-chatbot"
+                    className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    <div className="font-medium">Enterprise AI Chatbot</div>
+                    <div className="text-sm text-gray-500">Advanced chatbots for Law, Healthcare & Fintech</div>
+                  </Link>
                   <div className="border-t border-gray-100 my-1"></div>
                   <button 
                     onClick={() => {

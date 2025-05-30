@@ -21,7 +21,7 @@ import ContactPopup from './components/ContactPopup';
 import ComplianceTestingFrameworkPage from './pages/ComplianceTestingFrameworkPage';
 import LLMDocumentationGeneratorPage from './pages/LLMDocumentationGeneratorPage';
 import AITestingPromptGeneratorPage from './pages/AITestingPromptGeneratorPage';
-
+import EnterpriseAIChatbotPage from './pages/EnterpriseAIChatbotPage';
 // Blog components
 import BlogPage from './blog/pages/BlogPage';
 import BlogPostPage from './blog/pages/BlogPostPage';
@@ -244,20 +244,11 @@ function App() {
             element={<AITestingPromptGeneratorPage />} 
           />
           
-          {/* Legacy redirects for old product routes */}
           <Route 
-            path="/products/compliance-framework" 
-            element={<Navigate to="/products/compliance-testing-framework" replace />} 
+            path="/products/enterprise-ai-chatbot" 
+            element={<EnterpriseAIChatbotPage />} 
           />
-          <Route 
-            path="/products/documentation-generator" 
-            element={<Navigate to="/products/llm-documentation-generator" replace />} 
-          />
-          <Route 
-            path="/products/compliance-testing" 
-            element={<Navigate to="/products/compliance-testing-framework" replace />} 
-          />
-          
+                    
           {/* Blog Pages */}
           <Route 
             path="/blog" 

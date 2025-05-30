@@ -1,7 +1,7 @@
 // src/components/Sections/ProductsSection.jsx - Updated with new product routes
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug, ArrowRight } from 'lucide-react';
+import {FileText, TestTube, Shield, RefreshCw, Settings, Bot, Plug, ArrowRight,MessageCircle } from 'lucide-react';
 import * as analytics from '../../utils/analyticsUtils';
 
 const ProductsSection = ({ onProductClick }) => {
@@ -26,6 +26,13 @@ const ProductsSection = ({ onProductClick }) => {
       title: "AI Testing Prompt Generator",
       description: "Revolutionary AI compliance testing platform powered by cutting-edge J1 'Thinking-LLM-as-a-Judge' model with Group Relative Policy Optimization (GRPO). Generate intelligent test prompts and validate compliance automatically.",
       link: "/products/ai-testing-prompt-generator",
+      color: "purple"
+    },
+    {
+      icon: MessageCircle,
+      title: "Enterprise AI Chatbot",
+      description: "Advanced AI chatbots for enterprise clients in Legal, Healthcare, and Fintech. Powered by latest open-source models with enterprise security and compliance.",
+      link: "/products/enterprise-ai-chatbot",
       color: "purple"
     }
   ];
