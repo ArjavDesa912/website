@@ -436,7 +436,7 @@ const EnterpriseAIChatbotPage = () => {
                 <div className="text-center mb-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-4">Enterprise AI Chatbot Solution</h3>
                   <div className="flex items-center justify-center gap-2">
-                    <span className="text-5xl font-bold text-purple-600">$1,500</span>
+                    <span className="text-5xl font-bold text-purple-600">$5,500</span>
                     <span className="text-xl text-gray-600">/month</span>
                   </div>
                   <p className="text-gray-600 mt-2">30-day free trial • No setup fees • Cancel anytime</p>
