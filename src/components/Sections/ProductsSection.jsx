@@ -1,5 +1,5 @@
 // src/components/Sections/EnhancedProductsSection.jsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react'; // Add useRef to imports
 import { Link } from 'react-router-dom';
 import { FileText, TestTube, Shield, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
 import * as analytics from '../../utils/analyticsUtils';
