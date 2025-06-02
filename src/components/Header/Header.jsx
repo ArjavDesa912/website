@@ -1,4 +1,4 @@
-// src/components/Header/Header.jsx - Fixed visibility and spacing issues
+// src/components/Header/Header.jsx - Clean, Modern Header
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -16,71 +16,10 @@ import {
   Phone
 } from 'lucide-react';
 
-// Floating Navigation Component (Aceternity UI style)
-const FloatingNav = ({ navItems, onContactClick }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      setIsScrolled(currentScrollY > 50);
-      
-      // Hide navbar when scrolling down, show when scrolling up
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  return (
-    <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-      <nav className={`px-6 py-3 backdrop-blur-lg border border-white/20 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/10 shadow-xl rounded-full' 
-          : 'bg-white/5 shadow-lg rounded-2xl'
-      }`}>
-        <div className="flex items-center space-x-6">
-          {navItems.map((item, index) => (
-            <Link
-              key={index}
-              to={item.link}
-              className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                location.pathname === item.link
-                  ? 'bg-white/20 text-white shadow-lg'
-                  : 'text-white/80 hover:text-white hover:bg-white/10'
-              }`}
-            >
-              {item.icon}
-              <span className="hidden md:inline">{item.name}</span>
-            </Link>
-          ))}
-          <button
-            onClick={onContactClick}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-1"
-          >
-            <span>Contact</span>
-            <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-      </nav>
-    </div>
-  );
-};
-
-// Enhanced Desktop Navigation
-const DesktopNavigation = ({ isScrolled, onContactClick }) => {
+// Enhanced Desktop Navigation with stable dropdowns
+const DesktopNavigation = ({ onContactClick }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [hoverTimeout, setHoverTimeout] = useState(null);
   const location = useLocation();
 
   const navigation = {
@@ -90,28 +29,24 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
         description: 'Comprehensive testing framework for AI systems',
         href: '/products/compliance-testing-framework',
         icon: TestTube,
-        color: 'from-blue-500 to-cyan-500'
       },
       {
         name: 'LLM Documentation Generator',
         description: 'Automated documentation for ML models',
         href: '/products/llm-documentation-generator',
         icon: FileText,
-        color: 'from-purple-500 to-pink-500'
       },
       {
         name: 'Enterprise AI Chatbot',
         description: 'Industry-specific AI solutions',
         href: '/products/enterprise-ai-chatbot',
         icon: MessageCircle,
-        color: 'from-green-500 to-emerald-500'
       },
       {
         name: 'AI Testing Prompt Generator',
         description: 'J1-powered testing automation',
         href: '/products/ai-testing-prompt-generator',
         icon: Brain,
-        color: 'from-orange-500 to-red-500'
       }
     ],
     company: [
@@ -136,42 +71,73 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
     ]
   };
 
+  const handleMouseEnter = (dropdown) => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+    setActiveDropdown(dropdown);
+  };
+
+  const handleMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150); // 150ms delay before closing
+    setHoverTimeout(timeout);
+  };
+
+  const handleDropdownEnter = () => {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout);
+      setHoverTimeout(null);
+    }
+  };
+
   return (
-    <div className="hidden lg:flex items-center justify-between w-full max-w-6xl">
+    <div className="hidden lg:flex items-center space-x-8">
       {/* Products Dropdown */}
       <div
-        className="relative"
-        onMouseEnter={() => setActiveDropdown('products')}
-        onMouseLeave={() => setActiveDropdown(null)}
+        className="relative group"
+        onMouseEnter={() => handleMouseEnter('products')}
+        onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium py-4 px-2">
           <span>Products</span>
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${activeDropdown === 'products' ? 'rotate-180' : ''}`} />
         </button>
         
+        {/* Invisible bridge to prevent gap issues */}
+        <div className="absolute top-full left-0 w-full h-2 bg-transparent"></div>
+        
         {activeDropdown === 'products' && (
-          <div className="absolute top-full left-0 mt-2 w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in slide-in-from-top-2 duration-200">
-            <div className="grid grid-cols-1 gap-4">
+          <div 
+            className="absolute top-full left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-50"
+            onMouseEnter={handleDropdownEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="space-y-1">
               {navigation.products.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="flex items-start space-x-4 p-3 rounded-xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group"
+                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
+                  onClick={() => setActiveDropdown(null)}
                 >
-                  <div className={`p-2 rounded-lg bg-gradient-to-r ${item.color} text-white group-hover:scale-110 transition-transform`}>
-                    <item.icon className="h-5 w-5" />
+                  <div className="p-2 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors duration-200">
+                    <item.icon className="h-4 w-4" />
                   </div>
-                  <div>
-                    <div className="font-semibold text-gray-900">{item.name}</div>
-                    <div className="text-sm text-gray-600">{item.description}</div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-gray-900 text-sm">{item.name}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{item.description}</div>
                   </div>
                 </Link>
               ))}
             </div>
-            <div className="mt-6 pt-4 border-t border-gray-200">
+            <div className="mt-4 pt-3 border-t border-gray-100">
               <Link
                 to="/products"
-                className="flex items-center justify-between text-blue-600 hover:text-blue-700 font-medium"
+                className="flex items-center justify-between text-blue-600 hover:text-blue-700 font-medium text-sm"
+                onClick={() => setActiveDropdown(null)}
               >
                 View All Products
                 <ArrowRight className="h-4 w-4" />
@@ -183,28 +149,36 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
 
       {/* Company Dropdown */}
       <div
-        className="relative"
-        onMouseEnter={() => setActiveDropdown('company')}
-        onMouseLeave={() => setActiveDropdown(null)}
+        className="relative group"
+        onMouseEnter={() => handleMouseEnter('company')}
+        onMouseLeave={handleMouseLeave}
       >
-        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium py-4 px-2">
           <span>Company</span>
-          <ChevronDown className="h-4 w-4" />
+          <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${activeDropdown === 'company' ? 'rotate-180' : ''}`} />
         </button>
         
+        {/* Invisible bridge to prevent gap issues */}
+        <div className="absolute top-full left-0 w-full h-2 bg-transparent"></div>
+        
         {activeDropdown === 'company' && (
-          <div className="absolute top-full left-0 mt-2 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in slide-in-from-top-2 duration-200">
-            <div className="space-y-2">
+          <div 
+            className="absolute top-full left-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 p-4 z-50"
+            onMouseEnter={handleDropdownEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="space-y-1">
               {navigation.company.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 transition-all duration-300 group"
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                  onClick={() => setActiveDropdown(null)}
                 >
-                  <item.icon className="h-5 w-5 text-gray-600 group-hover:text-blue-600 transition-colors" />
+                  <item.icon className="h-4 w-4 text-gray-600" />
                   <div>
-                    <div className="font-semibold text-gray-900">{item.name}</div>
-                    <div className="text-sm text-gray-600">{item.description}</div>
+                    <div className="font-semibold text-gray-900 text-sm">{item.name}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{item.description}</div>
                   </div>
                 </Link>
               ))}
@@ -213,10 +187,10 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
         )}
       </div>
 
-      {/* Direct Links */}
+      {/* Blog Link */}
       <Link
         to="/blog"
-        className={`text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2 ${
+        className={`text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium py-2 ${
           location.pathname === '/blog' ? 'text-blue-600' : ''
         }`}
       >
@@ -226,7 +200,7 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
       {/* Contact Button */}
       <button
         onClick={onContactClick}
-        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full font-medium hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+        className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-200 flex items-center space-x-2 shadow-sm hover:shadow-md"
       >
         <span>Contact</span>
         <ArrowRight className="h-4 w-4" />
@@ -235,7 +209,7 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
   );
 };
 
-// Enhanced Mobile Navigation
+// Clean Mobile Navigation
 const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
   const [expandedSection, setExpandedSection] = useState(null);
   const location = useLocation();
@@ -271,7 +245,8 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"
+        className="lg:hidden p-2 text-gray-700 hover:text-blue-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+        aria-label="Toggle menu"
       >
         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
@@ -281,29 +256,31 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
         <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm"
             onClick={() => setIsOpen(false)}
           />
           
           {/* Menu Panel */}
-          <div className="fixed top-0 right-0 h-full w-80 bg-white/95 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 overflow-y-auto">
+          <div className="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl overflow-y-auto">
             <div className="p-6">
               {/* Header */}
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center space-x-2">
-                  <Shield className="h-8 w-8 text-blue-600" />
-                  <span className="text-xl font-bold text-gray-900">Praesidium</span>
+                  <div className="p-1.5 bg-blue-600 rounded-lg">
+                    <Shield className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="text-lg font-bold text-gray-900">Praesidium</span>
                 </div>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="p-2 text-gray-600 hover:text-gray-900"
+                  className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 >
-                  <X className="h-6 w-6" />
+                  <X className="h-5 w-5" />
                 </button>
               </div>
 
               {/* Navigation Items */}
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {/* Products Section */}
                 <div>
                   <button
@@ -311,20 +288,20 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                     className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <span>Products</span>
-                    <ChevronDown className={`h-5 w-5 transition-transform ${expandedSection === 'products' ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'products' ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {expandedSection === 'products' && (
-                    <div className="mt-2 space-y-2 pl-4">
+                    <div className="mt-2 space-y-1 pl-3">
                       {navigation.products.map((item) => (
                         <Link
                           key={item.name}
                           to={item.href}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
-                          <item.icon className="h-5 w-5" />
-                          <span>{item.name}</span>
+                          <item.icon className="h-4 w-4" />
+                          <span className="text-sm">{item.name}</span>
                         </Link>
                       ))}
                     </div>
@@ -338,27 +315,27 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                     className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <span>Company</span>
-                    <ChevronDown className={`h-5 w-5 transition-transform ${expandedSection === 'company' ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${expandedSection === 'company' ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {expandedSection === 'company' && (
-                    <div className="mt-2 space-y-2 pl-4">
+                    <div className="mt-2 space-y-1 pl-3">
                       {navigation.company.map((item) => (
                         <Link
                           key={item.name}
                           to={item.href}
                           onClick={() => setIsOpen(false)}
-                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+                          className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
-                          <item.icon className="h-5 w-5" />
-                          <span>{item.name}</span>
+                          <item.icon className="h-4 w-4" />
+                          <span className="text-sm">{item.name}</span>
                         </Link>
                       ))}
                     </div>
                   )}
                 </div>
 
-                {/* Direct Links */}
+                {/* Blog Link */}
                 <Link
                   to="/blog"
                   onClick={() => setIsOpen(false)}
@@ -373,16 +350,16 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
               </div>
 
               {/* Contact Button */}
-              <div className="mt-8 pt-6 border-t border-gray-200">
+              <div className="mt-8 pt-6 border-t border-gray-100">
                 <button
                   onClick={() => {
                     onContactClick();
                     setIsOpen(false);
                   }}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl font-semibold flex items-center justify-center space-x-2 hover:shadow-lg transition-all duration-300"
+                  className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors duration-200"
                 >
                   <span>Contact Us</span>
-                  <ArrowRight className="h-5 w-5" />
+                  <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </div>
@@ -393,64 +370,38 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
   );
 };
 
-// Main Enhanced Header Component
-const Header = ({ onContactClick, useFloatingNav = false }) => {
+// Main Header Component - Clean and Simple
+const Header = ({ onContactClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const navItems = [
-    {
-      name: "Home",
-      link: "/",
-      icon: <Shield className="h-4 w-4" />,
-    },
-    {
-      name: "Products",
-      link: "/products",
-      icon: <Brain className="h-4 w-4" />,
-    },
-    {
-      name: "Blog",
-      link: "/blog",
-      icon: <BookOpen className="h-4 w-4" />,
-    },
-  ];
-
-  // Use floating navigation for specific pages or when requested
-  if (useFloatingNav) {
-    return <FloatingNav navItems={navItems} onContactClick={onContactClick} />;
-  }
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200' 
+        ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-gray-100' 
         : 'bg-white/90 backdrop-blur-md'
     }`}>
-      <div className="container mx-auto px-4">
-        <nav className="flex items-center justify-between h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group z-50">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
-              <Shield className="h-6 w-6 text-white" />
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="p-2 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors duration-200">
+              <Shield className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">Praesidium Systems</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <DesktopNavigation 
-            isScrolled={isScrolled} 
-            onContactClick={onContactClick} 
-          />
+          <DesktopNavigation onContactClick={onContactClick} />
 
           {/* Mobile Navigation */}
           <MobileNavigation 

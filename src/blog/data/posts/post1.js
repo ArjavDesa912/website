@@ -8,7 +8,7 @@ const post = {
   author: "Arjav Desai",
   date: "May 20, 2025",
   category: "Regulation",
-  image: "/images/eu-ai-act.jpg",
+  image: "/images/blog/eu-ai-act.jpg",
   readingTime: 18,
   keywords: "EU AI Act compliance, AI regulation 2025, high-risk AI systems, AI governance framework, GDPR AI compliance, enterprise AI compliance, AI Act requirements, AI regulatory compliance, European AI regulation, AI compliance checklist",
   metaTitle: "EU AI Act Compliance Guide 2025: Complete Implementation Framework | Praesidium",
