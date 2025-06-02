@@ -4,7 +4,7 @@ import { X, Mail, Calendar, Sparkles } from 'lucide-react';
 
 const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
   const [scrollY, setScrollY] = useState(0);
-  const [ setViewportHeight] = useState(0);
+  const [, setViewportHeight] = useState(0); // Removed unused variable name
 
   // Co-founders data
   const founders = [
@@ -66,7 +66,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
       document.body.style.top = '';
       document.body.style.width = '';
     };
-  }, [isOpen, scrollY]);
+  }, [isOpen, scrollY, showTeam]); // Fixed: Added all dependencies
 
   // Handle email click with analytics
   const handleEmailClick = (email, source = 'popup') => {
