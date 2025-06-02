@@ -38,7 +38,7 @@ import { useAnalytics } from './utils/useAnalytics';
 
 // Home page component with analytics integration
 const HomePage = ({ onContactClick, onTeamClick }) => {
-  const { trackFeatureInteraction, trackDeploymentInterest, trackIntegrationInterest } = useAnalytics();
+  const { trackFeatureInteraction, trackDeploymentInterest } = useAnalytics();
 
   // Set SEO for homepage
   useEffect(() => {

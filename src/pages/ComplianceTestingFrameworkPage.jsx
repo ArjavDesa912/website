@@ -24,7 +24,6 @@ import {
   Clock,
   Settings,
   Monitor,
-  Database,
   Upload
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';

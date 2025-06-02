@@ -4,7 +4,7 @@ import { X, Mail, Calendar, Sparkles } from 'lucide-react';
 
 const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
   const [scrollY, setScrollY] = useState(0);
-  const [viewportHeight, setViewportHeight] = useState(0);
+  const [ setViewportHeight] = useState(0);
 
   // Co-founders data
   const founders = [
