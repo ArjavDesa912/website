@@ -1,3 +1,4 @@
+// src/components/Header/Header.jsx - Fixed visibility and spacing issues
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -87,28 +88,28 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
       {
         name: 'AI Compliance Testing',
         description: 'Comprehensive testing framework for AI systems',
-        href: '/compliance-testing',
+        href: '/products/compliance-testing-framework',
         icon: TestTube,
         color: 'from-blue-500 to-cyan-500'
       },
       {
         name: 'LLM Documentation Generator',
         description: 'Automated documentation for ML models',
-        href: '/documentation-generator',
+        href: '/products/llm-documentation-generator',
         icon: FileText,
         color: 'from-purple-500 to-pink-500'
       },
       {
         name: 'Enterprise AI Chatbot',
         description: 'Industry-specific AI solutions',
-        href: '/enterprise-chatbot',
+        href: '/products/enterprise-ai-chatbot',
         icon: MessageCircle,
         color: 'from-green-500 to-emerald-500'
       },
       {
         name: 'AI Testing Prompt Generator',
         description: 'J1-powered testing automation',
-        href: '/prompt-generator',
+        href: '/products/ai-testing-prompt-generator',
         icon: Brain,
         color: 'from-orange-500 to-red-500'
       }
@@ -136,20 +137,20 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
   };
 
   return (
-    <div className="hidden md:flex items-center space-x-8">
+    <div className="hidden lg:flex items-center justify-between w-full max-w-6xl">
       {/* Products Dropdown */}
       <div
         className="relative"
         onMouseEnter={() => setActiveDropdown('products')}
         onMouseLeave={() => setActiveDropdown(null)}
       >
-        <button className="flex items-center space-x-1 text-white/90 hover:text-white transition-colors">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2">
           <span>Products</span>
           <ChevronDown className="h-4 w-4" />
         </button>
         
         {activeDropdown === 'products' && (
-          <div className="absolute top-full left-0 mt-2 w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full left-0 mt-2 w-96 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in slide-in-from-top-2 duration-200">
             <div className="grid grid-cols-1 gap-4">
               {navigation.products.map((item) => (
                 <Link
@@ -186,13 +187,13 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
         onMouseEnter={() => setActiveDropdown('company')}
         onMouseLeave={() => setActiveDropdown(null)}
       >
-        <button className="flex items-center space-x-1 text-white/90 hover:text-white transition-colors">
+        <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2">
           <span>Company</span>
           <ChevronDown className="h-4 w-4" />
         </button>
         
         {activeDropdown === 'company' && (
-          <div className="absolute top-full left-0 mt-2 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 p-6 animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-full left-0 mt-2 w-72 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in slide-in-from-top-2 duration-200">
             <div className="space-y-2">
               {navigation.company.map((item) => (
                 <Link
@@ -215,8 +216,8 @@ const DesktopNavigation = ({ isScrolled, onContactClick }) => {
       {/* Direct Links */}
       <Link
         to="/blog"
-        className={`text-white/90 hover:text-white transition-colors ${
-          location.pathname === '/blog' ? 'text-white' : ''
+        className={`text-gray-700 hover:text-blue-600 transition-colors font-medium px-4 py-2 ${
+          location.pathname === '/blog' ? 'text-blue-600' : ''
         }`}
       >
         Blog
@@ -241,10 +242,10 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
 
   const navigation = {
     products: [
-      { name: 'AI Compliance Testing', href: '/compliance-testing', icon: TestTube },
-      { name: 'LLM Documentation Generator', href: '/documentation-generator', icon: FileText },
-      { name: 'Enterprise AI Chatbot', href: '/enterprise-chatbot', icon: MessageCircle },
-      { name: 'AI Testing Prompt Generator', href: '/prompt-generator', icon: Brain }
+      { name: 'AI Compliance Testing', href: '/products/compliance-testing-framework', icon: TestTube },
+      { name: 'LLM Documentation Generator', href: '/products/llm-documentation-generator', icon: FileText },
+      { name: 'Enterprise AI Chatbot', href: '/products/enterprise-ai-chatbot', icon: MessageCircle },
+      { name: 'AI Testing Prompt Generator', href: '/products/ai-testing-prompt-generator', icon: Brain }
     ],
     company: [
       { name: 'About Us', href: '/about', icon: Users },
@@ -270,14 +271,14 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden p-2 text-white hover:text-blue-300 transition-colors"
+        className="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors"
       >
         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
       </button>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           {/* Backdrop */}
           <div 
             className="fixed inset-0 bg-black/50 backdrop-blur-sm"
@@ -432,17 +433,17 @@ const Header = ({ onContactClick, useFloatingNav = false }) => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
       isScrolled 
-        ? 'bg-white/10 backdrop-blur-xl shadow-2xl' 
-        : 'bg-transparent'
+        ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200' 
+        : 'bg-white/90 backdrop-blur-md'
     }`}>
-      <nav className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4">
+        <nav className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
+          <Link to="/" className="flex items-center space-x-2 group z-50">
             <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl group-hover:scale-110 transition-transform duration-300">
               <Shield className="h-6 w-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-white">Praesidium Systems</span>
+            <span className="text-xl font-bold text-gray-900">Praesidium Systems</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -457,8 +458,8 @@ const Header = ({ onContactClick, useFloatingNav = false }) => {
             setIsOpen={setMobileMenuOpen}
             onContactClick={onContactClick}
           />
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
   );
 };

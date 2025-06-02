@@ -1,4 +1,4 @@
-// src/App.jsx - Updated with component removals
+// src/App.jsx - Fixed popup integration and event handling
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -173,16 +173,19 @@ function App() {
 
   // Handle opening the contact popup
   const handleContactClick = () => {
+    console.log('Contact popup opening...'); // Debug log
     setIsContactPopupOpen(true);
   };
 
   // Handle opening the team popup
   const handleTeamClick = () => {
+    console.log('Team popup opening...'); // Debug log
     setIsTeamPopupOpen(true);
   };
 
   // Handle popup close with analytics
   const handleContactPopupClose = () => {
+    console.log('Contact popup closing...'); // Debug log
     setIsContactPopupOpen(false);
     analytics.trackEvent('popup_close', {
       category: 'user_interaction',
@@ -191,6 +194,7 @@ function App() {
   };
 
   const handleTeamPopupClose = () => {
+    console.log('Team popup closing...'); // Debug log
     setIsTeamPopupOpen(false);
     analytics.trackEvent('popup_close', {
       category: 'user_interaction',
@@ -226,33 +230,32 @@ function App() {
             element={<HomePage onContactClick={handleContactClick} onTeamClick={handleTeamClick} />} 
           />
           
-          {/* Updated Product Pages - NEW ROUTES */}
+          {/* Updated Product Pages - NEW ROUTES with contact handlers */}
           <Route 
             path="/products/compliance-testing-framework" 
-            element={<ComplianceTestingFrameworkPage />} 
+            element={<ComplianceTestingFrameworkPage onContactClick={handleContactClick} />} 
           />
           <Route 
             path="/products/llm-documentation-generator" 
-            element={<LLMDocumentationGeneratorPage />} 
+            element={<LLMDocumentationGeneratorPage onContactClick={handleContactClick} />} 
           />
           <Route 
             path="/products/ai-testing-prompt-generator" 
-            element={<AITestingPromptGeneratorPage />} 
+            element={<AITestingPromptGeneratorPage onContactClick={handleContactClick} />} 
           />
-          
           <Route 
             path="/products/enterprise-ai-chatbot" 
-            element={<EnterpriseAIChatbotPage />} 
+            element={<EnterpriseAIChatbotPage onContactClick={handleContactClick} />} 
           />
                     
           {/* Blog Pages */}
           <Route 
             path="/blog" 
-            element={<BlogPage />} 
+            element={<BlogPage onContactClick={handleContactClick} />} 
           />
           <Route 
             path="/blog/:slug" 
-            element={<BlogPostPage />} 
+            element={<BlogPostPage onContactClick={handleContactClick} />} 
           />
           
           {/* Redirect unknown routes to home */}
