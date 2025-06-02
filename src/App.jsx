@@ -1,4 +1,4 @@
-// src/App.jsx - Updated with new product pages
+// src/App.jsx - Updated with component removals
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -8,10 +8,8 @@ import {
   HeroSection,
   ProductsSection,
   FeaturesSection,
-  HowItWorksSection,
   IntegrationBenefitsSection,
   DeploymentSection,
-  DockerSection,
   CTASection 
 } from './components/Sections';
 import { Footer } from './components/Footer';
@@ -142,10 +140,8 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
         />
         <ProductsSection onProductClick={(product) => analytics.trackProductView(product, 'homepage')} />
         <FeaturesSection onFeatureClick={(feature) => trackFeatureInteraction('feature_click', 'click', feature)} />
-        <HowItWorksSection onProviderClick={(provider) => trackIntegrationInterest(provider)} />
         <IntegrationBenefitsSection />
         <DeploymentSection onDeploymentClick={(type) => trackDeploymentInterest(type)} />
-        <DockerSection onDockerClick={() => trackFeatureInteraction('docker_interest', 'click', 'docker_section')} />
         <CTASection onContactClick={() => handleContactClick('cta')} />
       </main>
       <Footer />

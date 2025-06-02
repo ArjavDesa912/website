@@ -1,4 +1,4 @@
-// src/pages/ComplianceTestingFrameworkPage.jsx
+// src/pages/ComplianceTestingFrameworkPage.jsx - Added How It Works section
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -21,7 +21,11 @@ import {
   Star,
   Users,
   Target,
-  Clock
+  Clock,
+  Settings,
+  Monitor,
+  Database,
+  Upload
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -85,6 +89,46 @@ const ComplianceTestingFrameworkPage = () => {
       title: "DevOps Integration",
       description: "Seamlessly integrate compliance testing into existing CI/CD pipelines with native support for GitHub Actions, Jenkins, GitLab, and Azure DevOps."
     }
+  ];
+
+  // How It Works Section Data
+  const howItWorksSteps = [
+    {
+      number: 1,
+      title: "Connect Your AI Systems",
+      description: "Integrate with APIs from OpenAI, Claude, Gemini, or use lightweight local LLMs for cost efficiency. Our platform offers flexible connection options for all major providers.",
+      icon: Upload,
+      details: ["API Integration", "Multi-Provider Support", "Local LLM Support", "Flexible Deployment"]
+    },
+    {
+      number: 2,
+      title: "Define Compliance Framework",
+      description: "Customize compliance requirements, regulatory frameworks, and policy documentation specific to your organization and industry needs.",
+      icon: Settings,
+      details: ["Custom Policies", "Regulatory Templates", "Industry Standards", "Automated Enforcement"]
+    },
+    {
+      number: 3,
+      title: "Automated Testing & Monitoring",
+      description: "Continuously track model performance, detect hallucinations, and identify compliance gaps in real-time through our advanced monitoring dashboard.",
+      icon: Monitor,
+      details: ["Real-time Monitoring", "Automated Testing", "Risk Detection", "Performance Tracking"]
+    },
+    {
+      number: 4,
+      title: "Generate Reports & Insights",
+      description: "Generate comprehensive reports for stakeholders and use insights to improve model performance and compliance over time.",
+      icon: BarChart2,
+      details: ["Compliance Reports", "Performance Analytics", "Audit Documentation", "Continuous Improvement"]
+    }
+  ];
+
+  const providers = [
+    { name: "OpenAI", logo: "/images/openai.svg" },
+    { name: "Anthropic", logo: "/images/anthropic.svg" },
+    { name: "Google", logo: "/images/google.svg" },
+    { name: "AWS", logo: "/images/aws.svg" },
+    { name: "Azure", logo: "/images/azure.svg" }
   ];
 
   const testingTypes = [
@@ -246,6 +290,73 @@ const ComplianceTestingFrameworkPage = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works Section - Moved from Home Page */}
+        <section id="how-it-works" className="py-20 bg-blue-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">How It Works</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Our platform integrates seamlessly with your AI workflow in four simple steps
+              </p>
+            </div>
+           
+            <div className="max-w-6xl mx-auto space-y-16">
+              {howItWorksSteps.map((step, index) => (
+                <div key={step.number} className="flex flex-col lg:flex-row gap-8 items-center">
+                  <div className={`lg:w-1/2 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                    <div className="flex items-start gap-6">
+                      <div className="flex-shrink-0 w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-2xl">
+                        {step.number}
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3">{step.title}</h3>
+                        <p className="text-gray-600 mb-4 leading-relaxed text-lg">
+                          {step.description}
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                          {step.details.map((detail, idx) => (
+                            <div key={idx} className="flex items-center gap-2">
+                              <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                              <span className="text-sm text-gray-700">{detail}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`lg:w-1/2 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                    <div className="relative">
+                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
+                        <div className="flex items-center justify-center">
+                          <step.icon className="h-24 w-24 text-blue-600" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+           
+            {/* Integrations */}
+            <div className="mt-20">
+              <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">Works with all major AI providers</h3>
+              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                {providers.map((provider, index) => (
+                  <div key={index} className="text-center opacity-70 hover:opacity-100 transition-opacity">
+                    <img 
+                      src={provider.logo} 
+                      alt={provider.name} 
+                      className="mx-auto h-10 w-24 object-contain" 
+                      style={{ width: "100px", height: "40px" }}
+                    />
+                    <span className="text-sm text-gray-600 mt-2 block">{provider.name}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

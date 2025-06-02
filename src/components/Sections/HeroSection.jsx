@@ -1,4 +1,4 @@
-// src/components/Sections/HeroSection.jsx
+// src/components/Sections/HeroSection.jsx - Fixed text visibility issues
 import React from 'react';
 import { ChevronRight, Users, Star, Zap, Shield } from 'lucide-react';
 import { scrollToSection } from '../../utils/scrollUtils';
@@ -121,10 +121,10 @@ const GlowingButton = ({ children, onClick, variant = "primary", className = "" 
 
   return (
     <button 
-      className={`${baseClasses} ${variants[variant]} ${className} glowing-button`}
+      className={`${baseClasses} ${variants[variant]} ${className} glowing-button force-visible-button`}
       onClick={onClick}
     >
-      {children}
+      <span className="relative z-10 text-white">{children}</span>
       <style jsx>{`
         .glowing-button {
           position: relative;
@@ -180,10 +180,10 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </div>
             </FloatingCard>
             
-            {/* Main Heading */}
+            {/* Main Heading - Fixed visibility */}
             <FloatingCard delay={0.2}>
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+                <span className="force-visible text-gray-900">
                   AI Governance
                 </span>
                 <br />
@@ -208,7 +208,7 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </p>
             </FloatingCard>
             
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Fixed secondary button visibility */}
             <FloatingCard delay={0.8}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <GlowingButton 
@@ -220,13 +220,12 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
                   <ChevronRight className="h-5 w-5" />
                 </GlowingButton>
                 
-                <GlowingButton 
+                <button 
                   onClick={() => scrollToSection('products')}
-                  variant="secondary"
-                  className="flex items-center justify-center"
+                  className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full font-semibold hover:bg-blue-600 hover:text-white backdrop-blur-sm transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center justify-center"
                 >
-                  Explore Platform
-                </GlowingButton>
+                  <span className="force-visible-secondary">Explore Platform</span>
+                </button>
               </div>
             </FloatingCard>
 
