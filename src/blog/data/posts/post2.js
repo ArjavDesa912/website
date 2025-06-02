@@ -8,7 +8,7 @@ const post = {
   author: "Samuel Heidler",
   date: "May 29, 2025",
   category: "Technical",
-  image: "/images/blog/llm-hallucination-detection.jpg",
+  image: "/images/blog/hallucination-detection.jpg",
   readingTime: 22,
   keywords: "LLM hallucination detection, AI factual accuracy, hallucination mitigation, RAG systems, enterprise AI safety, LLM evaluation, semantic entropy, uncertainty quantification, multi-modal AI, AI compliance testing",
   metaDescription: "Complete 2025 guide to LLM hallucination detection: Learn cutting-edge techniques, enterprise solutions, and proven methodologies to ensure AI reliability and accuracy in production environments.",
@@ -703,7 +703,7 @@ const post = {
     </dl>
 
     <h2>Author Bio</h2>
-    <p><strong>Samuel Heidler</strong> is a Senior AI Research Engineer specializing in LLM safety and reliability. With over 8 years of experience in machine learning and natural language processing, he has contributed to hallucination detection research at leading tech companies and academic institutions. Samuel holds a Ph.D. in Computer Science from Stanford University and has published extensively on AI safety, model interpretability, and enterprise AI deployment strategies.</p>
+    <p><strong>Samuel Heidler</strong> is a AI Research Engineer specializing in LLM safety and reliability.He works extensively on AI safety, model interpretability, and enterprise AI deployment strategies.</p>
 
     <h2>Related Articles</h2>
     <ul>
