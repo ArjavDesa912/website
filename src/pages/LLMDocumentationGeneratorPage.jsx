@@ -9,21 +9,10 @@ import {
   ChevronRight,
   FileText, 
   FilePlus, 
-  GitBranch, 
-  Download, 
   Bot, 
-  Layers,
   Zap,
-  Code,
-  Settings,
-  Target,
-  BookOpen,
-  FileCode,
-  Database,
-  Upload,
   Clock,
   Shield,
-  Globe,
   Calendar
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';

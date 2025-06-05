@@ -12,15 +12,11 @@ import {
   Zap, 
   FileText, 
   TestTube, 
-  Target,
   Clock,
-  Code,
   Download,
   GitMerge,
   BarChart3,
   Repeat,
-  Settings,
-  Shield,
   Award,
   Calendar
 } from 'lucide-react';

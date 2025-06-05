@@ -10,18 +10,8 @@ import {
   MessageCircle, 
   Shield, 
   Brain, 
-  Zap, 
-  Lock,
-  Target,
   Clock,
-  Scale,
-  Code,
-  Bot,
   Building,
-  Phone,
-  Globe,
-  Award,
-  Settings,
   Calendar
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
