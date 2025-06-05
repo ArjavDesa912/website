@@ -1,4 +1,4 @@
-// src/pages/LLMDocumentationGeneratorPage.jsx
+// src/pages/LLMDocumentationGeneratorPage.jsx - Removed customer claims and testimonials
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -13,8 +13,6 @@ import {
   Download, 
   Bot, 
   Layers,
-  Star,
-  Users,
   Zap,
   Code,
   Settings,
@@ -22,7 +20,10 @@ import {
   BookOpen,
   FileCode,
   Database,
-  Upload
+  Upload,
+  Clock,
+  Shield,
+  Globe
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -166,24 +167,65 @@ const LLMDocumentationGeneratorPage = () => {
     }
   ];
 
-  const testimonials = [
+  const technicalSpecs = [
     {
-      company: "Leading AI Research Lab",
-      role: "Principal ML Engineer",
-      quote: "The LLM Documentation Generator has saved our team hundreds of hours. What used to take weeks now happens automatically, and the quality is consistently excellent across all our models.",
-      rating: 5
+      title: "AI Engine",
+      description: "Advanced language models optimized for technical documentation generation",
+      features: ["Multi-model support", "Context-aware generation", "Technical accuracy", "Quality validation"]
     },
     {
-      company: "Fortune 500 Technology Company",
-      role: "Head of AI Governance",
-      quote: "Finally, documentation that keeps up with our rapid AI development cycle. Our audit preparedness has never been better, and compliance teams love the automated reports.",
-      rating: 5
+      title: "Integration Capabilities",
+      description: "Seamless integration with your existing development and ML infrastructure",
+      features: ["RESTful APIs", "SDK support", "Webhook integration", "CI/CD plugins"]
     },
     {
-      company: "Global Financial Services",
-      role: "Chief Data Officer",
-      quote: "The automated model cards and compliance documentation have transformed our governance process. We can now deploy AI systems faster while maintaining the highest documentation standards.",
-      rating: 5
+      title: "Enterprise Features",
+      description: "Built for enterprise scale with security and compliance in mind",
+      features: ["Role-based access", "Audit logging", "Data encryption", "Backup systems"]
+    },
+    {
+      title: "Output Formats",
+      description: "Generate documentation in multiple formats for different stakeholder needs",
+      features: ["PDF reports", "HTML pages", "Markdown files", "JSON exports"]
+    }
+  ];
+
+  const pricingTiers = [
+    {
+      name: "Starter",
+      description: "Perfect for individual researchers and small teams",
+      features: [
+        "Up to 10 models/month",
+        "Basic templates",
+        "PDF & Markdown export",
+        "Email support",
+        "Standard AI models"
+      ]
+    },
+    {
+      name: "Professional",
+      description: "Ideal for growing AI teams and organizations",
+      features: [
+        "Unlimited models",
+        "Custom templates",
+        "All export formats",
+        "Git integration",
+        "Priority support",
+        "Advanced AI models"
+      ],
+      popular: true
+    },
+    {
+      name: "Enterprise",
+      description: "Complete solution for large organizations",
+      features: [
+        "Unlimited everything",
+        "On-premises deployment",
+        "Custom integrations",
+        "Dedicated support",
+        "SLA guarantees",
+        "Custom AI training"
+      ]
     }
   ];
 
@@ -231,19 +273,19 @@ const LLMDocumentationGeneratorPage = () => {
                   </button>
                 </div>
 
-                {/* Trust Indicators */}
+                {/* Trust Indicators - Updated without customer claims */}
                 <div className="flex items-center gap-6 pt-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Zap className="h-4 w-4" />
                     <span>80% Time Savings</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    <span>1000+ Models Documented</span>
+                    <Shield className="h-4 w-4" />
+                    <span>Enterprise Ready</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-yellow-500" />
-                    <span>5.0/5 Quality Rating</span>
+                    <Clock className="h-4 w-4" />
+                    <span>Quick Setup</span>
                   </div>
                 </div>
               </div>
@@ -354,43 +396,31 @@ const LLMDocumentationGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Use Cases Section */}
+        {/* Technical Specifications */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Perfect for Every AI Team</h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Technical Specifications</h2>
               <p className="text-xl text-gray-600">
-                From research labs to enterprise deployments, documentation that scales with your needs
+                Built on enterprise-grade technology with advanced AI capabilities
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {useCases.map((useCase, index) => (
+              {technicalSpecs.map((spec, index) => (
                 <div 
                   key={index}
                   className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
                 >
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="inline-block p-3 bg-green-100 rounded-lg text-green-600 flex-shrink-0">
-                      <useCase.icon className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">{useCase.title}</h3>
-                      <p className="text-gray-600 leading-relaxed mb-4">{useCase.description}</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Popular Industries</p>
-                    <div className="flex flex-wrap gap-2">
-                      {useCase.industries.map((industry, idx) => (
-                        <span 
-                          key={idx}
-                          className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm"
-                        >
-                          {industry}
-                        </span>
-                      ))}
-                    </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{spec.title}</h3>
+                  <p className="text-gray-600 mb-4">{spec.description}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {spec.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -424,109 +454,6 @@ const LLMDocumentationGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Integrations Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Seamless Integrations</h2>
-              <p className="text-xl text-gray-600">
-                Connect with your existing tools and workflows effortlessly
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-              {integrations.map((integration, index) => (
-                <div key={index} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                  <div className="inline-block p-3 bg-green-100 rounded-lg text-green-600 mb-4">
-                    <integration.icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">{integration.category}</h3>
-                  <ul className="space-y-2">
-                    {integration.tools.map((tool, idx) => (
-                      <li key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-600">{tool}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Process Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Simple 3-Step Process</h2>
-              <p className="text-xl text-gray-600">
-                From model artifacts to professional documentation in minutes
-              </p>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="inline-block p-4 bg-green-100 rounded-xl text-green-600 mb-4">
-                    <Upload className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">1. Upload & Connect</h3>
-                  <p className="text-gray-600">Connect your models, datasets, and training artifacts through our intuitive interface or API</p>
-                </div>
-                <div className="text-center">
-                  <div className="inline-block p-4 bg-green-100 rounded-xl text-green-600 mb-4">
-                    <Bot className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">2. AI Generation</h3>
-                  <p className="text-gray-600">Our LLM analyzes your artifacts and generates comprehensive, professional documentation automatically</p>
-                </div>
-                <div className="text-center">
-                  <div className="inline-block p-4 bg-green-100 rounded-xl text-green-600 mb-4">
-                    <Download className="h-8 w-8" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">3. Review & Export</h3>
-                  <p className="text-gray-600">Review generated documentation, make any needed adjustments, and export in your preferred format</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Loved by AI Teams Worldwide</h2>
-              <p className="text-xl text-gray-600">
-                See how the Documentation Generator is transforming AI development workflows
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <div 
-                  key={index}
-                  className="bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-md"
-                >
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote className="text-lg text-gray-700 mb-6 italic">
-                    "{testimonial.quote}"
-                  </blockquote>
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.company}</div>
-                    <div className="text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Pricing Section */}
         <section className="py-20 bg-green-50">
           <div className="container mx-auto px-4">
@@ -538,117 +465,54 @@ const LLMDocumentationGeneratorPage = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-green-300 hover:shadow-lg transition-all duration-300">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter</h3>
-                <p className="text-gray-600 mb-4">Perfect for individual researchers and small teams</p>
-                <div className="text-3xl font-bold text-green-600 mb-6">$49/month</div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Up to 10 models/month</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Basic templates</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">PDF & Markdown export</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Email support</span>
-                  </li>
-                </ul>
-                <button 
-                  onClick={handleContactClick}
-                  className="w-full py-3 border-2 border-green-600 text-green-600 rounded-full hover:bg-green-50 transition-colors font-semibold"
+              {pricingTiers.map((tier, index) => (
+                <div 
+                  key={index}
+                  className={`bg-white p-8 rounded-xl border-2 transition-all duration-300 ${
+                    tier.popular 
+                      ? 'border-green-500 shadow-lg scale-105' 
+                      : 'border-gray-200 hover:border-green-300 hover:shadow-lg'
+                  }`}
                 >
-                  Start Free Trial
-                </button>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl border-2 border-green-500 shadow-lg scale-105 relative">
-                <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium text-center mb-4 absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  Most Popular
+                  {tier.popular && (
+                    <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium text-center mb-4">
+                      Most Popular
+                    </div>
+                  )}
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
+                  <p className="text-gray-600 mb-4">{tier.description}</p>
+                  <div className="text-2xl font-bold text-green-600 mb-6">Contact for Pricing</div>
+                  <ul className="space-y-3 mb-8">
+                    {tier.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3">
+                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <button 
+                    onClick={handleContactClick}
+                    className={`w-full py-3 rounded-full font-semibold transition-colors ${
+                      tier.popular
+                        ? 'bg-green-600 text-white hover:bg-green-700'
+                        : 'border-2 border-green-600 text-green-600 hover:bg-green-50'
+                    }`}
+                  >
+                    Get Started
+                  </button>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Professional</h3>
-                <p className="text-gray-600 mb-4">Ideal for growing AI teams and organizations</p>
-                <div className="text-3xl font-bold text-green-600 mb-6">$149/month</div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Unlimited models</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Custom templates</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">All export formats</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Git integration</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Priority support</span>
-                  </li>
-                </ul>
-                <button 
-                  onClick={handleContactClick}
-                  className="w-full py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors font-semibold"
-                >
-                  Start Free Trial
-                </button>
-              </div>
-
-              <div className="bg-white p-8 rounded-xl border-2 border-gray-200 hover:border-green-300 hover:shadow-lg transition-all duration-300">
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Enterprise</h3>
-                <p className="text-gray-600 mb-4">Complete solution for large organizations</p>
-                <div className="text-3xl font-bold text-green-600 mb-6">Custom</div>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Unlimited everything</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">On-premises deployment</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Custom integrations</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">Dedicated support</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">SLA guarantees</span>
-                  </li>
-                </ul>
-                <button 
-                  onClick={handleContactClick}
-                  className="w-full py-3 border-2 border-green-600 text-green-600 rounded-full hover:bg-green-50 transition-colors font-semibold"
-                >
-                  Contact Sales
-                </button>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* CTA Section - Removed testimonials */}
         <section id="contact" className="py-20 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Ready to Automate Your AI Documentation?</h2>
             <p className="text-xl max-w-3xl mx-auto mb-8 opacity-90">
               Stop spending weeks on documentation. Start generating professional, comprehensive AI documentation in minutes. 
-              Join thousands of AI teams who trust our LLM-powered documentation generator.
+              Transform your AI development workflow with our LLM-powered documentation generator.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
@@ -665,6 +529,22 @@ const LLMDocumentationGeneratorPage = () => {
                 Read Case Studies
                 <ArrowRight className="h-5 w-5" />
               </Link>
+            </div>
+
+            {/* Trust indicators */}
+            <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-white/20">
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>LLM-powered automation</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>Enterprise security</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>Quick implementation</span>
+              </div>
             </div>
           </div>
         </section>

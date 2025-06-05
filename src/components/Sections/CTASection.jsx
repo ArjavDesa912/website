@@ -1,6 +1,6 @@
-// src/components/Sections/CompleteEnhancedCTASection.jsx
+// src/components/Sections/CTASection.jsx - Removed customer claims
 import React, { useRef, useEffect, useState } from 'react';
-import { ArrowRight, Shield, Zap, Users, Star, CheckCircle, Rocket, Clock, Award, Globe } from 'lucide-react';
+import { ArrowRight, Shield, Zap, Award, CheckCircle, Rocket, Clock, Globe, Settings } from 'lucide-react';
 
 // Animated background component with enhanced effects
 const AnimatedBackground = () => {
@@ -193,7 +193,7 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "", prefix = "" }) => 
   );
 };
 
-// Enhanced trust indicator component
+// Enhanced trust indicator component - Updated without customer claims
 const TrustIndicator = ({ icon: Icon, label, value, delay = 0, description }) => {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -219,11 +219,15 @@ const TrustIndicator = ({ icon: Icon, label, value, delay = 0, description }) =>
       
       {/* Value */}
       <div className="text-4xl font-bold text-white mb-2 transition-all duration-300 group-hover:scale-110">
-        <AnimatedCounter 
-          end={value.number} 
-          suffix={value.suffix} 
-          prefix={value.prefix || ""}
-        />
+        {typeof value === 'object' ? (
+          <AnimatedCounter 
+            end={value.number} 
+            suffix={value.suffix} 
+            prefix={value.prefix || ""}
+          />
+        ) : (
+          <span>{value}</span>
+        )}
       </div>
       
       {/* Label */}
@@ -259,32 +263,32 @@ const FeatureHighlight = ({ icon: Icon, title, description, index }) => {
   );
 };
 
-// Main CTA Section
+// Main CTA Section - Updated without customer claims
 const CTASection = ({ onContactClick }) => {
   const trustData = [
     { 
-      icon: Users, 
-      label: "Enterprise Customers", 
-      value: { number: 500, suffix: "+" },
-      description: "Global enterprises trust us"
-    },
-    { 
       icon: Shield, 
-      label: "Compliance Score", 
-      value: { number: 99.7, suffix: "%" },
-      description: "Average compliance rating"
+      label: "Security Ready", 
+      value: "SOC 2",
+      description: "Enterprise security compliance"
     },
     { 
       icon: Zap, 
-      label: "Uptime SLA", 
-      value: { number: 99.9, suffix: "%" },
-      description: "Guaranteed availability"
+      label: "Deployment Time", 
+      value: { number: 24, suffix: "hrs" },
+      description: "Quick implementation"
     },
     { 
-      icon: Star, 
-      label: "Customer Rating", 
-      value: { number: 4.9, suffix: "/5" },
-      description: "Customer satisfaction score"
+      icon: Clock, 
+      label: "Support Coverage", 
+      value: "24/7",
+      description: "Round-the-clock assistance"
+    },
+    { 
+      icon: Award, 
+      label: "Industry Ready", 
+      value: "GDPR",
+      description: "Regulatory compliance built-in"
     }
   ];
 
@@ -312,10 +316,10 @@ const CTASection = ({ onContactClick }) => {
   ];
 
   const benefits = [
-    "SOC 2 Type II Certified Security",
-    "Enterprise-grade Data Protection", 
-    "Dedicated Customer Success Manager",
-    "99.9% Uptime SLA Guarantee",
+    "SOC 2 Type II Ready Security Infrastructure",
+    "Enterprise-grade Data Protection Built-in", 
+    "Dedicated Implementation Support",
+    "24/7 Technical Support Coverage",
     "Advanced Role-based Access Control",
     "Comprehensive Audit Trail Logging"
   ];
@@ -344,7 +348,7 @@ const CTASection = ({ onContactClick }) => {
               </span>
             </h2>
             <p className="text-xl lg:text-2xl text-blue-100 mb-8 leading-relaxed max-w-4xl mx-auto">
-              Join hundreds of organizations that trust our platform for comprehensive AI governance. 
+              Join the AI governance revolution with our comprehensive platform. 
               Get started with a personalized demo and discover how we can help maintain regulatory integrity while accelerating innovation.
             </p>
           </div>
@@ -366,13 +370,13 @@ const CTASection = ({ onContactClick }) => {
               variant="secondary"
               className="text-lg px-12 py-5 flex items-center justify-center gap-3"
             >
-              <Users className="h-6 w-6" />
+              <Settings className="h-6 w-6" />
               Contact Sales
               <ArrowRight className="h-6 w-6" />
             </InteractiveButton>
           </div>
 
-          {/* Trust Indicators */}
+          {/* Trust Indicators - Updated without customer claims */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {trustData.map((item, index) => (
               <TrustIndicator 
@@ -417,16 +421,6 @@ const CTASection = ({ onContactClick }) => {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Social proof */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mb-12 opacity-60">
-            <div className="text-sm">Trusted by leading companies:</div>
-            {['TechCorp', 'InnovateAI', 'SecureData', 'FutureML', 'CloudFirst'].map((company, index) => (
-              <div key={index} className="px-4 py-2 bg-white/10 rounded-lg text-sm font-medium">
-                {company}
-              </div>
-            ))}
           </div>
 
           {/* Bottom guarantee */}

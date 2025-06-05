@@ -1,6 +1,6 @@
-// src/components/Sections/HeroSection.jsx - Fixed text visibility issues
+// src/components/Sections/HeroSection.jsx - Removed customer claims
 import React from 'react';
-import { ChevronRight, Users, Star, Zap, Shield } from 'lucide-react';
+import { ChevronRight, Users, Shield, Zap, CheckCircle } from 'lucide-react';
 import { scrollToSection } from '../../utils/scrollUtils';
 
 // Aceternity-inspired components
@@ -180,7 +180,7 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </div>
             </FloatingCard>
             
-            {/* Main Heading - Fixed visibility */}
+            {/* Main Heading */}
             <FloatingCard delay={0.2}>
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
                 <span className="force-visible text-gray-900">
@@ -208,7 +208,7 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </p>
             </FloatingCard>
             
-            {/* CTA Buttons - Fixed secondary button visibility */}
+            {/* CTA Buttons */}
             <FloatingCard delay={0.8}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <GlowingButton 
@@ -229,20 +229,20 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </div>
             </FloatingCard>
 
-            {/* Trust Indicators */}
+            {/* Trust Indicators - Updated without customer claims */}
             <FloatingCard delay={1}>
               <div className="flex flex-wrap items-center gap-8 pt-8">
                 <div className="flex items-center gap-3 text-slate-600">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium">SOC 2 Compliant</span>
+                  <span className="font-medium">SOC 2 Ready</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600">
-                  <Star className="h-4 w-4 text-yellow-500" />
-                  <span className="font-medium">500+ Enterprise Clients</span>
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span className="font-medium">Enterprise Security</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-600">
                   <Zap className="h-4 w-4 text-blue-500" />
-                  <span className="font-medium">99.9% Uptime</span>
+                  <span className="font-medium">Production Ready</span>
                 </div>
               </div>
             </FloatingCard>
@@ -266,8 +266,8 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
                       <div>
-                        <p className="text-sm font-medium text-slate-600">Compliance Score</p>
-                        <p className="text-2xl font-bold text-slate-900">98.7%</p>
+                        <p className="text-sm font-medium text-slate-600">System Status</p>
+                        <p className="text-2xl font-bold text-slate-900">Active</p>
                       </div>
                     </div>
                   </div>
@@ -276,8 +276,8 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
                     <div className="flex items-center gap-3">
                       <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
                       <div>
-                        <p className="text-sm font-medium text-slate-600">Models Monitored</p>
-                        <p className="text-2xl font-bold text-slate-900">1,247</p>
+                        <p className="text-sm font-medium text-slate-600">AI Models</p>
+                        <p className="text-2xl font-bold text-slate-900">Ready</p>
                       </div>
                     </div>
                   </div>

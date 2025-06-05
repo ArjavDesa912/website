@@ -1,4 +1,4 @@
-// src/pages/AITestingPromptGeneratorPage.jsx
+// src/pages/AITestingPromptGeneratorPage.jsx - Removed customer claims and testimonials
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -12,14 +12,15 @@ import {
   FileText, 
   TestTube, 
   Target,
-  Star,
   Clock,
   Code,
   Download,
   GitMerge,
   BarChart3,
   Repeat,
-  Settings
+  Settings,
+  Shield,
+  Award
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -194,24 +195,26 @@ const AITestingPromptGeneratorPage = () => {
     "Preserve institutional knowledge automatically as projects evolve"
   ];
 
-  const testimonials = [
+  const technicalSpecs = [
     {
-      company: "Leading AI Research Lab",
-      role: "Principal ML Engineer",
-      quote: "The J1 reinforcement learning approach has revolutionized our testing process. The thinking traces provide unprecedented insight into model behavior that we've never had before.",
-      rating: 5
+      title: "J1 Model Architecture",
+      description: "Advanced reinforcement learning system with thinking traces and self-improvement",
+      features: ["Group Relative Policy Optimization", "Thinking-LLM-as-a-Judge", "Experience replay", "Dynamic learning"]
     },
     {
-      company: "Fortune 500 Financial Services",
-      role: "AI Safety Director",
-      quote: "This is the first testing system that actually learns and improves. The J1 model catches edge cases and compliance issues that traditional testing completely misses.",
-      rating: 5
+      title: "Testing Capabilities",
+      description: "Comprehensive testing framework covering multiple AI safety dimensions",
+      features: ["Adversarial testing", "Edge case generation", "Security validation", "Compliance checking"]
     },
     {
-      company: "Global Technology Corporation",
-      role: "Head of AI Governance",
-      quote: "The automated test generation saves us weeks of manual work while providing better coverage. The self-improving capabilities mean it gets smarter with every use.",
-      rating: 5
+      title: "Integration & Deployment",
+      description: "Enterprise-ready deployment with flexible integration options",
+      features: ["Docker containers", "REST API", "CI/CD plugins", "Cloud deployment"]
+    },
+    {
+      title: "Analytics & Reporting",
+      description: "Advanced analytics with actionable insights and comprehensive reporting",
+      features: ["Real-time dashboards", "Custom metrics", "Export capabilities", "Trend analysis"]
     }
   ];
 
@@ -259,10 +262,10 @@ const AITestingPromptGeneratorPage = () => {
                   </button>
                 </div>
 
-                {/* Trust Indicators */}
+                {/* Trust Indicators - Updated without customer claims */}
                 <div className="flex items-center gap-6 pt-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    <Star className="h-4 w-4 text-yellow-500" />
+                    <Award className="h-4 w-4 text-yellow-500" />
                     <span>First J1 Integration</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -371,34 +374,31 @@ const AITestingPromptGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Target Audiences */}
+        {/* Technical Specifications */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Built for AI Professionals</h2>
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Advanced Technical Capabilities</h2>
               <p className="text-xl text-gray-600">
-                Tailored solutions for every role in the AI development and governance lifecycle
+                Cutting-edge technology designed for enterprise AI testing and compliance
               </p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {targetAudiences.map((audience, index) => (
+              {technicalSpecs.map((spec, index) => (
                 <div 
                   key={index}
                   className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
                 >
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{audience.title}</h3>
-                  <p className="text-gray-600 mb-4">{audience.description}</p>
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Use Cases</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      {audience.useCases.map((useCase, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <Target className="h-4 w-4 text-indigo-600 flex-shrink-0" />
-                          <span className="text-sm text-gray-700">{useCase}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{spec.title}</h3>
+                  <p className="text-gray-600 mb-4">{spec.description}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {spec.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-indigo-500 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{feature}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -515,46 +515,12 @@ const AITestingPromptGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Trusted by AI Innovation Leaders</h2>
-              <p className="text-xl text-gray-600">
-                See how J1-powered testing is revolutionizing AI compliance and safety
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <div 
-                  key={index}
-                  className="bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-md"
-                >
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote className="text-lg text-gray-700 mb-6 italic">
-                    "{testimonial.quote}"
-                  </blockquote>
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.company}</div>
-                    <div className="text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
+        {/* CTA Section - Removed testimonials */}
         <section id="contact" className="py-20 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Ready to Experience J1-Powered AI Testing?</h2>
             <p className="text-xl max-w-3xl mx-auto mb-8 opacity-90">
-              Join the organizations already leveraging our revolutionary J1 reinforcement learning technology for superior AI compliance testing. 
+              Transform your AI compliance testing with our revolutionary J1 reinforcement learning technology. 
               Start your free trial today and see the difference thinking AI makes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -572,6 +538,22 @@ const AITestingPromptGeneratorPage = () => {
                 Download Technical Whitepaper
                 <Download className="h-5 w-5" />
               </Link>
+            </div>
+
+            {/* Trust indicators */}
+            <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-white/20">
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>J1 reinforcement learning</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>Self-improving system</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>Enterprise ready</span>
+              </div>
             </div>
           </div>
         </section>

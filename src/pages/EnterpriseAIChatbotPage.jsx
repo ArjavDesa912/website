@@ -1,4 +1,4 @@
-// src/pages/EnterpriseAIChatbotPage.jsx
+// src/pages/EnterpriseAIChatbotPage.jsx - Removed customer claims and testimonials
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -12,8 +12,6 @@ import {
   Brain, 
   Zap, 
   Lock,
-  Star,
-  Users,
   Target,
   Clock,
   Scale,
@@ -22,7 +20,8 @@ import {
   Building,
   Phone,
   Globe,
-  Award
+  Award,
+  Settings
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -146,27 +145,6 @@ const EnterpriseAIChatbotPage = () => {
     "Ensure data security with enterprise-grade encryption and privacy controls"
   ];
 
-  const testimonials = [
-    {
-      company: "Global Law Firm",
-      role: "Managing Partner",
-      quote: "The Enterprise AI Chatbot has revolutionized our client intake process. We've reduced response times by 90% while maintaining the high-quality legal guidance our clients expect.",
-      rating: 5
-    },
-    {
-      company: "Regional Healthcare Network",
-      role: "Chief Information Officer",
-      quote: "HIPAA compliance was our biggest concern, but this solution exceeded our expectations. The patient triage capabilities have improved our emergency department efficiency significantly.",
-      rating: 5
-    },
-    {
-      company: "Investment Management Firm",
-      role: "Head of Technology",
-      quote: "The fraud detection and portfolio analysis features are game-changing. We've prevented millions in potential losses while providing better service to our high-net-worth clients.",
-      rating: 5
-    }
-  ];
-
   const competitiveAdvantages = [
     {
       title: "Latest Open-Source Models",
@@ -187,6 +165,33 @@ const EnterpriseAIChatbotPage = () => {
       title: "Multi-Modal Excellence",
       description: "Process voice, documents, images, and text in a single conversation flow with advanced AI models designed for complex enterprise scenarios",
       icon: Bot
+    }
+  ];
+
+  const implementationProcess = [
+    {
+      step: 1,
+      title: "Requirements Analysis",
+      description: "Deep dive into your specific industry needs and compliance requirements",
+      duration: "1-2 weeks"
+    },
+    {
+      step: 2,
+      title: "Custom Model Training",
+      description: "Fine-tune AI models on your industry-specific data and use cases",
+      duration: "2-3 weeks"
+    },
+    {
+      step: 3,
+      title: "System Integration",
+      description: "Seamless integration with your existing infrastructure and workflows",
+      duration: "1-2 weeks"
+    },
+    {
+      step: 4,
+      title: "Testing & Deployment",
+      description: "Comprehensive testing followed by secure production deployment",
+      duration: "1 week"
     }
   ];
 
@@ -234,15 +239,15 @@ const EnterpriseAIChatbotPage = () => {
                   </button>
                 </div>
 
-                {/* Trust Indicators */}
+                {/* Trust Indicators - Updated without customer claims */}
                 <div className="flex items-center gap-6 pt-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    <span>1000+ Enterprise Clients</span>
+                    <Shield className="h-4 w-4" />
+                    <span>SOC 2 + HIPAA Ready</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Shield className="h-4 w-4" />
-                    <span>SOC 2 + HIPAA Compliant</span>
+                    <Brain className="h-4 w-4" />
+                    <span>Latest AI Models</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="h-4 w-4" />
@@ -388,8 +393,41 @@ const EnterpriseAIChatbotPage = () => {
           </div>
         </section>
 
-        {/* Competitive Advantages */}
+        {/* Implementation Process */}
         <section className="py-20 bg-purple-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6">Implementation Process</h2>
+              <p className="text-xl text-gray-600">
+                Structured approach to deploy enterprise AI chatbots efficiently
+              </p>
+            </div>
+            
+            <div className="max-w-4xl mx-auto">
+              <div className="space-y-8">
+                {implementationProcess.map((phase, index) => (
+                  <div key={index} className="flex items-start gap-6 bg-white p-6 rounded-xl shadow-md">
+                    <div className="flex-shrink-0 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                      {phase.step}
+                    </div>
+                    <div className="flex-grow">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-xl font-bold text-gray-900">{phase.title}</h3>
+                        <span className="text-sm font-medium text-purple-600 bg-purple-100 px-3 py-1 rounded-full">
+                          {phase.duration}
+                        </span>
+                      </div>
+                      <p className="text-gray-600">{phase.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Competitive Advantages */}
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Why Choose Our Enterprise AI Chatbot?</h2>
@@ -402,7 +440,7 @@ const EnterpriseAIChatbotPage = () => {
               {competitiveAdvantages.map((advantage, index) => (
                 <div 
                   key={index}
-                  className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+                  className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
                 >
                   <div className="flex items-start gap-4">
                     <div className="inline-block p-3 bg-purple-100 rounded-lg text-purple-600 flex-shrink-0">
@@ -420,7 +458,7 @@ const EnterpriseAIChatbotPage = () => {
         </section>
 
         {/* Pricing Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-purple-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-6">Transparent Enterprise Pricing</h2>
@@ -466,7 +504,7 @@ const EnterpriseAIChatbotPage = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="py-20 bg-gradient-to-br from-purple-50 to-indigo-50">
+        <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
@@ -480,7 +518,7 @@ const EnterpriseAIChatbotPage = () => {
                 {benefits.map((benefit, index) => (
                   <div 
                     key={index} 
-                    className="flex items-start gap-4 bg-white p-6 rounded-xl shadow-md"
+                    className="flex items-start gap-4 bg-purple-50 p-6 rounded-xl border border-purple-100"
                   >
                     <CheckCircle className="h-6 w-6 text-purple-500 flex-shrink-0 mt-1" />
                     <p className="text-lg text-gray-700 font-medium">{benefit}</p>
@@ -491,46 +529,12 @@ const EnterpriseAIChatbotPage = () => {
           </div>
         </section>
 
-        {/* Testimonials */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Trusted by Industry Leaders</h2>
-              <p className="text-xl text-gray-600">
-                See how our Enterprise AI Chatbot is transforming businesses across industries
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <div 
-                  key={index}
-                  className="bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-md"
-                >
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <blockquote className="text-lg text-gray-700 mb-6 italic">
-                    "{testimonial.quote}"
-                  </blockquote>
-                  <div>
-                    <div className="font-bold text-gray-900">{testimonial.company}</div>
-                    <div className="text-gray-600">{testimonial.role}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
+        {/* CTA Section - Removed testimonials */}
         <section id="contact" className="py-20 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Ready to Transform Your Enterprise Communications?</h2>
             <p className="text-xl max-w-3xl mx-auto mb-8 opacity-90">
-              Join hundreds of organizations that trust our Enterprise AI Chatbot for their mission-critical communications. 
+              Transform your business communications with our Enterprise AI Chatbot powered by the latest AI models. 
               Start your free trial today and experience the difference industry-specific AI makes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -554,15 +558,15 @@ const EnterpriseAIChatbotPage = () => {
             <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-white/20">
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                <span>24-hour response guarantee</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <span>Enterprise security certified</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 <span>Industry compliance ready</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                <span>Latest AI models included</span>
               </div>
             </div>
           </div>
