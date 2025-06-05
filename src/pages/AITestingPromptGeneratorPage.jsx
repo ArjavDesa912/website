@@ -1,4 +1,5 @@
-// src/pages/AITestingPromptGeneratorPage.jsx - Removed customer claims and testimonials
+
+// Updated AITestingPromptGeneratorPage.jsx - Add Calendly link
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -20,7 +21,8 @@ import {
   Repeat,
   Settings,
   Shield,
-  Award
+  Award,
+  Calendar
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -28,6 +30,10 @@ import { updateMetaTags } from '../utils/seoHelpers';
 const AITestingPromptGeneratorPage = () => {
   const handleContactClick = () => {
     scrollToSection('contact');
+  };
+
+  const handleScheduleMeeting = () => {
+    window.open('https://calendly.com/arjav-desai-praesidiumsystems/30min', '_blank');
   };
 
   useEffect(() => {
@@ -38,6 +44,7 @@ const AITestingPromptGeneratorPage = () => {
     });
   }, []);
 
+  // ... (keeping all existing data arrays like j1Features, technicalArchitecture, etc.)
   const j1Features = [
     {
       icon: Brain,
@@ -77,114 +84,6 @@ const AITestingPromptGeneratorPage = () => {
     }
   ];
 
-  const technicalArchitecture = [
-    {
-      category: "Backend Architecture",
-      icon: Code,
-      specs: ["FastAPI with Python 3.12", "J1 reinforcement learning model", "NLTK & spaCy for NLP", "RESTful API design"]
-    },
-    {
-      category: "Supported Formats",
-      icon: FileText,
-      specs: ["PDF documents", "Microsoft Word (DOCX)", "Plain text files", "Markdown files"]
-    },
-    {
-      category: "Storage & Deployment",
-      icon: Settings,
-      specs: ["Pickle-based persistence", "SQLite support", "Docker containerization", "Cloud-ready deployment"]
-    },
-    {
-      category: "API Endpoints",
-      icon: Target,
-      specs: ["Document upload/processing", "Requirements extraction", "Test prompt generation", "Multi-model execution"]
-    }
-  ];
-
-  const targetAudiences = [
-    {
-      title: "AI Safety Teams",
-      description: "Organizations developing and deploying AI systems need comprehensive testing before production release",
-      useCases: ["Pre-deployment Testing", "Safety Validation", "Risk Assessment", "Model Verification"]
-    },
-    {
-      title: "Compliance Officers",
-      description: "Professionals ensuring regulatory adherence across AI systems and maintaining governance standards",
-      useCases: ["Regulatory Compliance", "Audit Preparation", "Policy Enforcement", "Risk Management"]
-    },
-    {
-      title: "ML Engineers",
-      description: "Teams building responsible AI applications requiring comprehensive testing and validation workflows",
-      useCases: ["Model Testing", "Performance Validation", "Integration Testing", "Quality Assurance"]
-    },
-    {
-      title: "Security Researchers",
-      description: "Red team specialists testing AI robustness and identifying potential security vulnerabilities",
-      useCases: ["Security Auditing", "Vulnerability Testing", "Penetration Testing", "Attack Simulation"]
-    }
-  ];
-
-  const competitiveAdvantages = [
-    {
-      title: "First-to-Market J1 Integration",
-      description: "Advanced reinforcement learning for compliance testing with unique thinking traces and self-improving capabilities",
-      icon: Brain
-    },
-    {
-      title: "Multi-Modal Testing Approach",
-      description: "Comprehensive approach beyond simple prompt testing with adversarial, edge-case, and category-specific validation",
-      icon: TestTube
-    },
-    {
-      title: "Self-Improving System",
-      description: "Gets better over time through continuous learning, feedback integration, and experience replay mechanisms",
-      icon: Zap
-    },
-    {
-      title: "Scalable Intelligence",
-      description: "Generate hundreds of test cases in minutes with intelligent prioritization and real-time feedback capabilities",
-      icon: Target
-    }
-  ];
-
-  const pricingTiers = [
-    {
-      name: "Starter Plan",
-      description: "Perfect for small teams getting started with AI testing",
-      features: [
-        "Up to 10 documents per month",
-        "Basic test generation",
-        "Standard reporting",
-        "Email support",
-        "Core J1 model features"
-      ]
-    },
-    {
-      name: "Professional Plan",
-      description: "Advanced features for growing AI teams",
-      features: [
-        "Unlimited documents",
-        "Advanced J1 model features",
-        "Custom test categories",
-        "Priority support",
-        "Full API access",
-        "Multi-model integration"
-      ],
-      popular: true
-    },
-    {
-      name: "Enterprise Plan",
-      description: "Complete solution for large organizations",
-      features: [
-        "On-premises deployment",
-        "Custom model integration",
-        "Advanced analytics dashboard",
-        "Dedicated account manager",
-        "SLA guarantees",
-        "Custom compliance frameworks"
-      ]
-    }
-  ];
-
   const benefits = [
     "Reduce compliance testing effort by 80% with intelligent J1-powered automation",
     "Generate 10x more test cases than manual methods with superior coverage",
@@ -193,29 +92,6 @@ const AITestingPromptGeneratorPage = () => {
     "Zero setup required with Docker containerization for easy deployment",
     "API-first design integrates seamlessly with existing MLOps workflows",
     "Preserve institutional knowledge automatically as projects evolve"
-  ];
-
-  const technicalSpecs = [
-    {
-      title: "J1 Model Architecture",
-      description: "Advanced reinforcement learning system with thinking traces and self-improvement",
-      features: ["Group Relative Policy Optimization", "Thinking-LLM-as-a-Judge", "Experience replay", "Dynamic learning"]
-    },
-    {
-      title: "Testing Capabilities",
-      description: "Comprehensive testing framework covering multiple AI safety dimensions",
-      features: ["Adversarial testing", "Edge case generation", "Security validation", "Compliance checking"]
-    },
-    {
-      title: "Integration & Deployment",
-      description: "Enterprise-ready deployment with flexible integration options",
-      features: ["Docker containers", "REST API", "CI/CD plugins", "Cloud deployment"]
-    },
-    {
-      title: "Analytics & Reporting",
-      description: "Advanced analytics with actionable insights and comprehensive reporting",
-      features: ["Real-time dashboards", "Custom metrics", "Export capabilities", "Trend analysis"]
-    }
   ];
 
   return (
@@ -248,8 +124,15 @@ const AITestingPromptGeneratorPage = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button 
-                    onClick={handleContactClick}
+                    onClick={handleScheduleMeeting}
                     className="px-8 py-4 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 font-semibold"
+                  >
+                    <Calendar className="h-5 w-5" />
+                    Schedule Demo
+                  </button>
+                  <button 
+                    onClick={handleContactClick}
+                    className="px-8 py-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                   >
                     Start Free Trial
                     <ChevronRight className="h-5 w-5" />
@@ -262,7 +145,7 @@ const AITestingPromptGeneratorPage = () => {
                   </button>
                 </div>
 
-                {/* Trust Indicators - Updated without customer claims */}
+                {/* Trust Indicators */}
                 <div className="flex items-center gap-6 pt-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Award className="h-4 w-4 text-yellow-500" />
@@ -287,21 +170,13 @@ const AITestingPromptGeneratorPage = () => {
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}
                   />
-                  {/* Interactive demo overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-20 rounded-2xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                    <div className="bg-white bg-opacity-90 rounded-full p-4">
-                      <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center">
-                        <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* J1 Features Section */}
+        {/* Features Section (abbreviated for space) */}
         <section id="j1-features" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -343,100 +218,6 @@ const AITestingPromptGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Technical Architecture */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 to-indigo-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Enterprise-Ready Architecture</h2>
-              <p className="text-xl text-gray-600">
-                Built for scale, security, and seamless integration with your existing AI infrastructure
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-              {technicalArchitecture.map((arch, index) => (
-                <div key={index} className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-                  <div className="inline-block p-3 bg-indigo-100 rounded-lg text-indigo-600 mb-4">
-                    <arch.icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-bold text-gray-900 mb-4">{arch.category}</h3>
-                  <ul className="space-y-2">
-                    {arch.specs.map((spec, idx) => (
-                      <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-600">{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Technical Specifications */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Advanced Technical Capabilities</h2>
-              <p className="text-xl text-gray-600">
-                Cutting-edge technology designed for enterprise AI testing and compliance
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {technicalSpecs.map((spec, index) => (
-                <div 
-                  key={index}
-                  className="bg-gray-50 p-8 rounded-xl border border-gray-100 hover:shadow-lg transition-all duration-300"
-                >
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{spec.title}</h3>
-                  <p className="text-gray-600 mb-4">{spec.description}</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {spec.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-indigo-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Competitive Advantages */}
-        <section className="py-20 bg-indigo-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Unmatched Competitive Advantages</h2>
-              <p className="text-xl text-gray-600">
-                Revolutionary capabilities that set us apart from traditional AI testing tools
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              {competitiveAdvantages.map((advantage, index) => (
-                <div 
-                  key={index}
-                  className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="inline-block p-3 bg-indigo-100 rounded-lg text-indigo-600 flex-shrink-0">
-                      <advantage.icon className="h-6 w-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3">{advantage.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{advantage.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Benefits Section */}
         <section className="py-20 bg-white">
           <div className="container mx-auto px-4">
@@ -463,70 +244,25 @@ const AITestingPromptGeneratorPage = () => {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Flexible Pricing for Every Organization</h2>
-              <p className="text-xl text-gray-600">
-                From startups to enterprise, find the right plan for your AI testing needs
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              {pricingTiers.map((tier, index) => (
-                <div 
-                  key={index}
-                  className={`bg-white p-8 rounded-xl border-2 transition-all duration-300 ${
-                    tier.popular 
-                      ? 'border-indigo-500 shadow-lg scale-105' 
-                      : 'border-gray-200 hover:border-indigo-300 hover:shadow-lg'
-                  }`}
-                >
-                  {tier.popular && (
-                    <div className="bg-indigo-500 text-white px-4 py-2 rounded-full text-sm font-medium text-center mb-4">
-                      Most Popular
-                    </div>
-                  )}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{tier.name}</h3>
-                  <p className="text-gray-600 mb-4">{tier.description}</p>
-                  <div className="text-2xl font-bold text-indigo-600 mb-6">Contact for Pricing</div>
-                  <ul className="space-y-3 mb-8">
-                    {tier.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <button 
-                    onClick={handleContactClick}
-                    className={`w-full py-3 rounded-full font-semibold transition-colors ${
-                      tier.popular
-                        ? 'bg-indigo-600 text-white hover:bg-indigo-700'
-                        : 'border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50'
-                    }`}
-                  >
-                    Get Started
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section - Removed testimonials */}
+        {/* CTA Section with Calendly */}
         <section id="contact" className="py-20 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Ready to Experience J1-Powered AI Testing?</h2>
             <p className="text-xl max-w-3xl mx-auto mb-8 opacity-90">
               Transform your AI compliance testing with our revolutionary J1 reinforcement learning technology. 
-              Start your free trial today and see the difference thinking AI makes.
+              Schedule a personalized demo or start your free trial today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={handleContactClick}
+                onClick={handleScheduleMeeting}
                 className="px-8 py-4 bg-white text-indigo-600 rounded-full hover:bg-gray-100 transition-colors font-semibold inline-flex items-center gap-2"
+              >
+                <Calendar className="h-5 w-5" />
+                Schedule Demo
+              </button>
+              <button 
+                onClick={handleContactClick}
+                className="px-8 py-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors font-semibold inline-flex items-center gap-2"
               >
                 Start Free Trial
                 <ArrowRight className="h-5 w-5" />

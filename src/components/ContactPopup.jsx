@@ -1,4 +1,4 @@
-// src/components/ContactPopup.jsx - Fixed positioning and visibility
+// src/components/ContactPopup.jsx - Added Calendly links
 import React, { useEffect, useState } from 'react';
 import { X, Mail, Calendar, Sparkles } from 'lucide-react';
 
@@ -12,13 +12,15 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
       name: "Arjav Desai",
       role: "Co-Founder & CEO",
       email: "arjav.desai@praesidiumsystems.ai",
-      photo: "/images/arjav.png"
+      photo: "/images/arjav.png",
+      calendly: "https://calendly.com/arjav-desai-praesidiumsystems/30min"
     },
     {
       name: "Samuel Heidler",
       role: "Co-Founder & CTO",
       email: "sam.heidler@praesidiumsystems.ai",
-      photo: "/images/sam.png"
+      photo: "/images/sam.png",
+      calendly: "https://calendly.com/arjav-desai-praesidiumsystems/30min" // Using same Calendly for now
     }
   ];
 
@@ -89,7 +91,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
   };
 
   // Handle schedule demo click with analytics
-  const handleScheduleDemoClick = () => {
+  const handleScheduleDemoClick = (calendlyUrl = "https://calendly.com/arjav-desai-praesidiumsystems/30min") => {
     if (typeof window !== 'undefined' && window.gtag) {
       // Track demo request
       window.gtag('event', 'generate_lead', {
@@ -105,6 +107,9 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
         source: 'popup'
       });
     }
+    
+    // Open Calendly in new tab
+    window.open(calendlyUrl, '_blank');
     
     // Close popup after tracking
     onClose();
@@ -197,15 +202,24 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
                   </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-1">{person.name}</h4>
                   <p className="text-blue-600 font-medium mb-4">{person.role}</p>
-                  <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                    <Mail className="h-4 w-4 mr-2" />
-                    <a 
-                      href={`mailto:${person.email}`} 
-                      className="hover:text-blue-600 transition-colors"
-                      onClick={() => handleEmailClick(person.email, `team_${person.name.toLowerCase().replace(' ', '_')}`)}
+                  <div className="space-y-3">
+                    <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-300 cursor-pointer">
+                      <Mail className="h-4 w-4 mr-2" />
+                      <a 
+                        href={`mailto:${person.email}`} 
+                        className="hover:text-blue-600 transition-colors"
+                        onClick={() => handleEmailClick(person.email, `team_${person.name.toLowerCase().replace(' ', '_')}`)}
+                      >
+                        {person.email}
+                      </a>
+                    </div>
+                    <button
+                      onClick={() => handleScheduleDemoClick(person.calendly)}
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium text-sm"
                     >
-                      {person.email}
-                    </a>
+                      <Calendar className="h-4 w-4" />
+                      Schedule Meeting
+                    </button>
                   </div>
                 </div>
               ))}
@@ -225,15 +239,24 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
               <div className="flex-1 text-center lg:text-left">
                 <h4 className="text-2xl font-bold text-gray-900 mb-2">{founders[0].name}</h4>
                 <p className="text-lg text-blue-600 font-medium mb-6">{founders[0].role}</p>
-                <div className="flex items-center justify-center lg:justify-start text-gray-600 hover:text-blue-600 transition-colors duration-300 mb-6">
-                  <Mail className="h-5 w-5 mr-3" />
-                  <a 
-                    href={`mailto:${founders[0].email}`} 
-                    className="hover:text-blue-600 transition-colors text-lg"
-                    onClick={() => handleEmailClick(founders[0].email, 'ceo_profile')}
+                <div className="flex flex-col items-center lg:items-start gap-4 mb-6">
+                  <div className="flex items-center text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                    <Mail className="h-5 w-5 mr-3" />
+                    <a 
+                      href={`mailto:${founders[0].email}`} 
+                      className="hover:text-blue-600 transition-colors text-lg"
+                      onClick={() => handleEmailClick(founders[0].email, 'ceo_profile')}
+                    >
+                      {founders[0].email}
+                    </a>
+                  </div>
+                  <button
+                    onClick={() => handleScheduleDemoClick(founders[0].calendly)}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-semibold"
                   >
-                    {founders[0].email}
-                  </a>
+                    <Calendar className="h-5 w-5" />
+                    Schedule Meeting
+                  </button>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
                   Thank you for your interest in Praesidium Systems. I'm personally committed to ensuring 
@@ -256,7 +279,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
                 <span>Send Email</span>
               </a>
               <button 
-                onClick={handleScheduleDemoClick}
+                onClick={() => handleScheduleDemoClick()}
                 className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-full flex items-center justify-center gap-3 group hover:bg-blue-600 hover:text-white transition-all duration-300 font-semibold"
               >
                 <Calendar className="h-5 w-5" />

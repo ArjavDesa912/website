@@ -1,6 +1,6 @@
-// src/components/Sections/CTASection.jsx - Removed customer claims
+// src/components/Sections/CTASection.jsx - Fixed and cleaned up
 import React, { useRef, useEffect, useState } from 'react';
-import { ArrowRight, Shield, Zap, Award, CheckCircle, Rocket, Clock, Globe, Settings } from 'lucide-react';
+import { ArrowRight, Shield, Zap, Award, CheckCircle, Rocket, Clock, Globe, Settings, Calendar } from 'lucide-react';
 
 // Animated background component with enhanced effects
 const AnimatedBackground = () => {
@@ -193,7 +193,7 @@ const AnimatedCounter = ({ end, duration = 2000, suffix = "", prefix = "" }) => 
   );
 };
 
-// Enhanced trust indicator component - Updated without customer claims
+// Enhanced trust indicator component
 const TrustIndicator = ({ icon: Icon, label, value, delay = 0, description }) => {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -263,7 +263,7 @@ const FeatureHighlight = ({ icon: Icon, title, description, index }) => {
   );
 };
 
-// Main CTA Section - Updated without customer claims
+// Main CTA Section - Updated with Calendly
 const CTASection = ({ onContactClick }) => {
   const trustData = [
     { 
@@ -324,6 +324,22 @@ const CTASection = ({ onContactClick }) => {
     "Comprehensive Audit Trail Logging"
   ];
 
+  // Handle Calendly demo scheduling
+  const handleScheduleDemo = () => {
+    // Track the demo request
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'conversion',
+        lead_type: 'schedule_demo',
+        source: 'cta_section',
+        value: 1
+      });
+    }
+    
+    // Open Calendly in new tab
+    window.open('https://calendly.com/arjav-desai-praesidiumsystems/30min', '_blank');
+  };
+
   return (
     <section 
       id="contact" 
@@ -356,12 +372,12 @@ const CTASection = ({ onContactClick }) => {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center mb-20">
             <InteractiveButton 
-              onClick={onContactClick}
+              onClick={handleScheduleDemo}
               variant="primary"
               className="text-lg px-12 py-5 flex items-center justify-center gap-3"
             >
-              <Rocket className="h-6 w-6" />
-              Request Demo
+              <Calendar className="h-6 w-6" />
+              Schedule Demo
               <ArrowRight className="h-6 w-6" />
             </InteractiveButton>
             
@@ -376,7 +392,7 @@ const CTASection = ({ onContactClick }) => {
             </InteractiveButton>
           </div>
 
-          {/* Trust Indicators - Updated without customer claims */}
+          {/* Trust Indicators */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             {trustData.map((item, index) => (
               <TrustIndicator 

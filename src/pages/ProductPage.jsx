@@ -1,7 +1,8 @@
+// src/pages/ProductPage.jsx - Updated with Calendly
 import React, { useEffect } from 'react';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import { ArrowRight, CheckCircle, ChevronRight } from 'lucide-react';
+import { ArrowRight, CheckCircle, ChevronRight, Calendar } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { 
   updateMetaTags, 
@@ -20,23 +21,20 @@ const ProductPage = ({
   ctaText = "Request Demo",
   keywords
 }) => {
-  // Contact popup state would typically be managed in App.js
-  // and passed down, but we'll simulate the behavior here
   const handleContactClick = () => {
-    // In a real implementation, this would open the contact popup
     console.log("Contact button clicked");
-    // For now, let's just scroll to contact section
     scrollToSection('contact');
   };
+
+  const handleScheduleMeeting = () => {
+    window.open('https://calendly.com/arjav-desai-praesidiumsystems/30min', '_blank');
+  };
   
-  // SEO optimization
   useEffect(() => {
-    // Define meta tags
     const baseUrl = window.location.origin;
     const productSlug = title.toLowerCase().replace(/[^\w\s]/g, '').replace(/\s+/g, '-');
     const canonicalUrl = `${baseUrl}/products/${productSlug}`;
     
-    // Update meta tags
     updateMetaTags({
       title,
       description: subtitle,
@@ -46,7 +44,6 @@ const ProductPage = ({
       type: 'product'
     });
     
-    // Generate product schema
     const productData = {
       title,
       description,
@@ -56,7 +53,6 @@ const ProductPage = ({
     const productSchema = generateProductSchema(productData);
     addStructuredData(productSchema, 'product-schema');
     
-    // Add organization schema
     const organizationSchema = {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -67,7 +63,6 @@ const ProductPage = ({
     };
     addStructuredData(JSON.stringify(organizationSchema), 'organization-schema');
     
-    // Clean up when component unmounts
     return () => {
       removeStructuredData('product-schema');
       removeStructuredData('organization-schema');
@@ -95,11 +90,19 @@ const ProductPage = ({
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button 
-                    onClick={handleContactClick}
+                    onClick={handleScheduleMeeting}
                     className="px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
-                    aria-label={ctaText}
+                    aria-label="Schedule Demo"
                   >
-                    {ctaText}
+                    <Calendar className="h-5 w-5" />
+                    Schedule Demo
+                  </button>
+                  <button 
+                    onClick={handleContactClick}
+                    className="px-6 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                    aria-label="Start Free Trial"
+                  >
+                    Start Free Trial
                     <ChevronRight className="h-5 w-5" />
                   </button>
                   <button 
@@ -187,106 +190,6 @@ const ProductPage = ({
           </div>
         </section>
         
-        {/* FAQ Section for SEO */}
-        <section id="faq" className="py-20 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Common questions about {title}
-              </p>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              <div 
-                className="divide-y divide-gray-200"
-                itemScope
-                itemType="https://schema.org/FAQPage"
-              >
-                <div 
-                  className="py-6"
-                  itemScope
-                  itemType="https://schema.org/Question"
-                >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2" itemProp="name">
-                    How does {title} integrate with existing AI systems?
-                  </h3>
-                  <div
-                    itemScope
-                    itemType="https://schema.org/Answer"
-                  >
-                    <div itemProp="text">
-                      <p className="text-gray-700">
-                        {title} offers flexible integration options through APIs, SDKs, and direct connectors with all major AI providers including OpenAI, Anthropic, Google, AWS, and Azure. Our platform can be deployed as a lightweight monitoring layer without requiring changes to your existing AI infrastructure.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div 
-                  className="py-6"
-                  itemScope
-                  itemType="https://schema.org/Question"
-                >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2" itemProp="name">
-                    What regulatory frameworks does {title} support?
-                  </h3>
-                  <div
-                    itemScope
-                    itemType="https://schema.org/Answer"
-                  >
-                    <div itemProp="text">
-                      <p className="text-gray-700">
-                        Our platform includes built-in support for major regulatory frameworks including the EU AI Act, NIST AI Risk Management Framework, ISO 42001, and industry-specific regulations such as those for financial services, healthcare, and government use cases. The platform is regularly updated as new regulations emerge.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div 
-                  className="py-6"
-                  itemScope
-                  itemType="https://schema.org/Question"
-                >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2" itemProp="name">
-                    How quickly can we deploy {title} in our organization?
-                  </h3>
-                  <div
-                    itemScope
-                    itemType="https://schema.org/Answer"
-                  >
-                    <div itemProp="text">
-                      <p className="text-gray-700">
-                        Most organizations can deploy {title} within 2-4 weeks. Our platform offers rapid deployment options including cloud-hosted SaaS, on-premises installation, and VPC deployment. Our implementation team provides comprehensive onboarding support to ensure a smooth rollout tailored to your specific organizational needs.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div 
-                  className="py-6"
-                  itemScope
-                  itemType="https://schema.org/Question"
-                >
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2" itemProp="name">
-                    Is {title} suitable for both small teams and enterprise organizations?
-                  </h3>
-                  <div
-                    itemScope
-                    itemType="https://schema.org/Answer"
-                  >
-                    <div itemProp="text">
-                      <p className="text-gray-700">
-                        Yes, {title} is designed to scale from small AI teams to enterprise-wide deployments. We offer flexible pricing tiers based on usage volume and feature requirements. The platform's modular architecture allows organizations to start with core compliance needs and expand functionality as their AI governance requirements mature.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
         {/* CTA Section */}
         <section id="product-cta" className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
           <div className="container mx-auto px-4 text-center">
@@ -294,14 +197,24 @@ const ProductPage = ({
             <p className="text-xl max-w-2xl mx-auto mb-8 opacity-90">
               Contact our team today for a personalized demo and discover how our platform can help your organization.
             </p>
-            <button 
-              onClick={handleContactClick}
-              className="inline-flex items-center gap-2 px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-medium"
-              aria-label="Request Demo"
-            >
-              Request Demo
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={handleScheduleMeeting}
+                className="inline-flex items-center gap-2 px-8 py-3 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-medium"
+                aria-label="Schedule Demo"
+              >
+                <Calendar className="h-4 w-4" />
+                Schedule Demo
+              </button>
+              <button 
+                onClick={handleContactClick}
+                className="inline-flex items-center gap-2 px-8 py-3 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors font-medium"
+                aria-label="Start Free Trial"
+              >
+                Start Free Trial
+                <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         </section>
       </main>

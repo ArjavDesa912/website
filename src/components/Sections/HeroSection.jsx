@@ -1,6 +1,6 @@
-// src/components/Sections/HeroSection.jsx - Removed customer claims
+// src/components/Sections/HeroSection.jsx - Added Calendly integration
 import React from 'react';
-import { ChevronRight, Users, Shield, Zap, CheckCircle } from 'lucide-react';
+import { ChevronRight, Users, Shield, Zap, CheckCircle, Calendar } from 'lucide-react';
 import { scrollToSection } from '../../utils/scrollUtils';
 
 // Aceternity-inspired components
@@ -151,6 +151,22 @@ const GlowingButton = ({ children, onClick, variant = "primary", className = "" 
 };
 
 const HeroSection = ({ onShowTeam, onContactClick }) => {
+  // Handle Calendly demo scheduling
+  const handleScheduleDemo = () => {
+    // Track the demo request
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'generate_lead', {
+        event_category: 'conversion',
+        lead_type: 'schedule_demo',
+        source: 'hero_section',
+        value: 1
+      });
+    }
+    
+    // Open Calendly in new tab
+    window.open('https://calendly.com/arjav-desai-praesidiumsystems/30min', '_blank');
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-50/50">
       {/* Animated Background Elements */}
@@ -212,11 +228,12 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
             <FloatingCard delay={0.8}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <GlowingButton 
-                  onClick={() => onContactClick?.()}
+                  onClick={handleScheduleDemo}
                   variant="primary"
                   className="flex items-center justify-center gap-2"
                 >
-                  Request Demo
+                  <Calendar className="h-5 w-5" />
+                  Schedule Demo
                   <ChevronRight className="h-5 w-5" />
                 </GlowingButton>
                 
@@ -229,7 +246,7 @@ const HeroSection = ({ onShowTeam, onContactClick }) => {
               </div>
             </FloatingCard>
 
-            {/* Trust Indicators - Updated without customer claims */}
+            {/* Trust Indicators */}
             <FloatingCard delay={1}>
               <div className="flex flex-wrap items-center gap-8 pt-8">
                 <div className="flex items-center gap-3 text-slate-600">

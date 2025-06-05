@@ -1,6 +1,7 @@
 /**
  * Google Analytics 4 (GA4) utilities for Praesidium Systems
  * Provides comprehensive tracking for user interactions, page views, and business events
+ * Updated with Calendly integration tracking
  */
 
 // GA4 Measurement ID (already configured in your HTML)
@@ -70,7 +71,31 @@ export const trackEvent = (eventName, parameters = {}) => {
 // Specific tracking functions for Praesidium Systems business events
 
 /**
- * Track contact/demo requests
+ * Track Calendly demo scheduling
+ * @param {string} source - Where the scheduling was initiated from
+ * @param {string} type - Type of meeting (demo, consultation, etc.)
+ */
+export const trackCalendlyScheduling = (source, type = 'demo') => {
+  trackEvent('schedule_meeting', {
+    category: 'conversion',
+    label: source,
+    event_source: source,
+    meeting_type: type,
+    platform: 'calendly',
+    value: 1
+  });
+  
+  // Also track as a lead generation event
+  trackEvent('generate_lead', {
+    category: 'conversion',
+    lead_type: 'calendly_scheduling',
+    source: source,
+    value: 1
+  });
+};
+
+/**
+ * Track contact/demo requests (for non-Calendly interactions)
  * @param {string} source - Where the request came from (hero, cta, header, etc.)
  * @param {string} type - Type of request (demo, contact, etc.)
  */
@@ -251,6 +276,35 @@ export const trackVideoInteraction = (action, videoTitle, progress = 0) => {
 };
 
 /**
+ * Track Calendly widget interactions (if embedded)
+ * @param {string} action - opened, closed, scheduled
+ * @param {string} source - Where the interaction happened
+ */
+export const trackCalendlyWidget = (action, source) => {
+  trackEvent('calendly_widget', {
+    category: 'calendly_engagement',
+    action: action,
+    source: source,
+    value: 1
+  });
+};
+
+/**
+ * Track external link clicks (like Calendly)
+ * @param {string} url - URL being clicked
+ * @param {string} source - Where the click happened
+ */
+export const trackExternalLink = (url, source) => {
+  trackEvent('click', {
+    category: 'external_link',
+    event_label: url,
+    source: source,
+    link_url: url,
+    value: 1
+  });
+};
+
+/**
  * Set user properties for enhanced analytics
  * @param {Object} properties - User properties to set
  */
@@ -294,11 +348,37 @@ export const trackError = (error, location) => {
   });
 };
 
+// Helper function to track all meeting-related interactions
+export const trackMeetingInteraction = (action, source, details = {}) => {
+  const baseEvent = {
+    category: 'meeting_engagement',
+    action: action,
+    source: source,
+    ...details
+  };
+
+  switch (action) {
+    case 'calendly_clicked':
+      trackCalendlyScheduling(source, details.meetingType);
+      trackExternalLink('https://calendly.com/arjav-desai-praesidiumsystems/30min', source);
+      break;
+    case 'popup_opened':
+      trackEvent('popup_interaction', { ...baseEvent, popup_type: 'contact' });
+      break;
+    case 'email_clicked':
+      trackEvent('email_interaction', baseEvent);
+      break;
+    default:
+      trackEvent('meeting_interaction', baseEvent);
+  }
+};
+
 // Export all functions
 const analyticsUtils = {
   initGA4,
   trackPageView,
   trackEvent,
+  trackCalendlyScheduling,
   trackContactRequest,
   trackProductView,
   trackBlogEngagement,
@@ -312,8 +392,12 @@ const analyticsUtils = {
   trackTimeOnPage,
   trackSearch,
   trackVideoInteraction,
+  trackCalendlyWidget,
+  trackExternalLink,
+  trackMeetingInteraction,
   setUserProperties,
   trackConversion,
   trackError
 };
+
 export default analyticsUtils;

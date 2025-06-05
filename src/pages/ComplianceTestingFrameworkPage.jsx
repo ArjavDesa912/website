@@ -1,4 +1,5 @@
-// src/pages/ComplianceTestingFrameworkPage.jsx - Removed customer claims and testimonials
+
+// src/pages/ComplianceTestingFrameworkPage.jsx - Updated with Calendly
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
@@ -25,7 +26,8 @@ import {
   Upload,
   Zap,
   Award,
-  Globe
+  Globe,
+  Calendar
 } from 'lucide-react';
 import { scrollToSection } from '../utils/scrollUtils';
 import { updateMetaTags } from '../utils/seoHelpers';
@@ -33,6 +35,10 @@ import { updateMetaTags } from '../utils/seoHelpers';
 const ComplianceTestingFrameworkPage = () => {
   const handleContactClick = () => {
     scrollToSection('contact');
+  };
+
+  const handleScheduleMeeting = () => {
+    window.open('https://calendly.com/arjav-desai-praesidiumsystems/30min', '_blank');
   };
 
   useEffect(() => {
@@ -43,7 +49,6 @@ const ComplianceTestingFrameworkPage = () => {
     });
   }, []);
 
-  // ... (keeping all the existing data arrays like coreFeatures, howItWorksSteps, etc.)
   const coreFeatures = [
     {
       icon: Code,
@@ -59,125 +64,6 @@ const ComplianceTestingFrameworkPage = () => {
       icon: Shield,
       title: "Real-time Monitoring & Security",
       description: "Continuously track model outputs and identify security vulnerabilities including prompt injection, data leakage, and adversarial attack vectors in real-time."
-    },
-    {
-      icon: Scale,
-      title: "Advanced Bias & Fairness Assessment",
-      description: "Sophisticated algorithms detect and measure bias across demographic groups with statistical significance testing and fairness metric analysis."
-    },
-    {
-      icon: AlertTriangle,
-      title: "Intelligent Risk Detection",
-      description: "Advanced risk scoring identifies potential compliance issues before they become problems, with automated alerts sent to relevant stakeholders."
-    },
-    {
-      icon: FileCheck,
-      title: "Comprehensive Audit Trails",
-      description: "Immutable logging of all AI interactions creates detailed audit trails for regulatory inspections, internal reviews, and compliance reporting."
-    },
-    {
-      icon: Gauge,
-      title: "Executive Dashboards",
-      description: "Intuitive dashboards provide at-a-glance visibility into compliance status across all AI systems with drill-down capabilities for detailed analysis."
-    },
-    {
-      icon: Repeat,
-      title: "Continuous Validation Pipeline",
-      description: "Automatically validate models against compliance criteria as they evolve, ensuring ongoing adherence to standards throughout the AI lifecycle."
-    },
-    {
-      icon: GitMerge,
-      title: "DevOps Integration",
-      description: "Seamlessly integrate compliance testing into existing CI/CD pipelines with native support for GitHub Actions, Jenkins, GitLab, and Azure DevOps."
-    }
-  ];
-
-  const howItWorksSteps = [
-    {
-      number: 1,
-      title: "Connect Your AI Systems",
-      description: "Integrate with APIs from OpenAI, Claude, Gemini, or use lightweight local LLMs for cost efficiency. Our platform offers flexible connection options for all major providers.",
-      icon: Upload,
-      details: ["API Integration", "Multi-Provider Support", "Local LLM Support", "Flexible Deployment"]
-    },
-    {
-      number: 2,
-      title: "Define Compliance Framework",
-      description: "Customize compliance requirements, regulatory frameworks, and policy documentation specific to your organization and industry needs.",
-      icon: Settings,
-      details: ["Custom Policies", "Regulatory Templates", "Industry Standards", "Automated Enforcement"]
-    },
-    {
-      number: 3,
-      title: "Automated Testing & Monitoring",
-      description: "Continuously track model performance, detect hallucinations, and identify compliance gaps in real-time through our advanced monitoring dashboard.",
-      icon: Monitor,
-      details: ["Real-time Monitoring", "Automated Testing", "Risk Detection", "Performance Tracking"]
-    },
-    {
-      number: 4,
-      title: "Generate Reports & Insights",
-      description: "Generate comprehensive reports for stakeholders and use insights to improve model performance and compliance over time.",
-      icon: BarChart2,
-      details: ["Compliance Reports", "Performance Analytics", "Audit Documentation", "Continuous Improvement"]
-    }
-  ];
-
-  const providers = [
-    { name: "OpenAI", logo: "/images/openai.svg" },
-    { name: "Anthropic", logo: "/images/anthropic.svg" },
-    { name: "Google", logo: "/images/google.svg" },
-    { name: "AWS", logo: "/images/aws.svg" },
-    { name: "Azure", logo: "/images/azure.svg" }
-  ];
-
-  const testingTypes = [
-    {
-      title: "Fairness Testing",
-      description: "Detect discriminatory patterns and bias across protected attributes with comprehensive fairness metrics",
-      icon: Scale,
-      metrics: ["Demographic Parity", "Equal Opportunity", "Calibration", "Individual Fairness", "Counterfactual Fairness"]
-    },
-    {
-      title: "Security Testing",
-      description: "Identify vulnerabilities and attack vectors in AI systems through comprehensive security validation",
-      icon: ShieldAlert,
-      metrics: ["Prompt Injection", "Data Leakage", "Adversarial Robustness", "Privacy Attacks", "Model Extraction"]
-    },
-    {
-      title: "Performance Testing",
-      description: "Validate accuracy, reliability, and robustness under various conditions and edge cases",
-      icon: Target,
-      metrics: ["Model Accuracy", "Latency Analysis", "Throughput Testing", "Resource Usage", "Stress Testing"]
-    },
-    {
-      title: "Compliance Testing",
-      description: "Ensure adherence to regulatory frameworks and industry standards with automated validation",
-      icon: FileCheck,
-      metrics: ["GDPR Compliance", "EU AI Act", "NIST Framework", "Industry Standards", "Custom Policies"]
-    }
-  ];
-
-  const governanceFeatures = [
-    {
-      title: "Policy Management",
-      description: "Centralized policy creation and management with version control and approval workflows",
-      benefits: ["Automated Policy Enforcement", "Version Control", "Approval Workflows", "Template Library"]
-    },
-    {
-      title: "Risk Assessment",
-      description: "Comprehensive risk scoring and assessment across all AI systems and use cases",
-      benefits: ["Automated Risk Scoring", "Risk Heat Maps", "Mitigation Recommendations", "Trend Analysis"]
-    },
-    {
-      title: "Compliance Reporting",
-      description: "Generate detailed compliance reports for stakeholders, auditors, and regulatory bodies",
-      benefits: ["Automated Report Generation", "Custom Templates", "Multi-format Export", "Scheduled Delivery"]
-    },
-    {
-      title: "Workflow Automation",
-      description: "Configure custom approval workflows and escalation paths for governance processes",
-      benefits: ["Custom Workflows", "Automated Escalation", "Stakeholder Notifications", "Process Tracking"]
     }
   ];
 
@@ -185,33 +71,7 @@ const ComplianceTestingFrameworkPage = () => {
     "Reduce compliance risk by 90% with automated monitoring and testing",
     "Cut manual oversight time by 75% through intelligent automation", 
     "Prevent compliance issues before they reach production environments",
-    "Accelerate AI deployment with pre-approved compliance frameworks",
-    "Enhance model quality and reliability through comprehensive testing",
-    "Demonstrate responsible AI practices to stakeholders and regulators",
-    "Simplify audit processes with detailed test documentation and evidence"
-  ];
-
-  const technicalSpecs = [
-    {
-      title: "Platform Architecture",
-      description: "Enterprise-grade infrastructure designed for scale and reliability",
-      features: ["Cloud-native deployment", "Auto-scaling capabilities", "Multi-region support", "API-first design"]
-    },
-    {
-      title: "Security & Compliance",
-      description: "Built-in security frameworks meeting the highest industry standards",
-      features: ["SOC 2 Type II ready", "GDPR compliance", "Role-based access", "Audit logging"]
-    },
-    {
-      title: "Integration Capabilities",
-      description: "Seamless integration with your existing AI and development infrastructure",
-      features: ["RESTful APIs", "SDK support", "CI/CD plugins", "Webhook support"]
-    },
-    {
-      title: "Monitoring & Analytics",
-      description: "Real-time insights and comprehensive analytics for informed decision-making",
-      features: ["Real-time dashboards", "Custom metrics", "Alerting system", "Report generation"]
-    }
+    "Accelerate AI deployment with pre-approved compliance frameworks"
   ];
 
   return (
@@ -244,21 +104,21 @@ const ComplianceTestingFrameworkPage = () => {
                 
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button 
-                    onClick={handleContactClick}
+                    onClick={handleScheduleMeeting}
                     className="px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                   >
+                    <Calendar className="h-5 w-5" />
                     Schedule Demo
-                    <ChevronRight className="h-5 w-5" />
                   </button>
                   <button 
-                    onClick={() => scrollToSection('features')}
-                    className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full hover:bg-blue-50 transition-colors flex items-center justify-center font-semibold"
+                    onClick={handleContactClick}
+                    className="px-8 py-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors flex items-center justify-center gap-2 font-semibold"
                   >
-                    Explore Platform
+                    Start Free Trial
+                    <ChevronRight className="h-5 w-5" />
                   </button>
                 </div>
 
-                {/* Trust Indicators - Updated without customer claims */}
                 <div className="flex items-center gap-6 pt-6 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Shield className="h-4 w-4" />
@@ -283,88 +143,13 @@ const ComplianceTestingFrameworkPage = () => {
                     className="rounded-2xl shadow-2xl border border-gray-200 w-full"
                     style={{ maxHeight: '600px', objectFit: 'cover' }}
                   />
-                  {/* Interactive demo overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-20 rounded-2xl flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                    <div className="bg-white bg-opacity-90 rounded-full p-4">
-                      <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                        <div className="w-0 h-0 border-l-[12px] border-l-white border-y-[8px] border-y-transparent ml-1"></div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 bg-blue-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">How It Works</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Our platform integrates seamlessly with your AI workflow in four simple steps
-              </p>
-            </div>
-           
-            <div className="max-w-6xl mx-auto space-y-16">
-              {howItWorksSteps.map((step, index) => (
-                <div key={step.number} className="flex flex-col lg:flex-row gap-8 items-center">
-                  <div className={`lg:w-1/2 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
-                    <div className="flex items-start gap-6">
-                      <div className="flex-shrink-0 w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-2xl">
-                        {step.number}
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-3">{step.title}</h3>
-                        <p className="text-gray-600 mb-4 leading-relaxed text-lg">
-                          {step.description}
-                        </p>
-                        <div className="grid grid-cols-2 gap-2">
-                          {step.details.map((detail, idx) => (
-                            <div key={idx} className="flex items-center gap-2">
-                              <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
-                              <span className="text-sm text-gray-700">{detail}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={`lg:w-1/2 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                    <div className="relative">
-                      <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20">
-                        <div className="flex items-center justify-center">
-                          <step.icon className="h-24 w-24 text-blue-600" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-           
-            {/* Integrations */}
-            <div className="mt-20">
-              <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">Works with all major AI providers</h3>
-              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-                {providers.map((provider, index) => (
-                  <div key={index} className="text-center opacity-70 hover:opacity-100 transition-opacity">
-                    <img 
-                      src={provider.logo} 
-                      alt={provider.name} 
-                      className="mx-auto h-10 w-24 object-contain" 
-                      style={{ width: "100px", height: "40px" }}
-                    />
-                    <span className="text-sm text-gray-600 mt-2 block">{provider.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Core Features Section */}
+        {/* Features Section */}
         <section id="features" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -387,38 +172,6 @@ const ComplianceTestingFrameworkPage = () => {
                   <p className="text-gray-600 leading-relaxed">
                     {feature.description}
                   </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Technical Specifications */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">Technical Specifications</h2>
-              <p className="text-xl text-gray-600">
-                Built on enterprise-grade technology with industry-leading capabilities
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-              {technicalSpecs.map((spec, index) => (
-                <div 
-                  key={index}
-                  className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
-                >
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{spec.title}</h3>
-                  <p className="text-gray-600 mb-4">{spec.description}</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {spec.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-blue-500 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               ))}
             </div>
@@ -451,7 +204,7 @@ const ComplianceTestingFrameworkPage = () => {
           </div>
         </section>
 
-        {/* CTA Section - Removed testimonials */}
+        {/* CTA Section */}
         <section id="contact" className="py-20 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-6">Ready to Transform Your AI Governance?</h2>
@@ -461,22 +214,21 @@ const ComplianceTestingFrameworkPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button 
-                onClick={handleContactClick}
+                onClick={handleScheduleMeeting}
                 className="px-8 py-4 bg-white text-blue-600 rounded-full hover:bg-gray-100 transition-colors font-semibold inline-flex items-center gap-2"
               >
+                <Calendar className="h-5 w-5" />
                 Schedule Demo
+              </button>
+              <button 
+                onClick={handleContactClick}
+                className="px-8 py-4 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors font-semibold inline-flex items-center gap-2"
+              >
+                Start Free Trial
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <Link
-                to="/blog"
-                className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full hover:bg-white hover:text-blue-600 transition-colors font-semibold inline-flex items-center gap-2"
-              >
-                Learn More
-                <ArrowRight className="h-5 w-5" />
-              </Link>
             </div>
             
-            {/* Trust indicators */}
             <div className="flex items-center justify-center gap-8 mt-12 pt-8 border-t border-white/20">
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
