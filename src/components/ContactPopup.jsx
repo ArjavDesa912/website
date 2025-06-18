@@ -11,7 +11,7 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
     {
       name: "Arjav Desai",
       role: "Co-Founder & CEO",
-      email: "arjav.desai@praesidiumsystems.ai",
+      email: "sales@contact.praesidiumsystems.ai",
       photo: "/images/arjav.png",
       calendly: "https://calendly.com/arjav-desai-praesidiumsystems/30min"
     },
@@ -271,9 +271,9 @@ const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
             <h4 className="font-bold mb-6 text-gray-900 text-xl text-center">Get in Touch</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-lg mx-auto">
               <a 
-                href="mailto:arjav.desai@praesidiumsystems.ai" 
+                href="mailto:sales@contact.praesidiumsystems.ai" 
                 className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full flex items-center justify-center gap-3 group hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl font-semibold"
-                onClick={() => handleEmailClick('arjav.desai@praesidiumsystems.ai', 'cta_button')}
+                onClick={() => handleEmailClick('sales@contact.praesidiumsystems.ai', 'cta_button')}
               >
                 <Mail className="h-5 w-5" />
                 <span>Send Email</span>

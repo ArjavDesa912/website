@@ -6,7 +6,7 @@ const post = {
   slug: "ai-risk-management-framework",
   excerpt: "Effective AI risk management requires a systematic approach to identifying, assessing, and mitigating risks throughout the AI lifecycle. Learn how to build a robust risk management framework for your AI systems.",
   author: "Arjav Desai",
-  date: "April 10, 2025",
+  date: "May 10, 2025",
   category: "Risk Management",
   image: "/images/blog/ai-risk-management.jpg",
   readingTime: 13,
