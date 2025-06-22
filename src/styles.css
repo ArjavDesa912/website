@@ -1,3 +1,8 @@
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Praesidium Systems - Uniform Dark Theme */
 /* Modern, cohesive design system with 3 accent colors */
 

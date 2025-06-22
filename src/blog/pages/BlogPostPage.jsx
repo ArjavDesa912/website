@@ -183,7 +183,7 @@ const BlogPostPage = () => {
         <div className="container mx-auto px-4 pb-12">
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 text-sm text-gray-600 mb-8">
-            <Link to="/blog" className="hover:text-blue-600">Blog</Link>
+            {/* <Link to="/blog" className="hover:text-blue-600">Blog</Link> */}
             <span>/</span>
             <span className="text-blue-600 font-medium">{post.category}</span>
           </div>

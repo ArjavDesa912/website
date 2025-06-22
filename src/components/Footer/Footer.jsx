@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { scrollToSection } from '../../utils/scrollUtils';
 
 const Footer = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-  const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
 
   const handleNavClick = (id) => {
-    if (location.pathname !== '/') {
-      navigate('/#' + id);
-    } else {
-      scrollToSection(id);
-    }
+    scrollToSection(id);
+  };
+
+  const handleContactClick = () => {
+    // Trigger contact popup by dispatching a custom event
+    window.dispatchEvent(new CustomEvent('openContactPopup'));
   };
 
   return (
@@ -24,14 +22,17 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <Link to="/" className="flex items-center gap-2 mb-4">
+            <button 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-2 mb-4 hover:opacity-80 transition-opacity"
+            >
               <img 
                 src="/images/praesidium-logo.png" 
                 alt="Praesidium Systems Logo" 
                 className="h-6"
               />
               <span className="text-lg font-bold text-white">Praesidium Systems</span>
-            </Link>
+            </button>
             <p className="text-gray-400">
               AI Governance, simplified.
             </p>
@@ -40,35 +41,26 @@ const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">Products</h3>
             <ul className="space-y-2">
-              {/* UPDATED PRODUCT LINKS */}
               <li>
-                <Link 
-                  to="/products/compliance-testing-framework" 
-                  className="text-gray-400 hover:text-white transition-colors"
+                <button 
+                  onClick={() => handleNavClick('features')} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
                 >
                   AI Compliance Testing & Framework
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/products/llm-documentation-generator" 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  LLM Documentation Generator
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  to="/products/ai-testing-prompt-generator" 
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  AI Testing Prompt Generator
-                </Link>
+                </button>
               </li>
               <li>
                 <button 
                   onClick={() => handleNavClick('features')} 
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
+                  LLM Documentation Generator
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => handleNavClick('features')} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
                 >
                   Features
                 </button>
@@ -80,24 +72,28 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/blog" className="text-gray-400 hover:text-white transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/docs" className="text-gray-400 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
                   Documentation
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="/api" className="text-gray-400 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
                   API Reference
-                </Link>
+                </button>
               </li>
               <li>
-                <Link to="/support" className="text-gray-400 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
                   Support
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
@@ -106,27 +102,36 @@ const Footer = () => {
             <h3 className="font-bold mb-4">Company</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleNavClick('team')} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
                   About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/careers" className="text-gray-400 hover:text-white transition-colors">
-                  Careers
-                </Link>
+                </button>
               </li>
               <li>
                 <button 
-                  onClick={() => handleNavClick('contact')} 
-                  className="text-gray-400 hover:text-white transition-colors"
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
+                  Careers
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
                 >
                   Contact
                 </button>
               </li>
               <li>
-                <Link to="/privacy" className="text-gray-400 hover:text-white transition-colors">
+                <button 
+                  onClick={() => handleContactClick()} 
+                  className="text-gray-400 hover:text-white transition-colors text-left"
+                >
                   Privacy Policy
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

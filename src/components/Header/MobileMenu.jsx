@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { X, ChevronDown, ChevronRight } from 'lucide-react';
 
 const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
   const [isProductsExpanded, setIsProductsExpanded] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const handleNavClick = (id) => {
-    if (location.pathname !== '/') {
-      navigate('/#' + id);
-    } else {
-      onNavClick(id);
-    }
+    onNavClick(id);
     onClose();
   };
 
@@ -25,6 +18,11 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
     } else {
       onNavClick('contact');
     }
+  };
+
+  const handleProductClick = (sectionId) => {
+    onNavClick(sectionId);
+    onClose();
   };
 
   return (
@@ -46,7 +44,7 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
           </button>
         </div>
         <nav className="flex flex-col gap-4">
-          {/* Products Expandable Section - UPDATED WITH NEW ROUTES */}
+          {/* Products Expandable Section */}
           <div className="border-b border-gray-100">
             <button 
               onClick={() => setIsProductsExpanded(!isProductsExpanded)}
@@ -62,45 +60,20 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
             
             {isProductsExpanded && (
               <div className="pl-4 pb-2 space-y-1">
-                <Link 
-                  to="/products/compliance-testing-framework"
-                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                  onClick={onClose}
+                <button 
+                  onClick={() => handleProductClick('features')}
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors text-left w-full"
                 >
                   <div className="font-medium text-sm">AI Compliance Testing & Framework</div>
                   <div className="text-xs text-gray-500">Complete testing and governance solution</div>
-                </Link>
-                <Link 
-                  to="/products/llm-documentation-generator"
-                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                  onClick={onClose}
+                </button>
+                <button 
+                  onClick={() => handleProductClick('features')}
+                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors text-left w-full"
                 >
                   <div className="font-medium text-sm">LLM Documentation Generator</div>
                   <div className="text-xs text-gray-500">Automated AI documentation with LLM power</div>
-                </Link>
-                <Link 
-                  to="/products/ai-testing-prompt-generator"
-                  className="block py-2 text-gray-700 hover:text-blue-600 transition-colors"
-                  onClick={onClose}
-                >
-                  <div className="font-medium text-sm">AI Testing Prompt Generator</div>
-                  <div className="text-xs text-gray-500">J1 reinforcement learning powered testing</div>
-                </Link>
-                <Link 
-                  to="/products/enterprise-ai-chatbot"
-                  className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                >
-                  <div className="font-medium">Enterprise AI Chatbot</div>
-                  <div className="text-sm text-gray-500">Advanced chatbots for Law, Healthcare & Fintech</div>
-                </Link>
-                <div className="border-t border-gray-100 mt-2 pt-2">
-                  <button 
-                    onClick={() => handleNavClick('products')}
-                    className="block py-2 text-gray-700 hover:text-blue-600 text-sm"
-                  >
-                    View All Products
-                  </button>
-                </div>
+                </button>
               </div>
             )}
           </div>
@@ -123,13 +96,13 @@ const MobileMenu = ({ isOpen, onClose, onNavClick, onContactClick }) => {
           >
             Deployment
           </button>
-          <Link 
+          {/* <Link 
             to="/blog"
             className="text-gray-700 hover:text-blue-600 transition-colors py-2 border-b border-gray-100"
             onClick={onClose}
           >
             Blog
-          </Link>
+          </Link> */}
           <button 
             onClick={handleContactButtonClick} 
             className="mt-4 px-5 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"

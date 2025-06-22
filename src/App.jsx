@@ -1,8 +1,7 @@
-// src/App.jsx - Fixed popup integration and event handling
+// src/App.jsx - Single Page Website
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-// Original components
+// Components
 import { Header } from './components/Header';
 import { 
   HeroSection,
@@ -15,14 +14,10 @@ import {
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
-// Updated page components - NEW PRODUCT PAGES
-import ComplianceTestingFrameworkPage from './pages/ComplianceTestingFrameworkPage';
-import LLMDocumentationGeneratorPage from './pages/LLMDocumentationGeneratorPage';
-import AITestingPromptGeneratorPage from './pages/AITestingPromptGeneratorPage';
-import EnterpriseAIChatbotPage from './pages/EnterpriseAIChatbotPage';
-// Blog components
-import BlogPage from './blog/pages/BlogPage';
-import BlogPostPage from './blog/pages/BlogPostPage';
+// Additional sections for single page
+import FeatureBenefitsSection from './components/Sections/FeatureBenefitsSection';
+import HowItWorksSection from './components/Sections/HowItWorksSection';
+import TeamSection from './components/Sections/TeamSection';
 
 // SEO helpers
 import { 
@@ -36,18 +31,37 @@ import {
 import * as analytics from './utils/analyticsUtils';
 import { useAnalytics } from './utils/useAnalytics';
 
-// Home page component with analytics integration
-const HomePage = ({ onContactClick, onTeamClick }) => {
+function App() {
+  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+  const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
   const { trackFeatureInteraction, trackDeploymentInterest } = useAnalytics();
 
-  // Set SEO for homepage
+  // Initialize Google Analytics on app start
+  useEffect(() => {
+    analytics.initGA4();
+    
+    // Set initial user properties based on URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userProperties = {
+      utmSource: urlParams.get('utm_source'),
+      utmMedium: urlParams.get('utm_medium'),
+      utmCampaign: urlParams.get('utm_campaign')
+    };
+    
+    // Only set properties if they exist
+    if (Object.values(userProperties).some(value => value !== null)) {
+      analytics.setUserProperties(userProperties);
+    }
+  }, []);
+
+  // Set SEO for single page
   useEffect(() => {
     // Base URL
     const baseUrl = window.location.origin;
     
     // Update meta tags
     updateMetaTags({
-      title: 'AI Governance Suite',
+      title: 'AI Governance Suite - Praesidium Systems',
       description: 'Praesidium Systems provides comprehensive AI governance, compliance testing, and documentation generation for ML and LLM models. Ensure regulatory compliance with automated monitoring and testing.',
       keywords: 'AI governance, compliance platform, ML monitoring, LLM compliance, AI risk management, AI documentation, regulatory compliance, AI testing',
       canonical: baseUrl,
@@ -68,7 +82,6 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": `${baseUrl}/blog?search={search_term_string}`
         },
         "query-input": "required name=search_term_string"
       }
@@ -121,65 +134,12 @@ const HomePage = ({ onContactClick, onTeamClick }) => {
   // Enhanced contact click handler with analytics
   const handleContactClick = (source = 'unknown') => {
     analytics.trackContactRequest(source, 'demo_request');
-    onContactClick();
+    setIsContactPopupOpen(true);
   };
 
   // Enhanced team click handler with analytics
   const handleTeamClick = (source = 'hero') => {
     trackFeatureInteraction('team_view', 'click', source);
-    onTeamClick();
-  };
-
-  return (
-    <>
-      <Header onContactClick={(source) => handleContactClick(source || 'header')} />
-      <main>
-        <HeroSection 
-          onShowTeam={() => handleTeamClick('hero')}
-          onContactClick={() => handleContactClick('hero')}
-        />
-        <ProductsSection onProductClick={(product) => analytics.trackProductView(product, 'homepage')} />
-        <FeaturesSection onFeatureClick={(feature) => trackFeatureInteraction('feature_click', 'click', feature)} />
-        <IntegrationBenefitsSection />
-        <DeploymentSection onDeploymentClick={(type) => trackDeploymentInterest(type)} />
-        <CTASection onContactClick={() => handleContactClick('cta')} />
-      </main>
-      <Footer />
-    </>
-  );
-};
-
-function App() {
-  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
-  const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
-
-  // Initialize Google Analytics on app start
-  useEffect(() => {
-    analytics.initGA4();
-    
-    // Set initial user properties based on URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const userProperties = {
-      utmSource: urlParams.get('utm_source'),
-      utmMedium: urlParams.get('utm_medium'),
-      utmCampaign: urlParams.get('utm_campaign')
-    };
-    
-    // Only set properties if they exist
-    if (Object.values(userProperties).some(value => value !== null)) {
-      analytics.setUserProperties(userProperties);
-    }
-  }, []);
-
-  // Handle opening the contact popup
-  const handleContactClick = () => {
-    console.log('Contact popup opening...'); // Debug log
-    setIsContactPopupOpen(true);
-  };
-
-  // Handle opening the team popup
-  const handleTeamClick = () => {
-    console.log('Team popup opening...'); // Debug log
     setIsTeamPopupOpen(true);
   };
 
@@ -212,71 +172,57 @@ function App() {
       analytics.trackError(new Error(event.reason), window.location.pathname);
     };
 
+    // Listen for custom event from Footer to open contact popup
+    const handleOpenContactPopup = () => {
+      setIsContactPopupOpen(true);
+    };
+
     window.addEventListener('error', handleError);
     window.addEventListener('unhandledrejection', handleUnhandledRejection);
+    window.addEventListener('openContactPopup', handleOpenContactPopup);
 
     return () => {
       window.removeEventListener('error', handleError);
       window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      window.removeEventListener('openContactPopup', handleOpenContactPopup);
     };
   }, []);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-gray-50 font-sans">
-        <Routes>
-          <Route 
-            path="/" 
-            element={<HomePage onContactClick={handleContactClick} onTeamClick={handleTeamClick} />} 
-          />
-          
-          {/* Updated Product Pages - NEW ROUTES with contact handlers */}
-          <Route 
-            path="/products/compliance-testing-framework" 
-            element={<ComplianceTestingFrameworkPage onContactClick={handleContactClick} />} 
-          />
-          <Route 
-            path="/products/llm-documentation-generator" 
-            element={<LLMDocumentationGeneratorPage onContactClick={handleContactClick} />} 
-          />
-          <Route 
-            path="/products/ai-testing-prompt-generator" 
-            element={<AITestingPromptGeneratorPage onContactClick={handleContactClick} />} 
-          />
-          <Route 
-            path="/products/enterprise-ai-chatbot" 
-            element={<EnterpriseAIChatbotPage onContactClick={handleContactClick} />} 
-          />
-                    
-          {/* Blog Pages */}
-          <Route 
-            path="/blog" 
-            element={<BlogPage onContactClick={handleContactClick} />} 
-          />
-          <Route 
-            path="/blog/:slug" 
-            element={<BlogPostPage onContactClick={handleContactClick} />} 
-          />
-          
-          {/* Redirect unknown routes to home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+    <div className="min-h-screen bg-gray-50 font-sans">
+      <Header onContactClick={(source) => handleContactClick(source || 'header')} />
+      
+      <main>
+        <HeroSection 
+          onShowTeam={() => handleTeamClick('hero')}
+          onContactClick={() => handleContactClick('hero')}
+        />
+        <ProductsSection onProductClick={(product) => analytics.trackProductView(product, 'homepage')} />
+        <FeaturesSection onFeatureClick={(feature) => trackFeatureInteraction('feature_click', 'click', feature)} />
+        <FeatureBenefitsSection />
+        <HowItWorksSection />
+        <IntegrationBenefitsSection />
+        <DeploymentSection onDeploymentClick={(type) => trackDeploymentInterest(type)} />
+        <TeamSection onShowTeam={() => handleTeamClick('team_section')} />
+        <CTASection onContactClick={() => handleContactClick('cta')} />
+      </main>
+      
+      <Footer />
 
-        {/* Contact Popup - Single CEO */}
-        <ContactPopup 
-          isOpen={isContactPopupOpen} 
-          onClose={handleContactPopupClose}
-          showTeam={false}
-        />
-        
-        {/* Team Popup - Both Founders */}
-        <ContactPopup 
-          isOpen={isTeamPopupOpen} 
-          onClose={handleTeamPopupClose}
-          showTeam={true}
-        />
-      </div>
-    </Router>
+      {/* Contact Popup - Single CEO */}
+      <ContactPopup 
+        isOpen={isContactPopupOpen} 
+        onClose={handleContactPopupClose}
+        showTeam={false}
+      />
+      
+      {/* Team Popup - Both Founders */}
+      <ContactPopup 
+        isOpen={isTeamPopupOpen} 
+        onClose={handleTeamPopupClose}
+        showTeam={true}
+      />
+    </div>
   );
 }
 

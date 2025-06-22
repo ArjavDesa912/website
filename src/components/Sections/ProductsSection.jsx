@@ -1,7 +1,6 @@
 // src/components/Sections/EnhancedProductsSection.jsx
 import React, { useState, useRef } from 'react'; // Add useRef to imports
-import { Link } from 'react-router-dom';
-import { FileText, TestTube, Shield, MessageCircle, ArrowRight, Sparkles } from 'lucide-react';
+import { FileText, Shield, ArrowRight, Sparkles } from 'lucide-react';
 import * as analytics from '../../utils/analyticsUtils';
 
 // 3D Card Component with Aceternity-style effects
@@ -40,20 +39,22 @@ const Product3DCard = ({ product, index, onProductClick }) => {
       onProductClick(product.title);
     }
     analytics.trackProductView(product.title, 'homepage_products_section');
+    
+    // Scroll to the features section for more details
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const colorClasses = {
     blue: "from-blue-500/20 to-blue-600/20 border-blue-200/50 hover:border-blue-400/50",
-    green: "from-green-500/20 to-green-600/20 border-green-200/50 hover:border-green-400/50",
-    purple: "from-purple-500/20 to-purple-600/20 border-purple-200/50 hover:border-purple-400/50",
-    indigo: "from-indigo-500/20 to-indigo-600/20 border-indigo-200/50 hover:border-indigo-400/50"
+    green: "from-green-500/20 to-green-600/20 border-green-200/50 hover:border-green-400/50"
   };
 
   const iconColorClasses = {
     blue: "text-blue-600 bg-blue-100 group-hover:bg-blue-600 group-hover:text-white",
-    green: "text-green-600 bg-green-100 group-hover:bg-green-600 group-hover:text-white",
-    purple: "text-purple-600 bg-purple-100 group-hover:bg-purple-600 group-hover:text-white",
-    indigo: "text-indigo-600 bg-indigo-100 group-hover:bg-indigo-600 group-hover:text-white"
+    green: "text-green-600 bg-green-100 group-hover:bg-green-600 group-hover:text-white"
   };
 
   return (
@@ -61,10 +62,9 @@ const Product3DCard = ({ product, index, onProductClick }) => {
       className="perspective-1000 w-full h-full"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
-      <Link
-        to={product.link}
+      <button
         onClick={handleClick}
-        className="block w-full h-full"
+        className="block w-full h-full text-left"
       >
         <div
           ref={cardRef}
@@ -129,7 +129,7 @@ const Product3DCard = ({ product, index, onProductClick }) => {
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
           </div>
         </div>
-      </Link>
+      </button>
     </div>
   );
 };
@@ -175,7 +175,7 @@ const SectionHeader = () => {
         <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full" />
       </div>
       <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-        Four powerful products that work together to provide comprehensive oversight and accountability for your AI systems
+        Two powerful products that work together to provide comprehensive oversight and accountability for your AI systems
       </p>
     </div>
   );
@@ -187,29 +187,13 @@ const ProductsSection = ({ onProductClick }) => {
       icon: Shield,
       title: "AI Compliance Testing & Framework",
       description: "Complete platform combining advanced compliance testing with automated governance framework. Ensure your AI systems meet regulatory requirements while maintaining the highest standards of fairness, security, and reliability.",
-      link: "/products/compliance-testing-framework",
       color: "blue"
     },
     {
       icon: FileText,
       title: "LLM Documentation Generator",
       description: "Transform hours of manual documentation work into minutes of automated generation. Our LLM-powered system creates comprehensive AI documentation that meets regulatory standards while keeping pace with your development cycle.",
-      link: "/products/llm-documentation-generator",
       color: "green"
-    },
-    {
-      icon: TestTube,
-      title: "AI Testing Prompt Generator",
-      description: "Revolutionary AI compliance testing platform powered by cutting-edge J1 'Thinking-LLM-as-a-Judge' model with Group Relative Policy Optimization (GRPO). Generate intelligent test prompts and validate compliance automatically.",
-      link: "/products/ai-testing-prompt-generator",
-      color: "purple"
-    },
-    {
-      icon: MessageCircle,
-      title: "Enterprise AI Chatbot",
-      description: "Advanced AI chatbots for enterprise clients in Legal, Healthcare, and Fintech. Powered by latest open-source models with enterprise security and compliance.",
-      link: "/products/enterprise-ai-chatbot",
-      color: "indigo"
     }
   ];
 
@@ -250,19 +234,12 @@ const ProductsSection = ({ onProductClick }) => {
                 Request Demo
                 <ArrowRight className="h-5 w-5" />
               </button>
-              <Link
-                to="/blog"
-                className="px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-full font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 flex items-center gap-2"
-              >
-                Learn More
-                <ArrowRight className="h-5 w-5" />
-              </Link>
             </div>
           </div>
         </div>
       </div>
       
-      <style jsx>{`
+      <style>{`
         .perspective-1000 {
           perspective: 1000px;
         }

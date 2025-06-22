@@ -1,15 +1,12 @@
 // src/components/Header/Header.jsx - Clean, Modern Header
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { 
   Menu, 
   X, 
   ChevronDown, 
   ArrowRight,
   Shield,
-  Brain,
   FileText,
-  MessageCircle,
   TestTube,
   BookOpen,
   Users,
@@ -20,52 +17,33 @@ import {
 const DesktopNavigation = ({ onContactClick }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoverTimeout, setHoverTimeout] = useState(null);
-  const location = useLocation();
 
   const navigation = {
     products: [
       {
         name: 'AI Compliance Testing',
         description: 'Comprehensive testing framework for AI systems',
-        href: '/products/compliance-testing-framework',
+        sectionId: 'features',
         icon: TestTube,
       },
       {
         name: 'LLM Documentation Generator',
         description: 'Automated documentation for ML models',
-        href: '/products/llm-documentation-generator',
+        sectionId: 'features',
         icon: FileText,
-      },
-      {
-        name: 'Enterprise AI Chatbot',
-        description: 'Industry-specific AI solutions',
-        href: '/products/enterprise-ai-chatbot',
-        icon: MessageCircle,
-      },
-      {
-        name: 'AI Testing Prompt Generator',
-        description: 'J1-powered testing automation',
-        href: '/products/ai-testing-prompt-generator',
-        icon: Brain,
       }
     ],
     company: [
       {
         name: 'About Us',
         description: 'Learn about our mission and team',
-        href: '/about',
+        sectionId: 'team',
         icon: Users
-      },
-      {
-        name: 'Blog',
-        description: 'Latest insights on AI governance',
-        href: '/blog',
-        icon: BookOpen
       },
       {
         name: 'Contact',
         description: 'Get in touch with our team',
-        href: '/contact',
+        action: 'contact',
         icon: Phone
       }
     ]
@@ -93,6 +71,19 @@ const DesktopNavigation = ({ onContactClick }) => {
     }
   };
 
+  const handleNavigationClick = (item) => {
+    setActiveDropdown(null);
+    
+    if (item.action === 'contact') {
+      onContactClick();
+    } else if (item.sectionId) {
+      const section = document.getElementById(item.sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <div className="hidden lg:flex items-center space-x-8">
       {/* Products Dropdown */}
@@ -117,11 +108,10 @@ const DesktopNavigation = ({ onContactClick }) => {
           >
             <div className="space-y-1">
               {navigation.products.map((item) => (
-                <Link
+                <button
                   key={item.name}
-                  to={item.href}
-                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group"
-                  onClick={() => setActiveDropdown(null)}
+                  onClick={() => handleNavigationClick(item)}
+                  className="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 group w-full text-left"
                 >
                   <div className="p-2 rounded-lg bg-blue-50 text-blue-600 group-hover:bg-blue-100 transition-colors duration-200">
                     <item.icon className="h-4 w-4" />
@@ -130,18 +120,23 @@ const DesktopNavigation = ({ onContactClick }) => {
                     <div className="font-semibold text-gray-900 text-sm">{item.name}</div>
                     <div className="text-xs text-gray-600 mt-0.5">{item.description}</div>
                   </div>
-                </Link>
+                </button>
               ))}
             </div>
             <div className="mt-4 pt-3 border-t border-gray-100">
-              <Link
-                to="/products"
-                className="flex items-center justify-between text-blue-600 hover:text-blue-700 font-medium text-sm"
-                onClick={() => setActiveDropdown(null)}
+              <button
+                onClick={() => {
+                  setActiveDropdown(null);
+                  const productsSection = document.getElementById('products');
+                  if (productsSection) {
+                    productsSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="flex items-center justify-between text-blue-600 hover:text-blue-700 font-medium text-sm w-full"
               >
                 View All Products
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </button>
             </div>
           </div>
         )}
@@ -169,33 +164,32 @@ const DesktopNavigation = ({ onContactClick }) => {
           >
             <div className="space-y-1">
               {navigation.company.map((item) => (
-                <Link
+                <button
                   key={item.name}
-                  to={item.href}
-                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                  onClick={() => setActiveDropdown(null)}
+                  onClick={() => handleNavigationClick(item)}
+                  className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors duration-200 w-full text-left"
                 >
                   <item.icon className="h-4 w-4 text-gray-600" />
                   <div>
                     <div className="font-semibold text-gray-900 text-sm">{item.name}</div>
                     <div className="text-xs text-gray-600 mt-0.5">{item.description}</div>
                   </div>
-                </Link>
+                </button>
               ))}
             </div>
           </div>
         )}
       </div>
 
-      {/* Blog Link */}
-      <Link
+      {/* Blog Link - COMMENTED OUT */}
+      {/* <Link
         to="/blog"
         className={`text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium py-2 ${
           location.pathname === '/blog' ? 'text-blue-600' : ''
         }`}
       >
         Blog
-      </Link>
+      </Link> */}
 
       {/* Contact Button */}
       <button
@@ -212,19 +206,15 @@ const DesktopNavigation = ({ onContactClick }) => {
 // Clean Mobile Navigation
 const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
   const [expandedSection, setExpandedSection] = useState(null);
-  const location = useLocation();
 
   const navigation = {
     products: [
-      { name: 'AI Compliance Testing', href: '/products/compliance-testing-framework', icon: TestTube },
-      { name: 'LLM Documentation Generator', href: '/products/llm-documentation-generator', icon: FileText },
-      { name: 'Enterprise AI Chatbot', href: '/products/enterprise-ai-chatbot', icon: MessageCircle },
-      { name: 'AI Testing Prompt Generator', href: '/products/ai-testing-prompt-generator', icon: Brain }
+      { name: 'AI Compliance Testing', sectionId: 'features', icon: TestTube },
+      { name: 'LLM Documentation Generator', sectionId: 'features', icon: FileText }
     ],
     company: [
-      { name: 'About Us', href: '/about', icon: Users },
-      { name: 'Blog', href: '/blog', icon: BookOpen },
-      { name: 'Contact', href: '/contact', icon: Phone }
+      { name: 'About Us', sectionId: 'team', icon: Users },
+      { name: 'Contact', action: 'contact', icon: Phone }
     ]
   };
 
@@ -239,6 +229,24 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
       document.body.style.overflow = 'unset';
     };
   }, [isOpen]);
+
+  const handleNavigationClick = (item) => {
+    setIsOpen(false);
+    setExpandedSection(null);
+    
+    if (item.action === 'contact') {
+      onContactClick();
+    } else if (item.sectionId) {
+      const section = document.getElementById(item.sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const toggleSection = (section) => {
+    setExpandedSection(expandedSection === section ? null : section);
+  };
 
   return (
     <>
@@ -284,7 +292,7 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                 {/* Products Section */}
                 <div>
                   <button
-                    onClick={() => setExpandedSection(expandedSection === 'products' ? null : 'products')}
+                    onClick={() => toggleSection('products')}
                     className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <span>Products</span>
@@ -294,15 +302,14 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                   {expandedSection === 'products' && (
                     <div className="mt-2 space-y-1 pl-3">
                       {navigation.products.map((item) => (
-                        <Link
+                        <button
                           key={item.name}
-                          to={item.href}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => handleNavigationClick(item)}
                           className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
                           <item.icon className="h-4 w-4" />
                           <span className="text-sm">{item.name}</span>
-                        </Link>
+                        </button>
                       ))}
                     </div>
                   )}
@@ -311,7 +318,7 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                 {/* Company Section */}
                 <div>
                   <button
-                    onClick={() => setExpandedSection(expandedSection === 'company' ? null : 'company')}
+                    onClick={() => toggleSection('company')}
                     className="flex items-center justify-between w-full p-3 text-left font-semibold text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
                     <span>Company</span>
@@ -321,22 +328,21 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                   {expandedSection === 'company' && (
                     <div className="mt-2 space-y-1 pl-3">
                       {navigation.company.map((item) => (
-                        <Link
+                        <button
                           key={item.name}
-                          to={item.href}
-                          onClick={() => setIsOpen(false)}
+                          onClick={() => handleNavigationClick(item)}
                           className="flex items-center space-x-3 p-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
                           <item.icon className="h-4 w-4" />
                           <span className="text-sm">{item.name}</span>
-                        </Link>
+                        </button>
                       ))}
                     </div>
                   )}
                 </div>
 
-                {/* Blog Link */}
-                <Link
+                {/* Blog Link - COMMENTED OUT */}
+                {/* <Link
                   to="/blog"
                   onClick={() => setIsOpen(false)}
                   className={`block p-3 font-semibold transition-colors rounded-lg ${
@@ -346,15 +352,15 @@ const MobileNavigation = ({ isOpen, setIsOpen, onContactClick }) => {
                   }`}
                 >
                   Blog
-                </Link>
+                </Link> */}
               </div>
 
               {/* Contact Button */}
               <div className="mt-8 pt-6 border-t border-gray-100">
                 <button
                   onClick={() => {
-                    onContactClick();
                     setIsOpen(false);
+                    onContactClick();
                   }}
                   className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold flex items-center justify-center space-x-2 hover:bg-blue-700 transition-colors duration-200"
                 >
@@ -384,6 +390,11 @@ const Header = ({ onContactClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleLogoClick = () => {
+    // Scroll to top of page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
       isScrolled 
@@ -393,12 +404,12 @@ const Header = ({ onContactClick }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
+          <button onClick={handleLogoClick} className="flex items-center space-x-3 group">
             <div className="p-2 bg-blue-600 rounded-lg group-hover:bg-blue-700 transition-colors duration-200">
               <Shield className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold text-gray-900">Praesidium Systems</span>
-          </Link>
+          </button>
 
           {/* Desktop Navigation */}
           <DesktopNavigation onContactClick={onContactClick} />

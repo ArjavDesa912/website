@@ -1,24 +1,24 @@
 import { useEffect, useCallback, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import * as analytics from './analyticsUtils';
 
 /**
  * Custom hook for Google Analytics 4 integration in React
- * Provides tracking functions and automatic page view tracking
+ * Provides tracking functions and automatic page view tracking for single page app
  */
 export const useAnalytics = () => {
-  const location = useLocation();
   const pageStartTime = useRef(Date.now());
   const scrollThresholds = useRef(new Set());
+  const sectionViews = useRef(new Set());
 
-  // Track page views automatically on route changes
+  // Track page views and scroll behavior for single page
   useEffect(() => {
-    // Reset scroll tracking for new page
+    // Reset tracking for new session
     scrollThresholds.current.clear();
+    sectionViews.current.clear();
     pageStartTime.current = Date.now();
 
-    // Track page view
-    const pagePath = location.pathname + location.search;
+    // Track initial page view
+    const pagePath = window.location.pathname + window.location.search;
     const pageTitle = document.title;
     
     analytics.trackPageView(pagePath, pageTitle);
@@ -33,7 +33,19 @@ export const useAnalytics = () => {
       [25, 50, 75, 100].forEach(threshold => {
         if (scrollPercent >= threshold && !scrollThresholds.current.has(threshold)) {
           scrollThresholds.current.add(threshold);
-          analytics.trackScrollDepth(threshold, location.pathname);
+          analytics.trackScrollDepth(threshold, window.location.pathname);
+        }
+      });
+
+      // Track section visibility
+      const sections = document.querySelectorAll('section[id]');
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        
+        if (isVisible && !sectionViews.current.has(section.id)) {
+          sectionViews.current.add(section.id);
+          analytics.trackFeatureInteraction('section_view', 'scroll_into_view', section.id);
         }
       });
     };
@@ -42,7 +54,7 @@ export const useAnalytics = () => {
     const handleBeforeUnload = () => {
       const timeSpent = Math.round((Date.now() - pageStartTime.current) / 1000);
       if (timeSpent > 5) { // Only track meaningful time
-        analytics.trackTimeOnPage(location.pathname, timeSpent);
+        analytics.trackTimeOnPage(window.location.pathname, timeSpent);
       }
     };
 
@@ -50,13 +62,16 @@ export const useAnalytics = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('beforeunload', handleBeforeUnload);
 
+    // Initial scroll check
+    handleScroll();
+
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('beforeunload', handleBeforeUnload);
       handleBeforeUnload(); // Track time when component unmounts
     };
-  }, [location]);
+  }, []);
 
   // Memoized tracking functions
   const trackContactRequest = useCallback((source, type) => {
