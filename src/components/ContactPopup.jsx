@@ -1,6 +1,14 @@
 // src/components/ContactPopup.jsx - Added Calendly links
 import React, { useEffect, useState } from 'react';
-import { X, Mail, Calendar, Sparkles } from 'lucide-react';
+import { X, Mail, Calendar } from 'lucide-react';
+
+// Add Sparkles icon if needed, for now create a simple version
+const Sparkles = (props) => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M12 2l2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5z"/>
+    <path d="M19 5l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/>
+  </svg>
+);
 
 const ContactPopup = ({ isOpen, onClose, showTeam = false }) => {
   const [scrollY, setScrollY] = useState(0);

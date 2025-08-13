@@ -5,13 +5,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // Components
 import { Header } from './components/Header';
 import { 
-  HeroSection,
   ProductsSection,
   FeaturesSection,
   IntegrationBenefitsSection,
   DeploymentSection,
   CTASection 
 } from './components/Sections';
+import Enhanced3DHeroSection from './components/Sections/Enhanced3DHeroSection';
 import { Footer } from './components/Footer';
 import ContactPopup from './components/ContactPopup';
 
@@ -222,7 +222,7 @@ function App() {
       <Header onContactClick={(source) => handleContactClick(source || 'header')} />
       
       <main>
-        <HeroSection 
+        <Enhanced3DHeroSection 
           onShowTeam={() => handleTeamClick('hero')}
           onContactClick={() => handleContactClick('hero')}
         />
