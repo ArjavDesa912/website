@@ -1,5 +1,6 @@
 // src/App.jsx - Single Page Website
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 // Components
 import { Header } from './components/Header';
@@ -18,6 +19,7 @@ import ContactPopup from './components/ContactPopup';
 import FeatureBenefitsSection from './components/Sections/FeatureBenefitsSection';
 import HowItWorksSection from './components/Sections/HowItWorksSection';
 import TeamSection from './components/Sections/TeamSection';
+import ScreenshotShowcase from './components/ScreenshotShowcase';
 
 // SEO helpers
 import { 
@@ -35,6 +37,31 @@ function App() {
   const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
   const [isTeamPopupOpen, setIsTeamPopupOpen] = useState(false);
   const { trackFeatureInteraction, trackDeploymentInterest } = useAnalytics();
+
+  // Dashboard screenshots data
+  const dashboardScreenshots = [
+    {
+      src: "/images/dashboard-demo.png",
+      alt: "AI Governance Dashboard Overview",
+      title: "Dashboard Overview",
+      description: "Get a comprehensive view of your AI systems' compliance status, performance metrics, and risk assessments all in one place.",
+      features: ["Real-time Monitoring", "Risk Assessment", "Compliance Score"]
+    },
+    {
+      src: "/images/documentation-demo.png",
+      alt: "Documentation Generator",
+      title: "Documentation Generator",
+      description: "Generate comprehensive documentation for your ML/LLM models with our AI-powered documentation system.",
+      features: ["AI-Powered", "Template Library", "Version Control"]
+    },
+    {
+      src: "/images/enterprise-chatbot-demo.png",
+      alt: "Enterprise Chatbot Demo",
+      title: "Enterprise Chatbot",
+      description: "Monitor and manage your enterprise chatbot deployments with advanced analytics and compliance tracking.",
+      features: ["Conversation Analytics", "Compliance Tracking", "Performance Monitoring"]
+    }
+  ];
 
   // Initialize Google Analytics on app start
   useEffect(() => {
@@ -139,8 +166,10 @@ function App() {
 
   // Enhanced team click handler with analytics
   const handleTeamClick = (source = 'hero') => {
+    console.log('Team button clicked from:', source); // Debug log
     trackFeatureInteraction('team_view', 'click', source);
     setIsTeamPopupOpen(true);
+    console.log('Team popup state set to true'); // Debug log
   };
 
   // Handle popup close with analytics
@@ -198,6 +227,7 @@ function App() {
           onContactClick={() => handleContactClick('hero')}
         />
         <ProductsSection onProductClick={(product) => analytics.trackProductView(product, 'homepage')} />
+        <ScreenshotShowcase screenshots={dashboardScreenshots} title="Experience Our Powerful Platform" description="Dive deep into our comprehensive AI governance solution" />
         <FeaturesSection onFeatureClick={(feature) => trackFeatureInteraction('feature_click', 'click', feature)} />
         <FeatureBenefitsSection />
         <HowItWorksSection />

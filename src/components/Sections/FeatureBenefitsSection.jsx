@@ -1,6 +1,6 @@
 // src/components/Sections/FeatureBenefitsSection.jsx - Replacement for testimonials
 import React, { useState, useRef } from 'react';
-import { Shield, Zap, Award, Target, CheckCircle, ArrowRight, Clock, Globe, Users, Code } from 'lucide-react';
+import { Shield, Zap, Award, Target, CheckCircle, ArrowRight, Clock, Globe, Code } from 'lucide-react';
 
 // Enhanced floating background elements
 const FloatingBenefitsElements = () => {
@@ -45,7 +45,7 @@ const BenefitCard = ({ benefit, index }) => {
   return (
     <div
       ref={cardRef}
-      className={`group relative bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-white/20 shadow-xl transition-all duration-700 hover:shadow-2xl hover:scale-102 ${
+      className={`group relative bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/10 shadow-xl transition-all duration-700 hover:shadow-2xl hover:scale-105 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
       }`}
       style={{ 
@@ -60,18 +60,18 @@ const BenefitCard = ({ benefit, index }) => {
       
       {/* Icon */}
       <div className="relative z-10 mb-6">
-        <div className={`inline-flex p-4 rounded-2xl transition-all duration-500 ${isHovered ? 'bg-blue-100 scale-110' : 'bg-blue-50'}`}>
-          <benefit.icon className={`h-8 w-8 transition-all duration-500 ${isHovered ? 'text-blue-600' : 'text-blue-500'}`} />
+        <div className={`inline-flex p-4 rounded-2xl transition-all duration-500 ${isHovered ? 'bg-blue-500/20 scale-110' : 'bg-blue-500/10'}`}>
+          <benefit.icon className={`h-8 w-8 transition-all duration-500 ${isHovered ? 'text-blue-400' : 'text-blue-300'}`} />
         </div>
       </div>
       
       {/* Content */}
       <div className="relative z-10">
-        <h3 className="text-xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors duration-300">
+        <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
           {benefit.title}
         </h3>
         
-        <p className="text-slate-600 leading-relaxed mb-6">
+        <p className="text-slate-300 leading-relaxed mb-6">
           {benefit.description}
         </p>
         
@@ -79,8 +79,8 @@ const BenefitCard = ({ benefit, index }) => {
         <div className="space-y-3">
           {benefit.keyPoints.map((point, idx) => (
             <div key={idx} className="flex items-start gap-3">
-              <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
-              <span className="text-sm text-slate-700 font-medium">{point}</span>
+              <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+              <span className="text-sm text-slate-300 font-medium">{point}</span>
             </div>
           ))}
         </div>
@@ -168,26 +168,26 @@ const FeatureBenefitsSection = () => {
   return (
     <section 
       id="benefits" 
-      className="relative py-32 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 overflow-hidden"
+      className="relative py-32 bg-slate-950 overflow-hidden"
     >
       <FloatingBenefitsElements />
       
       <div className="relative z-10 container mx-auto px-4">
         {/* Section header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 backdrop-blur-sm border border-blue-200/50 text-blue-800 rounded-full text-sm font-medium mb-8 shadow-lg">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm border border-white/10 text-blue-200 rounded-full text-sm font-medium mb-8 shadow-lg">
             <Award className="h-4 w-4" />
             <span>Platform Benefits</span>
           </div>
           
-          <h2 className="text-5xl lg:text-6xl font-bold text-slate-900 mb-8 leading-tight">
+          <h2 className="text-5xl lg:text-6xl font-bold text-white mb-8 leading-tight">
             Why Organizations Choose
             <span className="block bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
               Praesidium Systems
             </span>
           </h2>
           
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             Discover the key advantages that make our AI governance platform the preferred choice for forward-thinking organizations
           </p>
         </div>
@@ -213,15 +213,15 @@ const FeatureBenefitsSection = () => {
           ].map((stat, index) => (
             <div key={index} className="text-center group hover:scale-105 transition-transform duration-300">
               <div className="relative mb-4">
-                <div className="absolute inset-0 bg-blue-400/20 rounded-full blur-lg group-hover:bg-blue-400/30 transition-all duration-300" />
-                <div className="relative w-16 h-16 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto border border-white/20 group-hover:border-blue-300 transition-all duration-300">
-                  <stat.icon className="h-8 w-8 text-blue-600 group-hover:scale-110 transition-transform" />
+                <div className="absolute inset-0 bg-blue-500/10 rounded-full blur-lg group-hover:bg-blue-500/20 transition-all duration-300" />
+                <div className="relative w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto border border-white/10 group-hover:border-blue-400 transition-all duration-300">
+                  <stat.icon className="h-8 w-8 text-blue-400 group-hover:scale-110 transition-transform" />
                 </div>
               </div>
-              <div className="text-3xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors mb-1">
+              <div className="text-3xl font-bold text-white group-hover:text-blue-400 transition-colors mb-1">
                 {stat.number}
               </div>
-              <div className="text-slate-600 font-medium mb-1">{stat.label}</div>
+              <div className="text-slate-400 font-medium mb-1">{stat.label}</div>
               <div className="text-xs text-slate-500">{stat.description}</div>
             </div>
           ))}
@@ -229,9 +229,9 @@ const FeatureBenefitsSection = () => {
 
         {/* Call to action */}
         <div className="mt-20 text-center">
-          <div className="inline-flex flex-col items-center gap-6 bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20 max-w-2xl">
-            <h3 className="text-2xl font-bold text-slate-900">Ready to Get Started?</h3>
-            <p className="text-slate-600 leading-relaxed">
+          <div className="inline-flex flex-col items-center gap-6 bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/10 max-w-2xl">
+            <h3 className="text-2xl font-bold text-white">Ready to Get Started?</h3>
+            <p className="text-slate-300 leading-relaxed">
               Experience the benefits of comprehensive AI governance with our platform designed for enterprise success.
             </p>
             <button 
